@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ozlem Tonbul | Data-Driven Operations & Business Analyst</title>
-  <meta name="description" content="Ozlem Tonbul - Data-Driven Operations & Business Analyst specialising in supply chain analytics, reporting, Python, Power BI, SEO analytics and business analysis." />
+  <title>Ozlem Tonbul | Supply Chain, Operations & Analytics Portfolio</title>
+  <meta name="description" content="Ozlem Tonbul - Data-driven Supply Chain, Operations, Marketing Analytics and Business Analysis professional specialising in inventory visibility, ERP-integrated reporting, Python, SQL, Power BI, SEO analytics and international project coordination. Seeking UK Skilled Worker Visa Sponsorship." />
   <style>
     :root {
       --bg: #070b16;
@@ -86,12 +86,9 @@
       font-size: .94rem;
     }
 
-    .nav-links a { transition: color .2s ease, transform .2s ease; }
-    .nav-links a:hover { color: var(--text); transform: translateY(-1px); }
+    .nav-links a:hover { color: var(--text); }
 
-    .hero {
-      padding: 86px 0 42px;
-    }
+    .hero { padding: 86px 0 42px; }
 
     .hero-grid {
       display: grid;
@@ -108,13 +105,12 @@
       backdrop-filter: blur(18px);
       position: relative;
       overflow: hidden;
-      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+      transition: transform .22s ease, border-color .22s ease;
     }
 
     .panel:hover {
       transform: translateY(-3px);
       border-color: rgba(124,156,255,.22);
-      box-shadow: 0 28px 80px rgba(0,0,0,.42);
     }
 
     .panel::after {
@@ -128,17 +124,8 @@
       filter: blur(8px);
     }
 
-    .hero-main {
-      padding: 40px;
-      animation: fadeUp .7s ease both;
-    }
-
-    .hero-side {
-      padding: 24px;
-      display: grid;
-      gap: 16px;
-      animation: fadeUp .9s ease both;
-    }
+    .hero-main { padding: 40px; }
+    .hero-side { padding: 24px; display: grid; gap: 16px; }
 
     .eyebrow {
       display: inline-flex;
@@ -160,11 +147,16 @@
       margin-bottom: 18px;
     }
 
-    .profile-placeholder {
-      width: 84px;
-      height: 84px;
+    .profile-box {
+      width: 88px;
+      height: 88px;
       flex-shrink: 0;
       border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background:
+        linear-gradient(135deg, rgba(124,156,255,.28), rgba(121,239,215,.18)),
+        rgba(255,255,255,.04);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -172,11 +164,12 @@
       font-weight: 800;
       letter-spacing: 1px;
       color: white;
-      border: 1px solid rgba(255,255,255,.10);
-      background:
-        linear-gradient(135deg, rgba(124,156,255,.28), rgba(121,239,215,.18)),
-        rgba(255,255,255,.04);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+
+    .profile-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     h1 {
@@ -184,14 +177,14 @@
       font-size: clamp(2.35rem, 5vw, 4.4rem);
       line-height: 1.02;
       letter-spacing: -1.8px;
-      max-width: 10ch;
+      max-width: 11ch;
     }
 
     .lead {
       margin: 0 0 22px;
       color: var(--muted);
       font-size: 1.06rem;
-      max-width: 64ch;
+      max-width: 66ch;
     }
 
     .hero-tags,
@@ -209,13 +202,6 @@
       background: rgba(255,255,255,.04);
       color: #e9efff;
       font-size: .92rem;
-      transition: transform .2s ease, border-color .2s ease, background .2s ease;
-    }
-
-    .tag:hover {
-      transform: translateY(-2px);
-      border-color: rgba(121,239,215,.22);
-      background: rgba(255,255,255,.06);
     }
 
     .cta-row {
@@ -233,7 +219,7 @@
       padding: 13px 18px;
       border-radius: 15px;
       font-weight: 700;
-      transition: transform .18s ease, opacity .18s ease, background .18s ease, border-color .18s ease;
+      transition: transform .18s ease;
     }
 
     .btn:hover { transform: translateY(-2px); }
@@ -261,12 +247,6 @@
       border-radius: 18px;
       background: rgba(255,255,255,.03);
       border: 1px solid rgba(255,255,255,.08);
-      transition: transform .2s ease, border-color .2s ease;
-    }
-
-    .mini-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(124,156,255,.18);
     }
 
     .mini-label {
@@ -282,10 +262,7 @@
 
     section { padding: 28px 0; }
 
-    .section-head {
-      margin-bottom: 20px;
-      animation: fadeUp .7s ease both;
-    }
+    .section-head { margin-bottom: 20px; }
 
     .section-head h2 {
       margin: 0 0 8px;
@@ -300,11 +277,7 @@
     }
 
     .grid-2,
-    .grid-3,
-    .project-grid,
-    .dashboard-grid,
-    .timeline,
-    .link-grid {
+    .grid-3 {
       display: grid;
       gap: 20px;
     }
@@ -318,9 +291,9 @@
     .dashboard-card,
     .link-card,
     .contact-card,
-    .skills-box {
+    .skills-box,
+    .proof-box {
       padding: 24px;
-      animation: fadeUp .85s ease both;
     }
 
     .about-card p,
@@ -328,7 +301,8 @@
     .timeline-item p,
     .dashboard-card p,
     .link-card p,
-    .contact-card p {
+    .contact-card p,
+    .proof-box p {
       margin: 0;
       color: var(--muted);
     }
@@ -337,18 +311,19 @@
     .timeline-item h3,
     .dashboard-card h3,
     .link-card h3,
-    .contact-card h3 {
+    .contact-card h3,
+    .proof-box h3 {
       margin: 0 0 10px;
       font-size: 1.17rem;
     }
 
     .project-meta,
     .time-meta,
-    .dashboard-meta {
+    .dashboard-meta,
+    .proof-meta {
       color: #dce5ff;
       font-size: .92rem;
       margin-bottom: 12px;
-      opacity: .95;
     }
 
     .bullet-list {
@@ -358,13 +333,6 @@
     }
 
     .bullet-list li + li { margin-top: 8px; }
-
-    .project-grid article,
-    .dashboard-grid article,
-    .timeline article,
-    .link-grid article {
-      min-height: 100%;
-    }
 
     .dashboard-thumb {
       width: 100%;
@@ -381,21 +349,14 @@
       font-weight: 700;
       margin-bottom: 14px;
       overflow: hidden;
-      position: relative;
-      transition: transform .24s ease, border-color .24s ease;
+      text-align: center;
+      padding: 12px;
     }
 
-    .dashboard-thumb:hover {
-      transform: scale(1.015);
-      border-color: rgba(121,239,215,.18);
-    }
-
-    .dashboard-thumb::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent, rgba(0,0,0,.12));
-      pointer-events: none;
+    .dashboard-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .skills-box { background: var(--panel-strong); }
@@ -405,17 +366,6 @@
       text-align: center;
       color: var(--muted);
       font-size: .94rem;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     @media (max-width: 980px) {
@@ -431,6 +381,7 @@
       }
 
       .hero { padding-top: 58px; }
+
       .hero-main,
       .hero-side,
       .about-card,
@@ -439,7 +390,10 @@
       .dashboard-card,
       .link-card,
       .contact-card,
-      .skills-box { padding: 22px; }
+      .skills-box,
+      .proof-box {
+        padding: 22px;
+      }
     }
   </style>
 </head>
@@ -450,6 +404,7 @@
       <nav class="nav-links">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
+        <a href="#proof">Proof of Work</a>
         <a href="#dashboards">Dashboards</a>
         <a href="#experience">Experience</a>
         <a href="#skills">Skills</a>
@@ -465,52 +420,58 @@
           <div class="eyebrow">Open to UK Skilled Worker Visa Sponsorship</div>
 
           <div class="hero-top">
-            <div class="profile-placeholder">OT</div>
+            <div class="profile-box">
+              <!-- <img src="images/profile.jpg" alt="Ozlem Tonbul"> -->
+              OT
+            </div>
             <div>
               <div style="color: var(--muted); font-size: .95rem;">Professional Portfolio</div>
-              <div style="font-weight: 700; font-size: 1.05rem;">Operations · Analytics · Business Analysis</div>
+              <div style="font-weight: 700; font-size: 1.05rem;">Supply Chain · Operations · Marketing Analytics · Business Analysis</div>
             </div>
           </div>
 
-          <h1>Modern Data & Operations Portfolio</h1>
+          <h1>Data, Operations & Global Project Portfolio</h1>
           <p class="lead">
-            I build reporting, analytics and business process solutions across supply chain, e-commerce and international project environments. My work combines Python, SQL, Power BI, SEO analytics and business analysis to turn complex data into practical decisions.
+            I build reporting, analytics and business process solutions across supply chain, e-commerce and international project environments. My work combines Python, SQL, Power BI, ERP-integrated reporting, SEO analytics, marketing reporting and Agile project coordination to turn complex data into practical business decisions.
           </p>
 
           <div class="hero-tags">
-            <span class="tag">Python</span>
-            <span class="tag">Power BI</span>
-            <span class="tag">SQL</span>
-            <span class="tag">SEO Analytics</span>
             <span class="tag">Supply Chain Analytics</span>
+            <span class="tag">Inventory Visibility</span>
+            <span class="tag">Python</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Power BI</span>
+            <span class="tag">SEO Analytics</span>
+            <span class="tag">Marketing Reporting</span>
+            <span class="tag">Agile Coordination</span>
             <span class="tag">Business Analysis</span>
-            <span class="tag">ERP Reporting</span>
           </div>
 
           <div class="cta-row">
             <a class="btn btn-primary" href="cv-ozlem-tonbul.pdf" target="_blank">Download CV</a>
             <a class="btn btn-secondary" href="https://linkedin.com/in/ozlemtonbul" target="_blank">LinkedIn</a>
             <a class="btn btn-secondary" href="https://github.com/ozlemtonbul" target="_blank">GitHub</a>
+            <a class="btn btn-secondary" href="https://instagram.com/itswithozlem" target="_blank">Instagram</a>
             <a class="btn btn-ghost" href="mailto:ozlemtonbul34@gmail.com">Email</a>
           </div>
         </div>
 
         <aside class="panel hero-side">
           <div class="mini-card">
-            <div class="mini-label">Current Focus</div>
-            <div class="mini-value">Supply Chain, Dashboards, Reporting & Business Analysis</div>
+            <div class="mini-label">Primary UK Target</div>
+            <div class="mini-value">Supply Chain Analyst · Inventory Analyst · Operations Analyst</div>
           </div>
           <div class="mini-card">
-            <div class="mini-label">Best-Fit Roles</div>
-            <div class="mini-value">Operations Analyst · Data Analyst · Business Analyst</div>
+            <div class="mini-label">Additional Strengths</div>
+            <div class="mini-value">Marketing Analytics, SEO Reporting and International Business Analysis</div>
           </div>
           <div class="mini-card">
-            <div class="mini-label">Portfolio Style</div>
-            <div class="mini-value">Modern dark theme with project cards and dashboard gallery</div>
+            <div class="mini-label">Project Exposure</div>
+            <div class="mini-value">Türkiye, USA and Canada-based operational and SaaS project experience</div>
           </div>
           <div class="mini-card">
-            <div class="mini-label">Location</div>
-            <div class="mini-value">Istanbul, Türkiye · Open to UK relocation</div>
+            <div class="mini-label">Portfolio Goal</div>
+            <div class="mini-value">Show real outputs, recruiter-friendly case studies and dashboard proof</div>
           </div>
         </aside>
       </div>
@@ -520,18 +481,18 @@
       <div class="wrap">
         <div class="section-head">
           <h2>About Me</h2>
-          <p>A recruiter-friendly overview of the value I bring across reporting, analytics, operations and structured project delivery.</p>
+          <p>A recruiter-friendly overview of the value I bring across logistics-focused analytics, reporting, SEO, marketing data and international project coordination.</p>
         </div>
 
         <div class="grid-2">
           <article class="panel about-card">
             <p>
-              I currently work in international e-commerce operations, where I analyse stock visibility, inventory performance and operational KPIs while building structured reporting flows through SQL, Python and Power BI.
+              I currently work in international e-commerce operations, where I analyse inventory visibility, stock performance, operational KPIs and reporting flows through SQL, Python and Power BI. My strongest UK job target is logistics and supply chain-focused analytics, especially roles where data supports stock control, warehouse visibility and replenishment decisions.
             </p>
           </article>
           <article class="panel about-card">
             <p>
-              Alongside analytics work, I support international projects with Agile coordination, workflow design, user stories, use cases and business analysis documentation. My goal is to combine analytical depth with business clarity.
+              Alongside operational analytics, I have also built SEO and marketing reports and supported international projects with Agile coordination, workflow design, user stories, use cases and stakeholder communication. This gives me a hybrid profile: operationally structured, commercially aware and project-focused.
             </p>
           </article>
         </div>
@@ -541,42 +502,106 @@
     <section id="projects">
       <div class="wrap">
         <div class="section-head">
-          <h2>Project Cards</h2>
-          <p>These cards are designed for fast recruiter scanning: clear titles, practical context and visible business value.</p>
+          <h2>Selected Projects</h2>
+          <p>These project cards show both my UK target path in logistics and the broader analytics work that strengthens my profile.</p>
         </div>
 
-        <div class="grid-3 project-grid">
+        <div class="grid-3">
           <article class="panel project-card">
-            <div class="project-meta">Marketing Data & Reporting</div>
-            <h3>Full Marketing ETL Pipeline</h3>
-            <p>Built a structured analytics flow using marketing and performance data to support clearer reporting and dashboard-based decision-making.</p>
+            <div class="project-meta">Vicco · Logistics & Inventory Analytics</div>
+            <h3>Stock Health & Availability Analytics Model</h3>
+            <p>Designed a SKU-level analytics model covering 1000+ active SKUs to improve inventory visibility and identify stock risk across warehouse operations.</p>
             <ul class="bullet-list">
-              <li>Google Ads and GA4 data thinking.</li>
-              <li>Python-driven transformation and reporting logic.</li>
-              <li>Power BI-ready output for performance visibility.</li>
+              <li>Calculated Days of Supply and stock health status.</li>
+              <li>Built Healthy / Risk / Critical stock classification.</li>
+              <li>Created low-stock alert logic for proactive replenishment planning.</li>
             </ul>
           </article>
 
           <article class="panel project-card">
-            <div class="project-meta">SEO Analytics</div>
-            <h3>SEO Performance Case Study</h3>
-            <p>Analysed SEO and site structure performance through a technical and data-driven lens to support visibility and optimisation opportunities.</p>
+            <div class="project-meta">Vicco · Demand & Reporting</div>
+            <h3>Demand and Inventory Data Alignment</h3>
+            <p>Integrated Google Ads and GA4 demand data with real-time Nebim ERP stock data to improve visibility between marketing activity and inventory conditions.</p>
             <ul class="bullet-list">
-              <li>Technical SEO review mindset.</li>
-              <li>Performance and visibility analysis.</li>
-              <li>Structured findings for action-oriented reporting.</li>
+              <li>Built SQL → Python → Power BI reporting flow.</li>
+              <li>Connected demand signals with stock availability logic.</li>
+              <li>Improved cross-team visibility for operations and planning.</li>
             </ul>
           </article>
 
           <article class="panel project-card">
-            <div class="project-meta">FreedomHous · International SaaS</div>
-            <h3>Business Analysis & Agile Coordination</h3>
-            <p>Supported a Canada-based platform by translating requirements into structured documentation, workflows and delivery coordination.</p>
+            <div class="project-meta">SEO & Marketing Analytics</div>
+            <h3>SEO Performance and Marketing Reporting</h3>
+            <p>Produced SEO and marketing analysis outputs focused on visibility, technical structure, reporting clarity and campaign-related performance insight.</p>
             <ul class="bullet-list">
-              <li>User stories, use cases and backlog thinking.</li>
-              <li>AS-IS / TO-BE process design.</li>
-              <li>Cross-functional coordination across modules.</li>
+              <li>Worked on SEO structure and performance analysis.</li>
+              <li>Built marketing reports with data transformation logic.</li>
+              <li>Prepared structured insights for action-oriented reporting.</li>
             </ul>
+          </article>
+        </div>
+
+        <div class="grid-3" style="margin-top:20px;">
+          <article class="panel project-card">
+            <div class="project-meta">Freedom House System · Canada</div>
+            <h3>Agile Project Coordination & Business Analysis</h3>
+            <p>Supported a Canada-based affordable housing SaaS platform through user stories, process design, milestone planning and cross-functional team coordination.</p>
+            <ul class="bullet-list">
+              <li>Led Agile coordination across development, UI/UX, database and testing.</li>
+              <li>Translated requirements into use cases, backlog and MVP logic.</li>
+              <li>Improved stakeholder alignment and structured delivery flow.</li>
+            </ul>
+          </article>
+
+          <article class="panel project-card">
+            <div class="project-meta">MindArk.ai · USA</div>
+            <h3>Operational KPI Dashboarding</h3>
+            <p>Worked on operational datasets, Python-based cleaning, KPI calculations and Power BI dashboard preparation for an international SaaS reporting environment.</p>
+            <ul class="bullet-list">
+              <li>Collected and structured regional operational datasets.</li>
+              <li>Automated preparation steps to reduce manual reporting effort.</li>
+              <li>Built KPI dashboards supporting management visibility.</li>
+            </ul>
+          </article>
+
+          <article class="panel project-card">
+            <div class="project-meta">Abluka & Earlier Reporting Roles</div>
+            <h3>Inventory Reporting & ERP Visibility</h3>
+            <p>Supported inventory performance reporting across 2000+ SKUs and contributed to structured KPI reporting in earlier operational roles.</p>
+            <ul class="bullet-list">
+              <li>Analysed slow-moving and fast-moving inventory trends.</li>
+              <li>Built stock monitoring reports for purchasing and replenishment.</li>
+              <li>Improved warehouse reporting visibility and data accuracy.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Proof of Work</h2>
+          <p>You said the code exists for SEO and marketing reports, while the Canada project was a fully built product led through Agile coordination rather than direct coding by you. This section makes that distinction clear in a strong way.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="panel proof-box">
+            <div class="proof-meta">For Logistics & Supply Chain Roles</div>
+            <h3>What I Can Show</h3>
+            <p>Power BI dashboards, stock health screenshots, KPI reports, inventory logic, Days of Supply output, and structured explanations of how reporting supported operations.</p>
+          </article>
+
+          <article class="panel proof-box">
+            <div class="proof-meta">For SEO & Marketing Work</div>
+            <h3>What I Built Directly</h3>
+            <p>SEO analysis outputs, marketing reporting logic, transformed datasets, Python-based reporting workflows and code-backed dashboard preparation that can be shown through screenshots or case studies.</p>
+          </article>
+
+          <article class="panel proof-box">
+            <div class="proof-meta">For International Project Delivery</div>
+            <h3>What I Led</h3>
+            <p>Agile coordination, user stories, use cases, workflow design, milestone tracking and stakeholder alignment for projects delivered in Canada and the USA-based international environment.</p>
           </article>
         </div>
       </div>
@@ -585,30 +610,71 @@
     <section id="dashboards">
       <div class="wrap">
         <div class="section-head">
-          <h2>Dashboard Gallery</h2>
-          <p>This gallery is ready for Power BI, SEO and reporting screenshots. Replace each placeholder with real images from your work.</p>
+          <h2>Dashboard & Output Gallery</h2>
+          <p>This gallery is ready for your real proof: Power BI dashboards, SEO reports, marketing reports and project visuals. Replace each placeholder with actual screenshots from your work.</p>
         </div>
 
-        <div class="grid-3 dashboard-grid">
+        <div class="grid-3">
           <article class="panel dashboard-card">
-            <div class="dashboard-thumb">Power BI Dashboard Screenshot</div>
-            <div class="dashboard-meta">Reporting & KPI Visibility</div>
-            <h3>Inventory KPI Dashboard</h3>
-            <p>Add a screenshot showing stock status, turnover, fulfilment or operational reporting.</p>
+            <div class="dashboard-thumb">
+              <!-- <img src="images/stock-dashboard.jpg" alt="Inventory KPI Dashboard"> -->
+              Inventory / Logistics Dashboard
+            </div>
+            <div class="dashboard-meta">Supply Chain & Warehouse Visibility</div>
+            <h3>Stock Risk Dashboard</h3>
+            <p>Add a Power BI screenshot showing stock health, turnover, Days of Supply, low-stock alerts or fulfilment-related KPIs.</p>
           </article>
 
           <article class="panel dashboard-card">
-            <div class="dashboard-thumb">SEO Report Screenshot</div>
-            <div class="dashboard-meta">SEO & Technical Analysis</div>
-            <h3>SEO Performance Dashboard</h3>
-            <p>Add a screenshot showing crawl, category, visibility or page performance analysis.</p>
+            <div class="dashboard-thumb">
+              <!-- <img src="images/seo-report.jpg" alt="SEO Report"> -->
+              SEO Report Output
+            </div>
+            <div class="dashboard-meta">SEO Analytics & Technical Review</div>
+            <h3>SEO Performance Report</h3>
+            <p>Add a screenshot showing category analysis, crawl findings, page structure, visibility opportunities or technical SEO reporting.</p>
           </article>
 
           <article class="panel dashboard-card">
-            <div class="dashboard-thumb">Marketing Report Screenshot</div>
-            <div class="dashboard-meta">Marketing Analytics</div>
-            <h3>Campaign Performance Dashboard</h3>
-            <p>Add a screenshot showing paid media, traffic or campaign performance reporting.</p>
+            <div class="dashboard-thumb">
+              <!-- <img src="images/marketing-report.jpg" alt="Marketing Report"> -->
+              Marketing Report Output
+            </div>
+            <div class="dashboard-meta">Marketing Analytics & Reporting</div>
+            <h3>Marketing Dashboard</h3>
+            <p>Add a screenshot showing GA4, Google Ads, campaign reporting, performance summaries or transformed report output.</p>
+          </article>
+        </div>
+
+        <div class="grid-3" style="margin-top:20px;">
+          <article class="panel dashboard-card">
+            <div class="dashboard-thumb">
+              <!-- <img src="images/freedomhouse-roadmap.jpg" alt="Freedom House Project Roadmap"> -->
+              Canada Project Visual
+            </div>
+            <div class="dashboard-meta">Agile Project Delivery</div>
+            <h3>Freedom House Coordination Snapshot</h3>
+            <p>Add a roadmap, user story board, workflow or project structure visual to show your coordination and business analysis contribution.</p>
+          </article>
+
+          <article class="panel dashboard-card">
+            <div class="dashboard-thumb">
+              <!-- <img src="images/mindark-dashboard.jpg" alt="MindArk KPI Dashboard"> -->
+              USA KPI Dashboard
+            </div>
+            <div class="dashboard-meta">International SaaS Reporting</div>
+            <h3>MindArk Operations Dashboard</h3>
+            <p>Add a Power BI or KPI screenshot showing the operational analysis work you supported for the USA-based project.</p>
+          </article>
+
+          <article class="panel dashboard-card">
+            <div class="dashboard-thumb">
+              <!-- <img src="images/code-snippet.jpg" alt="Reporting Code Snippet"> -->
+              Code / Logic Proof
+            </div>
+            <div class="dashboard-meta">Optional Technical Proof</div>
+            <h3>Python or SQL Logic Snapshot</h3>
+            <p>Add a clean screenshot of a Python or SQL snippet only where it strengthens your story. Use this for SEO or marketing reporting if the code helps prove direct ownership.</p>
           </article>
         </div>
       </div>
@@ -618,26 +684,26 @@
       <div class="wrap">
         <div class="section-head">
           <h2>Experience</h2>
-          <p>Experience across e-commerce operations, analytics reporting and international project delivery.</p>
+          <p>Experience across logistics-focused analytics, inventory reporting, marketing data and international SaaS project coordination.</p>
         </div>
 
-        <div class="grid-3 timeline">
+        <div class="grid-3">
           <article class="panel timeline-item">
             <div class="time-meta">Aug 2023 – Present · Vicco</div>
-            <h3>Operations Data Analyst</h3>
-            <p>Working on inventory analysis, ERP-connected reporting and dashboard-oriented operational visibility.</p>
+            <h3>Operations Data Analyst – E-commerce Operations</h3>
+            <p>Built stock health modelling, demand-aligned ERP reporting and Power BI dashboard flows to improve inventory visibility and operational decision-making.</p>
           </article>
 
           <article class="panel timeline-item">
-            <div class="time-meta">Jan 2026 – Present · FreedomHous</div>
+            <div class="time-meta">Jan 2026 – Present · Freedom House System</div>
             <h3>Business Analyst & Project Coordinator</h3>
-            <p>Supporting workflows, documentation, Agile coordination and structured requirement handling.</p>
+            <p>Led Agile coordination, documentation, roadmap structure and process design for a Canada-based international SaaS initiative.</p>
           </article>
 
           <article class="panel timeline-item">
             <div class="time-meta">Oct 2025 – Jan 2026 · MindArk.ai</div>
-            <h3>Operations Data & Reporting</h3>
-            <p>Worked on data cleaning, KPI calculations and dashboard preparation to improve reporting quality.</p>
+            <h3>Operations Data & Reporting Intern</h3>
+            <p>Supported Python-based data preparation, KPI logic, dashboard visibility and reporting quality in a USA-based international project.</p>
           </article>
         </div>
       </div>
@@ -647,25 +713,30 @@
       <div class="wrap">
         <div class="section-head">
           <h2>Skills & Tools</h2>
-          <p>A practical toolkit shaped around reporting, analysis, visibility and structured business process work.</p>
+          <p>A broad toolkit, with strongest emphasis on UK-targeted logistics and supply chain analytics roles.</p>
         </div>
 
         <div class="panel skills-box">
           <div class="skill-tags">
-            <span class="tag">Python</span>
-            <span class="tag">Power BI</span>
-            <span class="tag">SQL</span>
-            <span class="tag">Excel</span>
-            <span class="tag">Google Ads</span>
-            <span class="tag">GA4</span>
-            <span class="tag">SEO Analytics</span>
             <span class="tag">Supply Chain Analytics</span>
-            <span class="tag">Inventory Analytics</span>
-            <span class="tag">ERP Reporting</span>
+            <span class="tag">Inventory Analysis</span>
+            <span class="tag">Warehouse Operations</span>
+            <span class="tag">Stock Health Modelling</span>
+            <span class="tag">Replenishment Planning Support</span>
+            <span class="tag">KPI & SLA Monitoring</span>
+            <span class="tag">Python</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Power BI</span>
+            <span class="tag">Excel</span>
             <span class="tag">SAP MM / SD</span>
             <span class="tag">Nebim ERP</span>
+            <span class="tag">GA4</span>
+            <span class="tag">Google Ads</span>
+            <span class="tag">SEO Analytics</span>
+            <span class="tag">Marketing Reporting</span>
             <span class="tag">Business Analysis</span>
             <span class="tag">Use Cases</span>
+            <span class="tag">User Stories</span>
             <span class="tag">Agile Coordination</span>
           </div>
         </div>
@@ -676,10 +747,10 @@
       <div class="wrap">
         <div class="section-head">
           <h2>Connect</h2>
-          <p>LinkedIn and GitHub stay primary. WhatsApp makes fast contact easy. Instagram stays optional and secondary.</p>
+          <p>Primary links for recruiters, hiring managers and project contacts.</p>
         </div>
 
-        <div class="grid-3 link-grid">
+        <div class="grid-3">
           <article class="panel link-card">
             <h3><a href="https://linkedin.com/in/ozlemtonbul" target="_blank">LinkedIn</a></h3>
             <p>linkedin.com/in/ozlemtonbul</p>
@@ -717,7 +788,7 @@
   </main>
 
   <footer class="wrap footer">
-    © 2026 Ozlem Tonbul · Modern professional portfolio website
+    © 2026 Ozlem Tonbul · Supply Chain, Operations & Analytics Portfolio
   </footer>
 </body>
 </html>
