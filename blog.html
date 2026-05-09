@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | Ozlem Tonbul - AI & Decision Systems Insights</title>
+    <meta name="description" content="Technical articles on AI, Data Analytics, SEO, Marketing, and Decision Systems by Ozlem Tonbul." />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+      :root {
+        --bg-dark: #060913;
+        --bg-card: rgba(18, 24, 43, 0.6);
+        --bg-card-hover: rgba(24, 32, 56, 0.8);
+        --accent-primary: #3b82f6;
+        --accent-secondary: #0ea5e9;
+        --accent-glow: rgba(59, 130, 246, 0.5);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --border-highlight: rgba(59, 130, 246, 0.3);
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --radius-sm: 8px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --max-width: 1100px;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-dark);
+        color: var(--text-main);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: ""; position: fixed; top: -20%; left: -10%; width: 60vw; height: 60vw;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 60%);
+        z-index: -1; pointer-events: none;
+      }
+
+      .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+      a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+      /* Navigation */
+      nav {
+        position: fixed; top: 0; width: 100%; z-index: 1000;
+        background: rgba(6, 9, 19, 0.8); backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-color); padding: 16px 0;
+      }
+      .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+      .logo {
+        font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;
+        background: linear-gradient(to right, var(--text-main), var(--accent-primary));
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      }
+      .nav-links { display: flex; gap: 24px; }
+      .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
+      .nav-links a:hover { color: var(--text-main); }
+      .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+      /* Blog Header */
+      .blog-hero { padding: 160px 0 60px; text-align: center; }
+      .blog-hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; }
+      .blog-hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 32px; }
+
+      /* Categories */
+      .categories {
+        display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 60px;
+      }
+      .category-pill {
+        padding: 8px 20px; background: var(--bg-card); border: 1px solid var(--border-color);
+        border-radius: 30px; font-size: 0.85rem; font-weight: 500; color: var(--text-muted);
+      }
+      .category-pill:hover, .category-pill.active {
+        border-color: var(--accent-primary); color: var(--text-main); background: rgba(59, 130, 246, 0.1);
+      }
+
+      /* Article Grid */
+      .article-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px; margin-bottom: 100px;
+      }
+      .article-card {
+        background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+        padding: 32px; transition: var(--transition); display: flex; flex-direction: column;
+      }
+      .article-card:hover {
+        background: var(--bg-card-hover); border-color: var(--border-highlight); transform: translateY(-4px);
+      }
+      .article-meta {
+        display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+        font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+      }
+      .article-category { color: var(--accent-secondary); }
+      .article-date { color: var(--text-muted); }
+      .article-card h2 { font-size: 1.4rem; margin-bottom: 16px; line-height: 1.4; color: var(--text-main); }
+      .article-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; flex-grow: 1; line-height: 1.6; }
+      .read-more {
+        font-size: 0.9rem; font-weight: 600; color: var(--accent-primary); display: flex; align-items: center; gap: 8px;
+      }
+      .read-more:hover { gap: 12px; }
+
+      /* Footer */
+      footer { border-top: 1px solid var(--border-color); padding: 80px 0 40px; background: rgba(6, 9, 19, 0.5); }
+      .footer-inner { text-align: center; }
+      .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 32px; }
+      .footer-links a { color: var(--text-muted); font-size: 0.9rem; }
+      .footer-links a:hover { color: var(--text-main); }
+      .copyright { color: var(--text-muted); font-size: 0.85rem; padding-top: 32px; border-top: 1px solid var(--border-color); }
+
+      @media (max-width: 768px) {
+        .blog-hero h1 { font-size: 2.5rem; }
+        .article-grid { grid-template-columns: 1fr; }
+        .menu-toggle { display: block; }
+        .nav-links { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="container nav-inner">
+        <a href="index.html" class="logo">Ozlem Tonbul | Blog</a>
+        <button class="menu-toggle">☰</button>
+        <div class="nav-links">
+          <a href="index.html">Portfolio</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#projects">Projects</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Blog Hero -->
+    <header class="blog-hero">
+      <div class="container">
+        <h1>Ozlem Tonbul | Blog</h1>
+        <p>Technical insights on AI-driven decision systems, data analytics, and e-commerce growth strategies.</p>
+        
+        <div class="categories">
+          <a href="#" class="category-pill active">All Articles</a>
+          <a href="#" class="category-pill">AI & ML</a>
+          <a href="#" class="category-pill">Decision Systems</a>
+          <a href="#" class="category-pill">Data Analytics</a>
+          <a href="#" class="category-pill">SEO & Growth</a>
+          <a href="#" class="category-pill">Marketing</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+      <div class="article-grid">
+        <!-- Article 1 -->
+        <article class="article-card">
+          <img src="https://blog.ozlemtonbul.com/wp-content/uploads/2026/04/Dashboard-vs-decision-system-comparison-1140x641.png" alt="Decision Systems" style="width: 100%; border-radius: var(--radius-md); margin-bottom: 20px; border: 1px solid var(--border-color);">
+          <div class="article-meta">
+            <span class="article-category">Decision Systems</span>
+            <span class="article-date">April 29, 2026</span>
+          </div>
+          <h2>Why Dashboards Don’t Drive Decisions: How to Build Data-Driven Decision Systems</h2>
+          <p>Exploring why traditional dashboards often fail to trigger business actions and how to transition towards structured decision intelligence systems.</p>
+          <a href="blog-why-dashboards.html" class="read-more">Read Article →</a>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="article-card">
+          <img src="https://blog.ozlemtonbul.com/wp-content/uploads/2026/04/ai-budget-optimization-google-1140x641.png" alt="Ads Optimization" style="width: 100%; border-radius: var(--radius-md); margin-bottom: 20px; border: 1px solid var(--border-color);">
+          <div class="article-meta">
+            <span class="article-category">Marketing & AI</span>
+            <span class="article-date">April 27, 2026</span>
+          </div>
+          <h2>Google Ads Budget Optimization Using Machine Learning: A Case Study</h2>
+          <p>A deep dive into using Random Forest and regression models to automate Google Ads budget allocation based on seasonal trends.</p>
+          <a href="blog-ai-budget.html" class="read-more">Read Article →</a>
+        </article>
+
+      </div>
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-inner">
+        <div class="footer-links">
+          <a href="index.html">Portfolio</a>
+          <a href="https://linkedin.com/in/özlemtonbul" target="_blank">LinkedIn</a>
+          <a href="https://github.com/ozlemtonbul" target="_blank">GitHub</a>
+          <a href="mailto:ozlemtonbul34@gmail.com">Email</a>
+        </div>
+        <div class="copyright">
+          <p>© 2026 Ozlem Tonbul. AI-Driven E-commerce Decision Systems.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Simple Mobile Menu (matching portfolio logic)
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+      
+      menuToggle.addEventListener('click', () => {
+        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        if(navLinks.style.display === 'flex') {
+          navLinks.style.position = 'absolute';
+          navLinks.style.top = '100%';
+          navLinks.style.left = '0';
+          navLinks.style.width = '100%';
+          navLinks.style.background = 'rgba(6, 9, 19, 0.98)';
+          navLinks.style.flexDirection = 'column';
+          navLinks.style.padding = '24px';
+        }
+      });
+    </script>
+  </body>
+</html>

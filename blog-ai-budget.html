@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Powered Google Ads Budget Optimization | Ozlem Tonbul Blog</title>
+    <meta name="description" content="A case study on building a machine learning decision system for automating Google Ads budget allocation using Python and Random Forest." />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+      :root {
+        --bg-dark: #060913;
+        --bg-card: rgba(18, 24, 43, 0.6);
+        --bg-card-hover: rgba(24, 32, 56, 0.8);
+        --accent-primary: #3b82f6;
+        --accent-secondary: #0ea5e9;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --max-width: 800px;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-dark);
+        color: var(--text-main);
+        line-height: 1.8;
+        overflow-x: hidden;
+      }
+
+      .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+      a { text-decoration: none; color: var(--accent-primary); transition: var(--transition); }
+      a:hover { color: var(--accent-secondary); }
+
+      /* Navigation */
+      nav {
+        position: fixed; top: 0; width: 100%; z-index: 1000;
+        background: rgba(6, 9, 19, 0.8); backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-color); padding: 16px 0;
+      }
+      .nav-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+      .logo {
+        font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;
+        background: linear-gradient(to right, var(--text-main), var(--accent-primary));
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      }
+      .nav-links { display: flex; gap: 24px; }
+      .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
+      .nav-links a:hover { color: var(--text-main); }
+
+      /* Article Header */
+      .article-header { padding: 160px 0 60px; text-align: center; }
+      .article-category { color: var(--accent-secondary); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 16px; display: block; }
+      .article-header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 24px; line-height: 1.2; letter-spacing: -1px; }
+      .article-meta { color: var(--text-muted); font-size: 0.95rem; display: flex; justify-content: center; gap: 16px; align-items: center; }
+
+      /* Content Styling */
+      .article-content { margin-bottom: 100px; }
+      .main-image { width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--border-color); margin-bottom: 48px; }
+      .article-content h2 { font-size: 1.8rem; font-weight: 700; margin: 48px 0 24px; color: var(--text-main); }
+      .article-content h3 { font-size: 1.4rem; font-weight: 600; margin: 32px 0 16px; color: var(--text-main); }
+      .article-content p { margin-bottom: 24px; font-size: 1.1rem; color: #cbd5e1; }
+      .article-content ul, .article-content ol { margin-bottom: 24px; padding-left: 24px; color: #cbd5e1; }
+      .article-content li { margin-bottom: 12px; }
+      .article-content img { width: 100%; border-radius: var(--radius-md); margin: 32px 0; border: 1px solid var(--border-color); }
+      .article-content strong { color: var(--text-main); }
+
+      /* Code Block */
+      pre {
+        background: rgba(15, 23, 42, 0.8); padding: 24px; border-radius: var(--radius-md);
+        border: 1px solid var(--border-color); color: #e2e8f0; font-family: monospace;
+        font-size: 0.9rem; overflow-x: auto; margin-bottom: 24px;
+      }
+
+      /* Footer */
+      footer { border-top: 1px solid var(--border-color); padding: 80px 0 40px; background: rgba(6, 9, 19, 0.5); margin-top: 100px; }
+      .footer-inner { text-align: center; }
+      .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 32px; }
+      .footer-links a { color: var(--text-muted); font-size: 0.9rem; }
+      .footer-links a:hover { color: var(--text-main); }
+      .copyright { color: var(--text-muted); font-size: 0.85rem; padding-top: 32px; border-top: 1px solid var(--border-color); }
+
+      @media (max-width: 768px) {
+        .nav-links { display: none; }
+        .article-header { padding: 120px 0 40px; }
+        .article-header h1 { font-size: 2.2rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-inner">
+        <a href="index.html" class="logo">Ozlem Tonbul | Blog</a>
+        <div class="nav-links">
+          <a href="index.html">Portfolio</a>
+          <a href="blog.html">Blog</a>
+          <a href="index.html#projects">Projects</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+      <div class="container">
+        <span class="article-category">Marketing & AI</span>
+        <h1>How I Built an AI-Powered Budget Optimization System Using Google Ads Data</h1>
+        <div class="article-meta">
+          <span>April 27, 2026</span>
+          <span>•</span>
+          <span>7 min read</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container article-content">
+      <img src="https://blog.ozlemtonbul.com/wp-content/uploads/2026/04/ai-budget-optimization-google-1140x641.png" alt="Google Ads Budget Optimization Using Machine Learning" class="main-image" />
+      
+      <p>Managing Google Ads budgets across dozens of campaigns is a challenge. When you add seasonal demand spikes, holiday patterns (like Turkish Mother's Day or Black Friday), and shifting conversion rates, manual budget allocation becomes impossible to scale.</p>
+      <p>In this case study, I'll walk through how I built a machine learning decision system that automates budget redistribution to maximize ROAS (Return on Ad Spend).</p>
+
+      <h2>The Challenge: Intuition vs. Data</h2>
+      <p>Before the system, budget changes were reactive. If a campaign hit its daily limit, we increased it. If ROAS dropped, we cut it. But this approach misses the <strong>opportunity cost</strong>: could that $100 have performed better in a different campaign that wasn't capped yet?</p>
+
+      <h2>The Approach</h2>
+      <img src="https://blog.ozlemtonbul.com/wp-content/uploads/2026/04/1M2I0NczDCpb_g4rQ1djbzg.png" alt="System Architecture Diagram" />
+
+      <h3>1. Data Acquisition (Google Ads API)</h3>
+      <p>Using Python, I pull granular performance data: impressions, clicks, cost, and conversions. I also engineer features for <strong>seasonal context</strong> (Is it a weekend? Is it a payday week in Turkey? Is it a holiday?).</p>
+
+      <h3>2. The ML Model: Random Forest Regressions</h3>
+      <p>I trained a Random Forest model to predict the <strong>marginal return</strong> of increasing budget for each campaign. The model answers: "If I give this campaign 20% more budget, what is the expected revenue based on current trends and seasonal history?"</p>
+
+      <pre>
+# Example snippet of the feature engineering
+df['is_payday'] = df['day'].apply(lambda x: 1 if 15 <= x <= 17 or 28 <= x <= 31 else 0)
+df['seasonal_index'] = df.groupby('month')['conversions'].transform('mean')
+      </pre>
+
+      <h3>3. The Optimization Engine</h3>
+      <p>The system simulates 5 different budget scenarios for every campaign. It then uses a weighted scoring model to "move" budget from low-predicted-ROI campaigns to high-predicted-ROI ones.</p>
+
+      <h2>The Business Impact</h2>
+      <p>After deploying the system for a major Turkish e-commerce project, the results were clear:</p>
+      <ul>
+        <li><strong>+30% Revenue Growth:</strong> Revenue increased significantly without increasing the total overall spend.</li>
+        <li><strong>+14.6x ROAS Stability:</strong> We maintained a high return even as we scaled volume.</li>
+        <li><strong>Automation:</strong> Saved over 40 hours of manual budget adjustments per month.</li>
+      </ul>
+
+      <h2>Technical Stack</h2>
+      <ul>
+        <li><strong>Language:</strong> Python (Pandas, Scikit-learn)</li>
+        <li><strong>Data:</strong> Google Ads API, SQL (BigQuery)</li>
+        <li><strong>Visualization:</strong> Power BI (for executive monitoring)</li>
+        <li><strong>Logic:</strong> Anthropic Claude context models for reasoning over text-based performance alerts.</li>
+      </ul>
+
+      <h2>Key Learnings</h2>
+      <p>The biggest hurdle wasn't the code; it was the <strong>data quality</strong>. ML models are only as good as the tracking. Ensuring GA4 and Google Ads conversion data were 100% aligned was the first 3 weeks of the project.</p>
+      
+      <p>If you're interested in the full technical architecture, you can view the <a href="https://github.com/ozlemtonbul/ads-ml-budget-intelligence">GitHub Repository</a> or reach out to discuss how this can be applied to your business.</p>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-inner">
+        <div class="footer-links">
+          <a href="index.html">Portfolio</a>
+          <a href="blog.html">Blog Index</a>
+          <a href="https://linkedin.com/in/özlemtonbul" target="_blank">LinkedIn</a>
+          <a href="https://github.com/ozlemtonbul" target="_blank">GitHub</a>
+        </div>
+        <div class="copyright">
+          <p>© 2026 Ozlem Tonbul. AI-Driven Decision Systems.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
