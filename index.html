@@ -213,7 +213,7 @@
 
       /* Sections */
       section {
-        padding: 100px 0;
+        padding: 80px 0;
       }
 
       .section-header {
@@ -455,12 +455,30 @@
         position: relative;
       }
 
-      .dashboard-visual::after {
-        content: "Image Placeholder";
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        font-weight: 500;
-        letter-spacing: 1px;
+      .dashboard-visual iframe {
+        width: 1920px;
+        height: 1080px;
+        border: none;
+        transform: scale(0.2);
+        transform-origin: center center;
+        pointer-events: none;
+        flex-shrink: 0;
+      }
+
+      @media (min-width: 480px) {
+        .dashboard-visual iframe { transform: scale(0.23); }
+      }
+
+      @media (min-width: 768px) {
+        .dashboard-visual iframe { transform: scale(0.28); }
+      }
+
+      @media (min-width: 1024px) {
+        .dashboard-visual iframe { transform: scale(0.24); }
+      }
+
+      @media (min-width: 1280px) {
+        .dashboard-visual iframe { transform: scale(0.28); }
       }
 
       .dashboard-item h3 {
@@ -620,9 +638,9 @@
         <button class="menu-toggle" id="mobile-menu-btn">☰</button>
         <div class="nav-links" id="nav-links">
           <a href="#about">About</a>
+          <a href="#what-i-build">What I Build</a>
           <a href="#projects">Projects</a>
           <a href="#portfolio">Dashboards</a>
-          <a href="#skills">Skills</a>
           <a href="#contact">Contact</a>
         </div>
       </div>
@@ -633,28 +651,37 @@
       <div class="container">
         <div class="hero-content">
           <div class="hero-badge">
-            Open to UK Skilled Worker Visa Sponsorship
+            AI-Driven E-commerce Decision Systems Specialist
           </div>
-          <h1>Turning Data Into <br /><span>Operational Excellence.</span></h1>
+          <h1>AI-Driven E-commerce <br /><span>Decision Systems Specialist</span></h1>
           <p>
-            I build reporting, analytics and business process solutions across
-            supply chain, e-commerce, and international projects. My work turns
-            complex datasets into proactive business decisions using Python,
-            SQL, and Power BI.
+            Building data-driven systems for smarter decisions across SEO, Ads, Supply Chain and Operations using Python, SQL and Power BI.
           </p>
           <div class="hero-ctas">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
             <a
               href="cv-ozlem-tonbul.pdf"
               target="_blank"
-              class="btn btn-primary"
+              class="btn btn-outline"
               >Download CV</a
             >
-            <a href="#projects" class="btn btn-outline">View Projects</a>
             <a
               href="https://github.com/ozlemtonbul"
               target="_blank"
               class="btn btn-outline"
               >GitHub</a
+            >
+            <a
+              href="https://linkedin.com/in/özlemtonbul"
+              target="_blank"
+              class="btn btn-outline"
+              >LinkedIn</a
+            >
+            <a
+              href="https://blog.ozlemtonbul.com"
+              target="_blank"
+              class="btn btn-outline"
+              >Blog</a
             >
           </div>
         </div>
@@ -667,213 +694,198 @@
         <div class="section-header">
           <h2>About Me</h2>
           <p>
-            A hybrid profile: operationally structured, commercially aware, and
-            project-focused.
+            I build AI-driven decision systems that help e-commerce businesses improve growth, inventory visibility and operational performance.
           </p>
         </div>
 
         <div class="about-grid">
           <div class="glass-card about-text">
-            <h3>Logistics & Supply Chain Analytics</h3>
+            <h3>My work combines:</h3>
+            <ul style="color: var(--text-muted); margin-bottom: 24px; list-style-position: inside;">
+              <li>Supply Chain Analytics</li>
+              <li>Inventory Intelligence</li>
+              <li>SEO & Google Ads Analytics</li>
+              <li>ERP Data Integration</li>
+              <li>Predictive Analytics</li>
+              <li>Power BI Decision Dashboards</li>
+            </ul>
             <p>
-              I currently work in international e-commerce operations, where I
-              analyze inventory visibility, stock performance, and operational
-              KPIs. My primary focus is building reporting flows through SQL,
-              Python, and Power BI to support stock control, warehouse
-              visibility, and replenishment decisions.
-            </p>
-            <p>
-              Alongside operational analytics, I have integrated marketing and
-              ERP demand data and led international SaaS projects using Agile
-              methodologies. This cross-functional experience allows me to
-              communicate effectively with developers, stakeholders, and
-              operations teams.
+              I focus on transforming raw business data into scalable and actionable decision-making systems using Python, SQL, Power BI, Google Ads, GA4 and ERP integrations.
             </p>
           </div>
 
           <div class="stats-container">
             <div class="stat-card">
-              <div class="stat-title">Primary Focus</div>
-              <div class="stat-value">Supply Chain & Inventory Analytics</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-title">Core Stack</div>
-              <div class="stat-value">SQL, Python, Power BI</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-title">Project Delivery</div>
-              <div class="stat-value">Agile, Business Analysis</div>
+              <div class="stat-title">Currently open to:</div>
+              <ul style="color: var(--text-main); font-size: 0.9rem; list-style: none; margin-top: 8px;">
+                <li>• UK opportunities</li>
+                <li>• Skilled Worker Visa Sponsorship roles</li>
+                <li>• Data & Analytics projects</li>
+                <li>• AI-driven business intelligence projects</li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- What I Build Section -->
+    <section id="what-i-build" class="reveal" style="padding-top: 0;">
+      <div class="container">
+        <div class="section-header">
+          <h2>What I Build</h2>
+          <p>Specialized intelligence systems for e-commerce growth and operations.</p>
+        </div>
+        <div class="project-grid">
+          <div class="glass-card">
+            <h3 style="margin-bottom: 12px; color: var(--accent-secondary);">AI Decision Systems</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted);">Predictive and optimization systems designed for smarter business decisions.</p>
+          </div>
+          <div class="glass-card">
+            <h3 style="margin-bottom: 12px; color: var(--accent-secondary);">Inventory Intelligence</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted);">Stock visibility, replenishment risk and operational analytics systems.</p>
+          </div>
+          <div class="glass-card">
+            <h3 style="margin-bottom: 12px; color: var(--accent-secondary);">SEO & Ads Intelligence</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted);">Google Ads, SEO and GA4 analytics systems focused on growth and performance optimization.</p>
+          </div>
+          <div class="glass-card">
+            <h3 style="margin-bottom: 12px; color: var(--accent-secondary);">Data Pipelines</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted);">SQL → Python → Power BI workflows and automation systems.</p>
+          </div>
+          <div class="glass-card">
+            <h3 style="margin-bottom: 12px; color: var(--accent-secondary);">Executive Dashboards</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted);">Business-focused dashboards supporting strategic and operational decisions.</p>
+          </div>
+        </div>
+      </div>
+     <!-- Projects Section -->
     <section id="projects" class="reveal">
       <div class="container">
         <div class="section-header">
-          <h2>Selected Projects</h2>
-          <p>Technical solutions built to improve visibility and operations.</p>
+          <h2>Projects & Case Studies</h2>
+          <p>AI-driven analytics and decision systems for e-commerce growth and operational visibility.</p>
         </div>
 
-        <div class="project-grid">
-          <!-- Project 1 -->
-          <div class="glass-card project-card">
-            <div class="project-meta">Vicco · Logistics & Inventory</div>
-            <h3>Stock Health & Availability Analytics Model</h3>
-            <p>
-              Designed a SKU-level analytics model covering 1000+ active SKUs to
-              identify stock risk across warehouse operations. Calculated Days
-              of Supply and built proactive low-stock alert logic.
-            </p>
-            <div class="tags">
-              <span class="tag">SQL</span>
-              <span class="tag">Python</span>
-              <span class="tag">Power BI</span>
+        <div class="case-studies">
+          <!-- Case Study 1: Marketing -->
+          <div class="glass-card case-study-card" style="margin-bottom: 32px;">
+            <div class="project-meta">Marketing & Decision Intelligence</div>
+            <h3>Marketing Decision Intelligence Pipeline</h3>
+            <div class="case-study-content">
+              <p><strong>Executive Summary:</strong> A marketing decision intelligence system designed to transform fragmented marketing data into structured, data-driven business decisions.</p>
+              <p><strong>Problem:</strong> Disconnected datasets meant manual, reactive, and inefficient decision-making.</p>
+              <p><strong>Solution:</strong> A Python pipeline handling data processing, feature engineering, and decision logic to generate actionable recommendations for marketing optimization.</p>
+              <p><strong>Impact:</strong> Reduced manual analysis workload by over 40 hours per month, prioritizing high-value customer segments and campaigns over intuition.</p>
+            </div>
+            <div style="margin-top: 24px;">
+              <a href="https://github.com/ozlemtonbul/marketing-decision-intelligence-pipeline" target="_blank" class="btn btn-outline btn-sm">View Repository →</a>
             </div>
           </div>
 
-          <!-- Project 2 -->
-          <div class="glass-card project-card">
-            <div class="project-meta">Vicco · Demand & Reporting</div>
-            <h3>Demand & Inventory Data Alignment</h3>
-            <p>
-              Integrated Google Ads and GA4 demand data with Nebim ERP stock
-              data to improve visibility between marketing activity and
-              real-time inventory conditions.
-            </p>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">ERP Integration</span>
-              <span class="tag">GA4</span>
+          <!-- Case Study 2: SEO -->
+          <div class="glass-card case-study-card" style="margin-bottom: 32px;">
+            <div class="project-meta">SEO & Growth Intelligence</div>
+            <h3>SEO Organic Growth Intelligence Pipeline</h3>
+            <div class="case-study-content">
+              <p><strong>Executive Summary:</strong> A machine learning pipeline shifting organic SEO from reactive analysis to a data-driven, predictive decision system managing 50,000+ URLs.</p>
+              <p><strong>Problem:</strong> Analysts spent 40+ hours per month reviewing Search Console data without predictive visibility or ROI frameworks.</p>
+              <p><strong>Solution:</strong> Processed 50k+ URLs, engineering 30+ features, computing ROI on predicted traffic value against implementation cost, and leveraging ML Random Forest to forecast clicks.</p>
+              <p><strong>Impact:</strong> Increased organic traffic value by 35% through ROI prioritization and automated the equivalent of 40+ hours of manual analysis.</p>
+            </div>
+            <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="https://github.com/ozlemtonbul/seo-organic-growth-intelligence" target="_blank" class="btn btn-outline btn-sm">View Repository →</a>
+              <a href="dashboards/seo_dashboard.html" target="_blank" class="btn btn-outline btn-sm">Interactive Dashboard →</a>
             </div>
           </div>
 
-          <!-- Project 3 -->
-          <div class="glass-card project-card">
-            <div class="project-meta">MindArk.ai · USA</div>
-            <h3>Operational KPI Dashboarding</h3>
-            <p>
-              Structured regional operational datasets and automated
-              Python-based cleaning pipelines. Built KPI dashboards supporting
-              international management visibility.
-            </p>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">Data Prep</span>
-              <span class="tag">Dashboarding</span>
+          <!-- Case Study 2: Ads -->
+          <div class="glass-card case-study-card" style="margin-bottom: 32px;">
+            <div class="project-meta">Ads & ML Budget Optimization</div>
+            <h3>Ads ML Budget Intelligence</h3>
+            <div class="case-study-content">
+              <p><strong>Executive Summary:</strong> A machine learning pipeline to transition Google Ads budget management from manual, reactive updates to automated, data-driven strategies.</p>
+              <p><strong>Problem:</strong> As ad spend grew 65% YoY, manual budget decisions on multi-channel, holiday-spike sensitive data failed to systematically forecast scale scenarios.</p>
+              <p><strong>Solution:</strong> Random Forest Regressions simulate 5 budget levels to generate explicit AI-scored recommendations directly via Ads API, backed by Anthropic context models.</p>
+              <p><strong>Impact:</strong> Kept overall ROAS stable at ~14.6x while managing a 30% YoY revenue uptick and heavily streamlining budget redistribution decisions across 4 distinct ad-channels.</p>
             </div>
-          </div>
-
-          <!-- Project 4 -->
-          <div class="glass-card project-card">
-            <div class="project-meta">Freedom House System · Canada</div>
-            <h3>Agile Project Coordination</h3>
-            <p>
-              Supported a SaaS platform through user stories, milestone
-              planning, and workflow design. Translated business requirements
-              into use cases and managed MVP delivery logic.
-            </p>
-            <div class="tags">
-              <span class="tag">Agile</span>
-              <span class="tag">Jira</span>
-              <span class="tag">Business Analysis</span>
-            </div>
-          </div>
-
-          <!-- Project 5 -->
-          <div class="glass-card project-card">
-            <div class="project-meta">Visiosoft A.Ş. · Turkey</div>
-            <h3>Operational KPI Reporting</h3>
-            <p>
-              Prepared structured KPI reports and documented workflows to
-              improve data reliability and daily operational performance
-              monitoring across multiple business functions.
-            </p>
-            <div class="tags">
-              <span class="tag">KPI Reporting</span>
-              <span class="tag">Process Documentation</span>
-            </div>
-          </div>
-
-          <!-- Project 6 -->
-          <div class="glass-card project-card">
-            <div class="project-meta">Abluka Operations</div>
-            <h3>Inventory Reporting & ERP Visibility</h3>
-            <p>
-              Analysed slow-moving and fast-moving inventory trends across 2000+
-              SKUs. Built stock monitoring reports to streamline purchasing
-              operations.
-            </p>
-            <div class="tags">
-              <span class="tag">Inventory Analysis</span>
-              <span class="tag">Excel</span>
+            <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="https://github.com/ozlemtonbul/ads-ml-budget-intelligence" target="_blank" class="btn btn-outline btn-sm">View Repository →</a>
+              <a href="dashboards/ads_dashboard.html" target="_blank" class="btn btn-outline btn-sm">Interactive Dashboard →</a>
             </div>
           </div>
         </div>
-      </div>
+
+        <style>
+          .case-study-content p {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+          }
+          .case-study-content strong {
+            color: var(--text-main);
+          }
+          @media (min-width: 768px) {
+            .case-study-card {
+              padding: 40px !important;
+            }
+          }
+        </style>
     </section>
 
-    <!-- Portfolio / Dashboards -->
+    <!-- Dashboard & Insights -->
     <section id="portfolio" class="reveal">
       <div class="container">
         <div class="section-header">
-          <h2>Dashboard Portfolio</h2>
+          <h2>Dashboard & Insights</h2>
           <p>
-            Visual proof of work across inventory analysis, SEO, and project
-            delivery.
+            Power BI dashboards designed to support executive decision-making, performance optimization, and operational visibility.
           </p>
         </div>
 
         <div class="dashboard-gallery">
-          <!-- Dashboard 1 -->
-          <div class="glass-card dashboard-item">
-            <div class="dashboard-visual">
-              <!-- <img src="assets/dashboard1.jpg" alt="Inventory Dashboard"> -->
+          <!-- Dashboard 1: Ads -->
+          <div class="glass-card dashboard-item" style="overflow: hidden;">
+            <div class="dashboard-visual" style="aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+              <iframe src="dashboards/ads_dashboard.html" scrolling="no"></iframe>
+              <a href="dashboards/ads_dashboard.html" target="_blank" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(59, 130, 246, 0.2); opacity: 0; transition: 0.3s; display: flex; align-items: center; justify-content: center; text-decoration: none;" class="hover-overlay">
+                <span style="color: white; font-weight: 600; background: var(--accent-primary); padding: 8px 16px; border-radius: 4px;">Launch Full Dashboard</span>
+              </a>
             </div>
-            <h3>Inventory Risk Dashboard</h3>
-            <p>
-              Power BI implementation showing stock health, turnover rates, and
-              Days of Supply metrics.
-            </p>
+            <h3>Ads ML Budget Intelligence</h3>
+            <p>Predictive budget allocation and seasonal demand forecasting.</p>
           </div>
 
-          <!-- Dashboard 2 -->
-          <div class="glass-card dashboard-item">
-            <div class="dashboard-visual">
-              <!-- <img src="assets/dashboard2.jpg" alt="Demand Alignment"> -->
+          <!-- Dashboard 2: SEO -->
+          <div class="glass-card dashboard-item" style="overflow: hidden;">
+            <div class="dashboard-visual" style="aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+              <iframe src="dashboards/seo_dashboard.html" scrolling="no"></iframe>
+              <a href="dashboards/seo_dashboard.html" target="_blank" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(59, 130, 246, 0.2); opacity: 0; transition: 0.3s; display: flex; align-items: center; justify-content: center; text-decoration: none;" class="hover-overlay">
+                <span style="color: white; font-weight: 600; background: var(--accent-primary); padding: 8px 16px; border-radius: 4px;">Launch Full Dashboard</span>
+              </a>
             </div>
-            <h3>Demand & ERP Alignment</h3>
-            <p>
-              Integration of Google Ads and GA4 metrics with inventory datasets
-              for cross-department visibility.
-            </p>
+            <h3>SEO Organic Growth Intelligence</h3>
+            <p>ROI-based keyword prioritization and traffic forecasting.</p>
           </div>
+        </div>
+        
+        <style>
+          .dashboard-item:hover .hover-overlay {
+            opacity: 1;
+          }
+        </style>
 
-          <!-- Dashboard 3 -->
-          <div class="glass-card dashboard-item">
-            <div class="dashboard-visual">
-              <!-- <img src="assets/dashboard3.jpg" alt="Agile Flow"> -->
-            </div>
-            <h3>Agile Coordination Flow</h3>
-            <p>
-              Workflow design and sprint structuring for international SaaS
-              development.
-            </p>
-          </div>
-
-          <!-- Dashboard 4 -->
-          <div class="glass-card dashboard-item">
-            <div class="dashboard-visual">
-              <!-- <img src="assets/code-snippet.jpg" alt="Code Snippet"> -->
-            </div>
-            <h3>Python Data Pipeline</h3>
-            <p>
-              Snippet of the data transformation logic used to merge ERP and
-              analytics datasets.
-            </p>
-          </div>
+        <div style="margin-top: 48px; color: var(--text-muted); font-size: 0.95rem;">
+          <h4 style="color: var(--text-main); margin-bottom: 12px;">Supporting:</h4>
+          <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; list-style: none;">
+            <li>• executive decision-making</li>
+            <li>• performance optimization</li>
+            <li>• operational visibility</li>
+            <li>• growth analytics</li>
+            <li>• inventory intelligence</li>
+            <li>• marketing analytics</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -938,67 +950,92 @@
     <!-- Contact & Footer -->
     <footer id="contact" class="reveal">
       <div class="container">
-        <div class="section-header" style="text-align: center">
-          <h2>Let's Connect</h2>
-          <p style="margin: 0 auto">
-            Open to discussions regarding Supply Chain, Analytics, or Operations
-            roles in the UK.
+        <div class="section-header" style="text-align: center; margin-bottom: 48px;">
+          <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Let’s Connect</h2>
+          <p style="margin: 0 auto 16px; font-size: 1.1rem;">
+            Let’s connect and build data-driven decision systems together.
+          </p>
+          <p style="max-width: 700px; margin: 0 auto; color: var(--text-muted); font-size: 0.95rem; line-height: 1.8;">
+            Available for: international opportunities, analytics collaborations, AI & data projects, speaking engagements, and business intelligence consulting.
           </p>
         </div>
 
-        <div class="footer-grid">
-          <div class="glass-card contact-card">
-            <h3>Email</h3>
-            <p>Reach out directly for opportunities.</p>
-            <a
-              href="mailto:ozlemtonbul34@gmail.com"
-              class="btn btn-primary"
-              style="width: 100%"
-              >ozlemtonbul34@gmail.com</a
-            >
-          </div>
+        <style>
+          .footer-grid .contact-card {
+            position: relative;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+          .footer-grid .contact-card:hover {
+            border-color: var(--accent-primary);
+            background: rgba(59, 130, 246, 0.05);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.1);
+          }
+          .contact-btn-wrapper {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+          }
+          .contact-card:hover .contact-btn-wrapper {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--text-main);
+          }
+        </style>
 
-          <div class="glass-card contact-card">
-            <h3>LinkedIn</h3>
-            <p>Connect with me professionally.</p>
-            <a
-              href="https://www.linkedin.com/in/%C3%B6zlemtonbul/"
-              target="_blank"
-              class="btn btn-outline"
-              style="width: 100%"
-              >View Profile</a
-            >
-          </div>
+        <div class="footer-grid contact-grid-mobile" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 60px;">
+          <!-- Email Card -->
+          <a href="mailto:ozlemtonbul34@gmail.com" class="glass-card contact-card" style="padding: 24px 12px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <h3 style="font-size: 1rem; margin-bottom: 4px; color: var(--text-main);">Email</h3>
+            <div class="contact-btn-wrapper" style="font-size: 0.8rem; padding: 6px 12px;">Send Email</div>
+          </a>
 
-          <div class="glass-card contact-card">
-            <h3>WhatsApp</h3>
-            <p>Available for quick chats.</p>
-            <a
-              href="https://wa.me/905383563198"
-              target="_blank"
-              class="btn btn-outline"
-              style="width: 100%"
-              >Send Message</a
-            >
-          </div>
+          <!-- LinkedIn Card -->
+          <a href="https://linkedin.com/in/özlemtonbul" target="_blank" class="glass-card contact-card" style="padding: 24px 12px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <h3 style="font-size: 1rem; margin-bottom: 4px; color: var(--text-main);">LinkedIn</h3>
+            <div class="contact-btn-wrapper" style="font-size: 0.8rem; padding: 6px 12px;">View Profile</div>
+          </a>
+
+          <!-- GitHub Card -->
+          <a href="https://github.com/ozlemtonbul" target="_blank" class="glass-card contact-card" style="padding: 24px 12px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <h3 style="font-size: 1rem; margin-bottom: 4px; color: var(--text-main);">GitHub</h3>
+            <div class="contact-btn-wrapper" style="font-size: 0.8rem; padding: 6px 12px;">View Projects</div>
+          </a>
+
+          <!-- Blog Card -->
+          <a href="https://blog.ozlemtonbul.com" target="_blank" class="glass-card contact-card" style="padding: 24px 12px; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <h3 style="font-size: 1rem; margin-bottom: 4px; color: var(--text-main);">Blog</h3>
+            <div class="contact-btn-wrapper" style="font-size: 0.8rem; padding: 6px 12px;">Read Articles</div>
+          </a>
         </div>
 
-        <div class="copyright">
-          <p>© 2026 Ozlem Tonbul. Built with clean code and structured data.</p>
-          <p style="margin-top: 8px">
-            <a
-              href="https://github.com/ozlemtonbul"
-              target="_blank"
-              style="margin: 0 10px"
-              >GitHub</a
-            >
-            <a
-              href="https://instagram.com/itswithozlem"
-              target="_blank"
-              style="margin: 0 10px"
-              >Instagram</a
-            >
-          </p>
+        <style>
+          @media (min-width: 768px) {
+            .contact-grid-mobile {
+              grid-template-columns: repeat(4, 1fr) !important;
+              gap: 20px !important;
+            }
+            .contact-grid-mobile .contact-card {
+              padding: 32px 24px !important;
+            }
+            .contact-grid-mobile h3 {
+              font-size: 1.1rem !important;
+            }
+            .contact-grid-mobile .contact-btn-wrapper {
+              font-size: 0.9rem !important;
+              padding: 8px 16px !important;
+            }
+          }
+        </style>
+
+        <div class="copyright" style="padding-top: 32px; border-top: 1px solid var(--border-color); text-align: center;">
+          <p style="color: var(--text-muted); font-size: 0.85rem;">© 2026 Ozlem Tonbul. Built with clean code and structured data.</p>
         </div>
       </div>
     </footer>
