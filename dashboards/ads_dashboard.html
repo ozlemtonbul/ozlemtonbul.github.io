@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ads ML Budget Intelligence · Özlem Tonbul</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ══ EXACT SITE COLORS from ozlemtonbul.com ══
+   Background:  #0f0c1d  (very dark navy/purple)
+   Card bg:     #1a1535  (dark purple)
+   Border:      rgba(255,255,255,0.08)
+   Text:        #e8e0ff
+   Muted:       #94a3b8
+   Green:       #4ade80  (accent)
+   Blue:        #3b82f6  (primary accent)
+   Purple:      #8b5cf6
+   Red:         #f87171
+   
+   PBI CHANNEL COLORS (exact originals):
+   WEB:         #5aaa5a
+   Hepsiburada: #e89428
+   Trendyol:    #c49ac8
+   LCW:         #9898c0
+   
+   PBI CATEGORY COL COLORS:
+   Blue:   #4472C4  Red: #E8423C  Yellow: #FFC000  Green: #70AD47  Purple: #9966CC
+*/
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  font-family:'Inter',system-ui,sans-serif;font-size:13px;
+  background:linear-gradient(145deg,#0a0718 0%,#0f0c1d 40%,#0a0718 100%);
+  color:#e8e0ff;min-height:100vh;
+}
+
+/* ══ NAV ══ */
+.nav{
+  position:sticky;top:0;z-index:999;height:44px;
+  display:flex;align-items:center;padding:0 20px;gap:2px;
+  background:rgba(10,7,24,0.95);border-bottom:1px solid rgba(255,255,255,0.07);
+  backdrop-filter:blur(12px);
+}
+.tab{
+  padding:5px 15px;border-radius:5px;font-size:12px;font-weight:500;
+  color:rgba(232,224,255,0.4);border:none;background:none;
+  cursor:pointer;font-family:inherit;text-decoration:none;display:inline-block;transition:all .15s;
+}
+.tab:hover{background:rgba(255,255,255,0.06);color:#e8e0ff;}
+.tab.on{background:rgba(139,92,246,0.18);color:#c4b5fd;font-weight:600;border:1px solid rgba(139,92,246,0.25);}
+.nsep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 8px;}
+.nr{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.badge{padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;}
+.bg-g{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.2);}
+.bg-p{background:rgba(139,92,246,.12);color:#c4b5fd;border:1px solid rgba(139,92,246,.2);}
+
+/* ══ PAGE SWITCH ══ */
+.pg{display:none;} .pg.on{display:block;}
+.wrap{padding:22px 24px 40px;}
+
+/* ══ PBI TITLE — exact match to screenshot ══ */
+.pbi-title{
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:10px;border-bottom:2.5px solid #4ade80;
+  width:fit-content;margin-bottom:20px;
+}
+.play-btn{
+  width:18px;height:18px;background:#4ade80;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.play-btn::after{content:'▶';font-size:7px;color:#000;margin-left:1px;}
+.pbi-title h1{font-size:17px;font-weight:400;color:#fff;letter-spacing:-.2px;}
+
+/* ══ KPI STRIP ══ */
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.kc{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;padding:16px 18px;
+}
+.kl{font-size:9.5px;color:rgba(232,224,255,0.4);text-transform:uppercase;letter-spacing:.9px;margin-bottom:8px;}
+.kv{font-size:26px;font-weight:700;line-height:1;margin-bottom:5px;color:#fff;}
+.kd{font-size:11px;font-weight:600;}
+.ku{color:#4ade80;} .kdn{color:#f87171;} .knu{color:#94a3b8;}
+
+/* ══ PANEL ══ */
+.panel{
+  background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);
+  border-radius:8px;overflow:hidden;margin-bottom:14px;
+}
+.ph{
+  padding:10px 15px;border-bottom:1px solid rgba(255,255,255,0.06);
+  font-size:10.5px;font-weight:600;color:rgba(232,224,255,0.35);
+  text-transform:uppercase;letter-spacing:.9px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pb{padding:14px;} .pb0{padding:0;}
+
+/* ══ 3-YEAR TABLE ══ */
+.yt{width:100%;border-collapse:collapse;font-size:12.5px;}
+.yt th{
+  padding:10px 16px;background:rgba(255,255,255,.04);
+  color:rgba(232,224,255,.3);font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.yt th:first-child{text-align:left;}
+.yt td{padding:10px 16px;color:rgba(232,224,255,.78);border-bottom:1px solid rgba(255,255,255,.04);text-align:center;}
+.yt td:first-child{color:#fff;font-weight:500;text-align:left;}
+.yt tr:last-child td{border-bottom:none;}
+.du{color:#4ade80;font-weight:700;} .dd{color:#f87171;font-weight:700;}
+.dn-{color:rgba(232,224,255,.35);font-weight:700;}
+
+/* ══ CHANNEL TABLE — exact PBI light colors on dark bg ══ */
+.cht{width:100%;border-collapse:collapse;font-size:12.5px;}
+.cht .rl{
+  font-weight:700;color:#e8e0ff;padding:10px 18px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+  vertical-align:middle;text-align:center;width:90px;
+}
+.cht .yr{
+  font-size:11.5px;font-weight:600;color:#94a3b8;
+  padding:9px 14px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);text-align:center;width:55px;
+}
+.cht th.web  {background:#5aaa5a;color:#fff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
+.cht th.hep  {background:#e89428;color:#fff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
+.cht th.trnd {background:#c49ac8;color:#fff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
+.cht th.lcw  {background:#9898c0;color:#fff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
+.cht th.tot  {background:rgba(255,255,255,.08);color:#e8e0ff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
+.cht td{padding:9px 14px;border:1px solid rgba(255,255,255,.06);text-align:center;color:#cbd5e1;background:rgba(255,255,255,.03);}
+.cht .dr td{background:rgba(255,255,255,.06);font-weight:700;font-size:12px;border-top:none;}
+.cht .pos{color:#4ade80;} .cht .neg{color:#f87171;}
+.cht .sp td{background:transparent;border-color:transparent;height:6px;}
+
+/* ══ CATEGORY TABLE — colored headers ══ */
+.cat{width:100%;border-collapse:collapse;font-size:12px;}
+.cat thead th{padding:8px 11px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.3px;border-bottom:1px solid rgba(255,255,255,.08);}
+.cat thead th:first-child{text-align:left;background:rgba(255,255,255,.06);color:#94a3b8;}
+.cat thead th.hb{background:#4472C4;color:#fff;}
+.cat thead th.hr{background:#E8423C;color:#fff;}
+.cat thead th.hy{background:#FFC000;color:#111;}
+.cat thead th.hg{background:#70AD47;color:#fff;}
+.cat thead th.hp{background:#9966CC;color:#fff;}
+.cat tbody td{padding:7px 11px;border-bottom:1px solid rgba(255,255,255,.04);text-align:center;color:#cbd5e1;}
+.cat tbody td:first-child{text-align:left;font-weight:500;color:#e8e0ff;}
+.cat tbody tr:last-child td{border-bottom:none;}
+.cat tbody tr:hover td{background:rgba(255,255,255,.03);}
+
+/* ══ CHANNEL CARDS ══ */
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.chc{border-radius:7px;padding:13px 14px;border:1px solid rgba(255,255,255,.08);}
+.chn{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;margin-bottom:8px;}
+.chr{font-size:19px;font-weight:700;line-height:1;margin-bottom:2px;}
+.cho{font-size:10px;color:#64748b;margin-bottom:6px;}
+.chd{font-size:11px;font-weight:700;}
+
+/* ══ NOTE ══ */
+.note{
+  margin:10px 14px;padding:10px 13px;
+  background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.18);
+  border-radius:6px;font-size:11px;color:#94a3b8;line-height:1.65;font-style:italic;
+}
+
+/* ══ SECTION LABEL ══ */
+.slbl{font-size:10.5px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1.8px;margin:18px 0 10px;}
+
+/* ══ GRIDS ══ */
+.g2{display:grid;gap:12px;margin-bottom:12px;}
+.g22{grid-template-columns:1fr 1fr;}
+.g64{grid-template-columns:1.35fr 0.65fr;}
+.cw{position:relative;} .ch200{height:200px;} .ch180{height:180px;}
+
+/* ══ FOOTER ══ */
+.footer{margin-top:24px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;font-size:10px;color:#475569;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="tab on" onclick="sw('p1',this)">Ads — 2023/2024</button>
+  <button class="tab" onclick="sw('p2',this)">Ads — 2024/2025</button>
+  <button class="tab" onclick="sw('p3',this)">Ads — 2026 YTD</button>
+  <div class="nsep"></div>
+  <a class="tab" href="seo_dashboard.html">SEO Dashboard →</a>
+  <div class="nr">
+    <span class="badge bg-g">Google Ads API + GA4</span>
+    <span class="badge bg-p">RandomForest · PuLP · Claude API</span>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     PAGE 1 · 2023 vs 2024
+     ══════════════════════════════════ -->
+<div class="pg on" id="p1">
+<div class="wrap">
+  <div class="pbi-title"><div class="play-btn"></div><h1>Yearly Metrics — 2023 vs 2024</h1></div>
+
+  <!-- CHANNEL TABLE -->
+  <table class="cht" style="margin-bottom:20px;">
+    <thead>
+      <tr>
+        <td class="rl" rowspan="2" style="border-bottom:none;"></td>
+        <td class="yr" rowspan="2" style="border-bottom:none;"></td>
+        <th class="web">WEB</th><th class="hep">Hepsiburada</th>
+        <th class="trnd">Trendyol</th><th class="lcw">LCW</th><th class="tot">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rl" rowspan="3">Revenue</td><td class="yr">2024</td>
+        <td>₺72,738,843</td><td>₺34,329,368</td><td>₺23,302,921</td><td>₺4,359,676</td><td><strong style="color:#4ade80">₺134,730,808</strong></td>
+      </tr>
+      <tr>
+        <td class="yr">2023</td>
+        <td>₺44,905,202</td><td>₺11,364,338</td><td>₺3,824,205</td><td>₺0</td><td><strong>₺60,093,745</strong></td>
+      </tr>
+      <tr class="dr"><td class="yr"></td>
+        <td class="pos">+62%</td><td class="pos">+202%</td><td class="pos">+509%</td><td>—</td><td class="pos">+124%</td>
+      </tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr>
+        <td class="rl" rowspan="3">Orders</td><td class="yr">2024</td>
+        <td>52,796</td><td>42,054</td><td>22,745</td><td>4,108</td><td><strong>121,703</strong></td>
+      </tr>
+      <tr>
+        <td class="yr">2023</td>
+        <td>62,643</td><td>20,573</td><td>6,034</td><td>0</td><td><strong>89,250</strong></td>
+      </tr>
+      <tr class="dr"><td class="yr"></td>
+        <td class="neg">−16%</td><td class="pos">+104%</td><td class="pos">+277%</td><td>—</td><td class="pos">+36%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- 4 TREND CHARTS -->
+  <div class="slbl">Monthly Trend — 2022–2024</div>
+  <div class="g2 g22">
+    <div class="panel"><div class="ph">Orders</div><div class="pb"><div class="cw ch200"><canvas id="c1_ord"></canvas></div></div></div>
+    <div class="panel"><div class="ph">Revenue</div><div class="pb"><div class="cw ch200"><canvas id="c1_rev"></canvas></div></div></div>
+  </div>
+  <div class="g2 g22">
+    <div class="panel"><div class="ph">Sessions</div><div class="pb"><div class="cw ch200"><canvas id="c1_ses"></canvas></div></div></div>
+    <div class="panel"><div class="ph">ROAS</div><div class="pb"><div class="cw ch200"><canvas id="c1_roa"></canvas></div></div></div>
+  </div>
+
+  <!-- CATEGORY TABLES -->
+  <div class="slbl">Top Revenue by Gender</div>
+  <div class="panel" style="margin-bottom:14px;"><div class="pb0">
+    <table class="cat">
+      <thead><tr><th style="width:160px;"># &nbsp;Gender</th><th class="hb">Product Detail Views</th><th class="hr">Add to Cart</th><th class="hy">Units Sold</th><th class="hg">Revenue ▼</th><th class="hp">Rev %</th></tr></thead>
+      <tbody>
+        <tr><td>1. &nbsp;Boys</td><td>4,492,378</td><td>295,023</td><td>38,753</td><td>₺36,534,604</td><td>48.93%</td></tr>
+        <tr><td>2. &nbsp;Girls</td><td>4,368,470</td><td>295,464</td><td>39,331</td><td>₺35,146,881</td><td>47.07%</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+
+  <div class="slbl">Top Revenue by Product Group</div>
+  <div class="panel" style="margin-bottom:14px;"><div class="pb0">
+    <table class="cat">
+      <thead><tr><th style="width:160px;"># &nbsp;Group</th><th class="hb">Product Detail Views</th><th class="hr">Add to Cart</th><th class="hy">Units Sold</th><th class="hg">Revenue ▼</th><th class="hp">Rev %</th></tr></thead>
+      <tbody>
+        <tr><td>1. &nbsp;Preschool</td><td>2,737,262</td><td>220,216</td><td>28,810</td><td>₺26,999,862</td><td>36.16%</td></tr>
+        <tr><td>2. &nbsp;Baby</td><td>2,782,057</td><td>185,081</td><td>25,232</td><td>₺21,415,902</td><td>28.68%</td></tr>
+        <tr><td>3. &nbsp;Kids</td><td>2,301,706</td><td>122,822</td><td>14,598</td><td>₺16,413,193</td><td>21.98%</td></tr>
+        <tr><td>4. &nbsp;First Steps</td><td>1,006,949</td><td>59,580</td><td>9,037</td><td>₺6,569,930</td><td>8.80%</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+
+  <div class="slbl">Top Revenue Categories</div>
+  <div class="panel" style="margin-bottom:14px;"><div class="pb0">
+    <table class="cat">
+      <thead><tr><th style="width:160px;"># &nbsp;Category</th><th class="hb">Product Detail Views</th><th class="hr">Add to Cart</th><th class="hy">Units Sold</th><th class="hg">Revenue ▼</th><th class="hp">Rev %</th></tr></thead>
+      <tbody>
+        <tr><td>1. &nbsp;Boots</td><td>2,258,497</td><td>140,113</td><td>18,596</td><td>₺22,053,487</td><td>29.53%</td></tr>
+        <tr><td>2. &nbsp;Sports Shoes</td><td>2,675,294</td><td>167,669</td><td>21,229</td><td>₺18,858,953</td><td>25.26%</td></tr>
+        <tr><td>3. &nbsp;Sneakers</td><td>1,231,468</td><td>85,079</td><td>9,574</td><td>₺9,601,505</td><td>12.86%</td></tr>
+        <tr><td>4. &nbsp;Sandals</td><td>1,009,147</td><td>69,649</td><td>9,888</td><td>₺6,686,029</td><td>8.95%</td></tr>
+        <tr><td>5. &nbsp;Casual Shoes</td><td>779,429</td><td>59,998</td><td>8,938</td><td>₺5,792,894</td><td>7.76%</td></tr>
+        <tr><td>6. &nbsp;Outdoor Boots</td><td>471,619</td><td>28,142</td><td>3,816</td><td>₺4,827,521</td><td>6.47%</td></tr>
+      </tbody>
+    </table>
+  </div></div>
+
+  <div class="footer">
+    <span>Ads ML Budget Intelligence · Google Ads API + GA4 · Python · RandomForest · PuLP</span>
+    <span>github.com/ozlemtonbul/ads-ml-budget-intelligence</span>
+  </div>
+</div></div>
+
+<!-- ══════════════════════════════════
+     PAGE 2 · 2023/2024/2025
+     ══════════════════════════════════ -->
+<div class="pg" id="p2">
+<div class="wrap">
+  <div class="pbi-title"><div class="play-btn"></div><h1>Yearly Metrics — 2023 · 2024 · 2025</h1></div>
+
+  <div class="krow">
+    <div class="kc"><div class="kl">Total Revenue 2025</div><div class="kv" style="color:#4ade80">₺94.6M</div><div class="kd ku">▲ +30% vs 2024</div></div>
+    <div class="kc"><div class="kl">ROAS 2025</div><div class="kv">14.61</div><div class="kd kdn">▼ −10% vs 2024</div></div>
+    <div class="kc"><div class="kl">Avg. Basket Value</div><div class="kv">₺1,884</div><div class="kd ku">▲ +37% vs 2024</div></div>
+    <div class="kc"><div class="kl">Cost per Session</div><div class="kv">₺2.01</div><div class="kd kdn">▲ +46% vs 2024</div></div>
+  </div>
+
+  <div class="g2 g64">
+    <div class="panel">
+      <div class="ph">3-Year Comparison — Revenue · ROAS · Orders · Basket · Sessions</div>
+      <div class="pb0">
+        <table class="yt">
+          <thead><tr><th>Metric</th><th>2023</th><th>Δ</th><th>2024</th><th>Δ</th><th>2025</th></tr></thead>
+          <tbody>
+            <tr><td>Revenue</td><td>₺44,905,202</td><td class="du">+62%</td><td>₺72,738,843</td><td class="du">+30%</td><td>₺94,576,200</td></tr>
+            <tr><td>Ad Spend</td><td>₺2,719,838</td><td class="dd">+65%</td><td>₺4,480,450</td><td class="dd">+45%</td><td>₺6,475,326</td></tr>
+            <tr><td>ROAS</td><td>16.51</td><td class="dd">−2%</td><td>16.23</td><td class="dd">−10%</td><td>14.61</td></tr>
+            <tr><td>Orders</td><td>62,643</td><td class="dd">−16%</td><td>52,796</td><td class="dd">−5%</td><td>50,201</td></tr>
+            <tr><td>Avg. Basket Value</td><td>₺717</td><td class="du">+92%</td><td>₺1,378</td><td class="du">+37%</td><td>₺1,884</td></tr>
+            <tr><td>Sessions</td><td>4,181,362</td><td class="dd">−22%</td><td>3,259,421</td><td class="dn-">−1%</td><td>3,219,662</td></tr>
+            <tr><td>Conversion Rate</td><td>1.50%</td><td class="du">+8%</td><td>1.62%</td><td class="dd">−4%</td><td>1.56%</td></tr>
+            <tr><td>Cost per Session</td><td>₺0.65</td><td class="dd">+111%</td><td>₺1.37</td><td class="dd">+46%</td><td>₺2.01</td></tr>
+          </tbody>
+        </table>
+        <div class="note">In 2025, despite slight decline in orders and sessions, a 37% increase in average basket value drove overall revenue growth of 30%.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph">Channel Revenue — 2024</div>
+      <div class="pb">
+        <div class="ch-grid">
+          <div class="chc" style="background:rgba(90,170,90,.07);border-color:rgba(90,170,90,.2);">
+            <div class="chn" style="color:#6dd86d;">WEB</div>
+            <div class="chr" style="color:#6dd86d;">₺72.7M</div>
+            <div class="cho">52,796 orders</div>
+            <div class="chd" style="color:#6dd86d;">▲ +62%</div>
+          </div>
+          <div class="chc" style="background:rgba(232,148,40,.07);border-color:rgba(232,148,40,.2);">
+            <div class="chn" style="color:#f0b060;">HEPSIBURADA</div>
+            <div class="chr" style="color:#f0b060;">₺34.3M</div>
+            <div class="cho">42,054 orders</div>
+            <div class="chd" style="color:#f0b060;">▲ +202%</div>
+          </div>
+          <div class="chc" style="background:rgba(196,154,200,.07);border-color:rgba(196,154,200,.2);">
+            <div class="chn" style="color:#d4b0d8;">TRENDYOL</div>
+            <div class="chr" style="color:#d4b0d8;">₺23.3M</div>
+            <div class="cho">22,745 orders</div>
+            <div class="chd" style="color:#d4b0d8;">▲ +509%</div>
+          </div>
+          <div class="chc" style="background:rgba(152,152,192,.07);border-color:rgba(152,152,192,.2);">
+            <div class="chn" style="color:#b0b0d8;">LCW</div>
+            <div class="chr" style="color:#b0b0d8;">₺4.4M</div>
+            <div class="cho">4,108 orders</div>
+            <div class="chd" style="color:#64748b;">— New 2024</div>
+          </div>
+        </div>
+        <div class="cw" style="height:130px;margin-top:14px;"><canvas id="c2_pie"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2 g22">
+    <div class="panel"><div class="ph">Monthly Orders — 2022–2025</div><div class="pb"><div class="cw ch200"><canvas id="c2_ord"></canvas></div></div></div>
+    <div class="panel"><div class="ph">Monthly Revenue — 2022–2025</div><div class="pb"><div class="cw ch200"><canvas id="c2_rev"></canvas></div></div></div>
+  </div>
+  <div class="g2 g22">
+    <div class="panel"><div class="ph">Monthly Sessions — 2022–2025</div><div class="pb"><div class="cw ch200"><canvas id="c2_ses"></canvas></div></div></div>
+    <div class="panel"><div class="ph">Monthly ROAS — 2022–2025</div><div class="pb"><div class="cw ch200"><canvas id="c2_roa"></canvas></div></div></div>
+  </div>
+
+  <div class="footer">
+    <span>Ads ML Budget Intelligence · Google Ads API + GA4 · Python · RandomForest · PuLP · Claude API</span>
+    <span>github.com/ozlemtonbul/ads-ml-budget-intelligence</span>
+  </div>
+</div></div>
+
+<!-- ══════════════════════════════════
+     PAGE 3 · 2026 YTD
+     ══════════════════════════════════ -->
+<div class="pg" id="p3">
+<div class="wrap">
+  <div class="pbi-title"><div class="play-btn"></div><h1>2026 YTD — Jan to May 2026</h1></div>
+
+  <div class="krow">
+    <div class="kc"><div class="kl">Total Revenue YTD</div><div class="kv" style="color:#4ade80">₺30.78M</div><div class="kd ku">▲ +21.5% YoY</div></div>
+    <div class="kc"><div class="kl">ROAS 2026 YTD</div><div class="kv">14.39</div><div class="kd ku">▲ +9.5% YoY</div></div>
+    <div class="kc"><div class="kl">Avg. Basket Value</div><div class="kv">₺1,916</div><div class="kd ku">▲ +11.3% YoY</div></div>
+    <div class="kc"><div class="kl">Total Orders</div><div class="kv">16,062</div><div class="kd ku">▲ +9.2% YoY</div></div>
+  </div>
+
+  <div class="g2 g64">
+    <div class="panel">
+      <div class="ph">Monthly WEB Performance — Jan to May 2026</div>
+      <div class="pb0">
+        <table class="yt">
+          <thead><tr><th>Month</th><th>Sessions</th><th>Conv. Rate</th><th>Orders</th><th>Revenue</th></tr></thead>
+          <tbody>
+            <tr><td>January 2026</td><td>227,153</td><td>1.13%</td><td>2,559</td><td>₺5,421,054</td></tr>
+            <tr><td>February 2026</td><td>191,890</td><td>1.27%</td><td>2,446</td><td>₺4,459,422</td></tr>
+            <tr><td>March 2026</td><td>334,104</td><td>1.37%</td><td>4,593</td><td style="color:#4ade80">₺10,162,423</td></tr>
+            <tr><td>April 2026</td><td>308,498</td><td>1.64%</td><td>5,063</td><td>₺8,743,543</td></tr>
+            <tr><td>May 2026 (partial)</td><td>72,289</td><td>1.94%</td><td>1,401</td><td>₺1,991,600</td></tr>
+            <tr style="background:rgba(139,92,246,0.08);">
+              <td><strong style="color:#c4b5fd">YTD Total</strong></td>
+              <td><strong>1,133,934</strong></td><td><strong>1.41%</strong></td>
+              <td><strong>16,062</strong></td><td><strong style="color:#4ade80">₺30,778,042</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="note">March 2026 was the strongest month — ₺10.16M revenue, 4,593 orders. ROAS consistently above 14x across all 2026 months.</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph">Monthly Revenue — 2026</div>
+      <div class="pb"><div class="cw" style="height:220px;"><canvas id="c3_rev"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom:14px;">
+    <div class="ph">Monthly ROAS Trend — Apr 2025 to May 2026</div>
+    <div class="pb"><div class="cw ch200"><canvas id="c3_roas"></canvas></div></div>
+  </div>
+
+  <div class="panel" style="margin-bottom:14px;">
+    <div class="ph">Channel Mix — Jan–May 2026</div>
+    <div class="pb0">
+      <table class="yt">
+        <thead><tr><th>Channel</th><th>Sessions</th><th>Orders</th><th>Revenue</th><th>CVR</th></tr></thead>
+        <tbody>
+          <tr><td>Direct</td><td>248,812</td><td>4,719</td><td>₺10,056,816</td><td>1.90%</td></tr>
+          <tr><td>Google CPC</td><td>218,712</td><td>3,734</td><td>₺8,165,795</td><td>1.71%</td></tr>
+          <tr><td>Organic</td><td>169,584</td><td>2,385</td><td>₺5,160,562</td><td>1.41%</td></tr>
+          <tr><td>Meta</td><td>451,096</td><td>2,249</td><td>₺4,876,826</td><td>0.50%</td></tr>
+          <tr><td>Yandex</td><td>8,295</td><td>80</td><td>₺176,952</td><td>0.96%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Ads ML Budget Intelligence · Google Ads API + GA4 · Python · RandomForest · PuLP · Claude API</span>
+    <span>github.com/ozlemtonbul/ads-ml-budget-intelligence</span>
+  </div>
+</div></div>
+
+<script>
+function sw(id,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  el.classList.add('on');
+}
+
+const M=['Jan22','Feb22','Mar22','Apr22','May22','Jun22','Jul22','Aug22','Sep22','Oct22','Nov22','Dec22',
+         'Jan23','Feb23','Mar23','Apr23','May23','Jun23','Jul23','Aug23','Sep23','Oct23','Nov23','Dec23',
+         'Jan24','Feb24','Mar24','Apr24','May24','Jun24','Jul24','Aug24','Sep24','Oct24','Nov24','Dec24',
+         'Jan25','Feb25','Mar25','Apr25'];
+const ORD=[1541,1463,2515,2412,4362,4151,3701,5548,4382,5303,7977,5048,2562,2259,2967,2412,4323,4121,5497,5724,6479,5439,6007,8565,4807,4923,5175,4655,5200,4213,10045,7118,6555,4994,6500,7890,4213,3875,4625,4166];
+const REV=[2.1,2.4,3.1,2.8,4.2,4.8,3.9,5.5,5.1,6.2,7.1,6.8,3.2,3.1,4.2,3.5,5.1,5.8,5.2,6.9,7.5,8.2,9.1,10.3,5.2,6.1,7.2,6.9,8.1,7.4,12.1,9.8,8.7,9.2,11.5,13.2,7.1,8.9,9.8,9.2].map(v=>v*1e6);
+const SES=[380,310,320,290,420,450,380,510,490,520,580,540,290,245,310,260,380,360,420,480,550,590,620,600,230,210,240,195,280,260,340,260,220,195,380,410,250,280,310,295].map(v=>v*1000);
+const ROA=[11,17,22,18,27,28,25,35,26,25,25,26,18,16,19,15,13,17,18,16,15,14,16,13,12,15,16,15,23,21,19,20,23,19,18,20,18,19,21,20];
+
+const ax=()=>({grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#475569',font:{size:9},maxTicksLimit:9}});
+const lo={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
+
+// Page 1 charts — same data, PBI original colors
+new Chart('c1_ord',{type:'line',data:{labels:M,datasets:[{data:ORD,borderColor:'#4472C4',backgroundColor:'rgba(68,114,196,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#4472C4',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:ax()}}});
+new Chart('c1_rev',{type:'line',data:{labels:M,datasets:[{data:REV,borderColor:'#C0504D',backgroundColor:'rgba(192,80,77,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#C0504D',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:v=>'₺'+(v/1e6).toFixed(1)+'M'}}}}});
+new Chart('c1_ses',{type:'line',data:{labels:M,datasets:[{data:SES,borderColor:'#4BACC6',backgroundColor:'rgba(75,172,198,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#4BACC6',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:v=>(v/1000).toFixed(0)+'K'}}}}});
+new Chart('c1_roa',{type:'line',data:{labels:M,datasets:[{data:ROA,borderColor:'#9966CC',backgroundColor:'rgba(153,102,204,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#9966CC',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:ax()}}});
+
+// Page 2 charts
+new Chart('c2_ord',{type:'line',data:{labels:M,datasets:[{data:ORD,borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#4ade80',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:ax()}}});
+new Chart('c2_rev',{type:'line',data:{labels:M,datasets:[{data:REV,borderColor:'#f87171',backgroundColor:'rgba(248,113,113,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#f87171',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:v=>'₺'+(v/1e6).toFixed(1)+'M'}}}}});
+new Chart('c2_ses',{type:'line',data:{labels:M,datasets:[{data:SES,borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#38bdf8',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:v=>(v/1000).toFixed(0)+'K'}}}}});
+new Chart('c2_roa',{type:'line',data:{labels:M,datasets:[{data:ROA,borderColor:'#c084fc',backgroundColor:'rgba(192,132,252,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#c084fc',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:ax()}}});
+new Chart('c2_pie',{type:'doughnut',data:{labels:['Web','Hepsiburada','Trendyol','LCW'],datasets:[{data:[72738843,34329368,23302921,4359676],backgroundColor:['#5aaa5a','#e89428','#c49ac8','#9898c0'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{color:'rgba(232,224,255,0.5)',font:{size:10},boxWidth:10,padding:8}}}}});
+
+// Page 3 charts
+new Chart('c3_rev',{type:'bar',data:{labels:['Jan 26','Feb 26','Mar 26','Apr 26','May 26*'],datasets:[{data:[5421054,4459422,10162423,8743543,1991600],backgroundColor:['rgba(139,92,246,0.6)','rgba(139,92,246,0.6)','rgba(139,92,246,0.95)','rgba(139,92,246,0.8)','rgba(139,92,246,0.35)'],borderRadius:5}]},options:{...lo,scales:{x:{grid:{display:false},ticks:{color:'#475569',font:{size:10}}},y:{...ax(),ticks:{...ax().ticks,callback:v=>'₺'+(v/1e6).toFixed(1)+'M'}}}}});
+new Chart('c3_roas',{type:'line',data:{labels:['Apr25','May25','Jun25','Jul25','Aug25','Sep25','Oct25','Nov25','Dec25','Jan26','Feb26','Mar26','Apr26','May26'],datasets:[{data:[12.89,16.39,15.06,11.87,13.56,14.81,8.46,16.87,15.94,16.28,18.49,19.56,18.75,16.59],borderColor:'#8b5cf6',backgroundColor:'rgba(139,92,246,0.08)',borderWidth:2,pointRadius:4,pointBackgroundColor:'#8b5cf6',tension:.35,fill:true}]},options:{...lo,scales:{x:{grid:{display:false},ticks:{color:'#475569',font:{size:9}}},y:{...ax()}}}});
+</script>
+</body>
+</html>
