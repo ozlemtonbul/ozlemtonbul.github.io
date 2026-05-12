@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing ETL Dashboard · Özlem Tonbul</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ══ EXACT COLORS from ozlemtonbul.com source ══ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  font-family:'Inter',system-ui,sans-serif;font-size:13px;
+  background:linear-gradient(145deg,#0a0718 0%,#0f0c1d 40%,#0a0718 100%);
+  color:#e8e0ff;min-height:100vh;
+}
+
+/* ══ NAV ══ */
+.nav{
+  position:sticky;top:0;z-index:999;height:44px;
+  display:flex;align-items:center;padding:0 20px;gap:2px;
+  background:rgba(10,7,24,0.95);border-bottom:1px solid rgba(255,255,255,0.07);
+  backdrop-filter:blur(12px);
+}
+.tab{
+  padding:5px 15px;border-radius:5px;font-size:12px;font-weight:500;
+  color:rgba(232,224,255,0.4);border:none;background:none;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+}
+.tab:hover{background:rgba(255,255,255,0.06);color:#e8e0ff;}
+.tab.on{background:rgba(139,92,246,0.18);color:#c4b5fd;font-weight:600;border:1px solid rgba(139,92,246,0.25);}
+.nsep{width:1px;height:18px;background:rgba(255,255,255,0.08);margin:0 8px;}
+.nr{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.badge{padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;}
+.bg-g{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.2);}
+.bg-p{background:rgba(139,92,246,.12);color:#c4b5fd;border:1px solid rgba(139,92,246,.2);}
+
+/* ══ PAGE SWITCH ══ */
+.pg{display:none;} .pg.on{display:block;}
+.wrap{padding:22px 24px 40px;}
+
+/* ══ PBI TITLE ══ */
+.pbi-title{
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:10px;border-bottom:2.5px solid #4ade80;
+  width:fit-content;margin-bottom:20px;
+}
+.play-btn{
+  width:18px;height:18px;background:#4ade80;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.play-btn::after{content:'▶';font-size:7px;color:#000;margin-left:1px;}
+.pbi-title h1{font-size:17px;font-weight:400;color:#fff;letter-spacing:-.2px;}
+
+/* ══ PROOF STRIP ══ */
+.proof-strip{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.12);
+  border-radius:6px;padding:8px 14px;margin-bottom:20px;
+}
+.proof-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0;}
+.proof-txt{font-size:10.5px;color:#64748b;}
+.proof-txt strong{color:#94a3b8;}
+.proof-pills{display:flex;gap:6px;margin-left:auto;flex-shrink:0;}
+.proof-pill{font-size:9px;color:#64748b;border:1px solid rgba(255,255,255,0.07);padding:2px 7px;border-radius:3px;}
+
+/* ══ KPI STRIP ══ */
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.krow3{grid-template-columns:repeat(3,1fr);}
+.kc{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+  border-radius:8px;padding:16px 18px;
+}
+.kl{font-size:9.5px;color:rgba(232,224,255,0.4);text-transform:uppercase;letter-spacing:.9px;margin-bottom:8px;}
+.kv{font-size:26px;font-weight:700;line-height:1;margin-bottom:5px;color:#fff;}
+.kd{font-size:11px;font-weight:600;}
+.ku{color:#4ade80;} .kdn{color:#f87171;} .knu{color:#94a3b8;}
+
+/* ══ PANEL ══ */
+.panel{
+  background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);
+  border-radius:8px;overflow:hidden;margin-bottom:14px;
+}
+.ph{
+  padding:10px 15px;border-bottom:1px solid rgba(255,255,255,0.06);
+  font-size:10.5px;font-weight:600;color:rgba(232,224,255,0.35);
+  text-transform:uppercase;letter-spacing:.9px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ph-r{font-size:9px;color:#475569;font-weight:400;text-transform:none;letter-spacing:0;}
+.pb{padding:14px;} .pb0{padding:0;}
+
+/* ══ FILTER BAR ══ */
+.fbar{
+  display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap;
+  background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);
+  border-radius:8px;padding:12px 16px;margin-bottom:16px;
+}
+.fi{display:flex;flex-direction:column;gap:4px;}
+.fl{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.8px;}
+select{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:4px;color:#e8e0ff;font-family:'Inter',sans-serif;font-size:11px;
+  padding:5px 8px;cursor:pointer;outline:none;min-width:130px;
+}
+select:focus{border-color:rgba(139,92,246,0.5);}
+select option{background:#1a1535;}
+.freset{
+  margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,0.08);
+  border-radius:4px;color:#64748b;font-family:'Inter',sans-serif;font-size:10px;
+  padding:5px 12px;cursor:pointer;
+}
+.freset:hover{color:#4ade80;border-color:rgba(74,222,128,0.3);}
+
+/* ══ TABLE — yearly ══ */
+.yt{width:100%;border-collapse:collapse;font-size:12.5px;}
+.yt th{
+  padding:10px 16px;background:rgba(255,255,255,.04);
+  color:rgba(232,224,255,.3);font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.yt th:first-child{text-align:left;}
+.yt td{padding:10px 16px;color:rgba(232,224,255,.78);border-bottom:1px solid rgba(255,255,255,.04);text-align:center;}
+.yt td:first-child{color:#fff;font-weight:500;text-align:left;}
+.yt tr:last-child td{border-bottom:none;}
+.yt tr:hover td{background:rgba(255,255,255,.02);}
+.du{color:#4ade80;font-weight:700;} .dd{color:#f87171;font-weight:700;}
+
+/* ══ TABLE — category (colored headers) ══ */
+.cat{width:100%;border-collapse:collapse;font-size:12px;}
+.cat thead th{padding:8px 11px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.3px;border-bottom:1px solid rgba(255,255,255,.08);}
+.cat thead th:first-child{text-align:left;background:rgba(255,255,255,.06);color:#94a3b8;}
+.cat thead th.hb{background:#4472C4;color:#fff;}
+.cat thead th.hr{background:#E8423C;color:#fff;}
+.cat thead th.hy{background:#FFC000;color:#111;}
+.cat thead th.hg{background:#70AD47;color:#fff;}
+.cat thead th.hp{background:#9966CC;color:#fff;}
+.cat tbody td{padding:7px 11px;border-bottom:1px solid rgba(255,255,255,.04);text-align:center;color:#cbd5e1;}
+.cat tbody td:first-child{text-align:left;font-weight:500;color:#e8e0ff;}
+.cat tbody tr:last-child td{border-bottom:none;}
+.cat tbody tr:hover td{background:rgba(255,255,255,.03);}
+
+/* ══ ROAS / STATUS BADGES ══ */
+.rb{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600;}
+.rb-h{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.2);}
+.rb-m{background:rgba(251,191,36,.10);color:#fbbf24;border:1px solid rgba(251,191,36,.2);}
+.rb-l{background:rgba(248,113,113,.10);color:#f87171;border:1px solid rgba(248,113,113,.2);}
+
+/* ══ SIM CARDS ══ */
+.sim-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.sim-item{
+  background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.07);
+  border-radius:8px;padding:18px 20px;cursor:pointer;transition:all .15s;
+}
+.sim-item:hover{background:rgba(255,255,255,0.06);}
+.sim-item.active{background:rgba(74,222,128,0.06);border-color:rgba(74,222,128,0.3);border-top:2px solid #4ade80;}
+.sim-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:#64748b;margin-bottom:10px;}
+.sim-item.active .sim-tag{color:#4ade80;}
+.sim-spend{font-size:28px;font-weight:700;color:#fff;line-height:1;margin-bottom:8px;}
+.sim-item.active .sim-spend{color:#4ade80;}
+.sim-det{font-size:11px;color:#475569;line-height:1.8;}
+.sim-item.active .sim-det{color:#64748b;}
+
+/* ══ NOTE ══ */
+.note{
+  margin:10px 14px;padding:10px 13px;
+  background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.18);
+  border-radius:6px;font-size:11px;color:#94a3b8;line-height:1.65;font-style:italic;
+}
+
+/* ══ SECTION LABEL ══ */
+.slbl{font-size:10.5px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1.8px;margin:18px 0 10px;}
+
+/* ══ GRIDS ══ */
+.g2{display:grid;gap:12px;margin-bottom:12px;}
+.g22{grid-template-columns:1fr 1fr;}
+.g33{grid-template-columns:1fr 1fr 1fr;}
+.g64{grid-template-columns:1.4fr 0.6fr;}
+.g23{grid-template-columns:2fr 1fr;}
+.cw{position:relative;} .ch200{height:200px;} .ch180{height:180px;} .ch240{height:240px;}
+
+/* ══ FOOTER ══ */
+.footer{margin-top:24px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;font-size:10px;color:#475569;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="tab on" onclick="sw('p1',this)">Marketing Overview</button>
+  <button class="tab" onclick="sw('p2',this)">Brand Insights</button>
+  <button class="tab" onclick="sw('p3',this)">What-If Simulation</button>
+  <button class="tab" onclick="sw('p4',this)">Product &amp; Region</button>
+  <div class="nsep"></div>
+  <div class="nr">
+    <span class="badge bg-g">Google Ads API + GA4</span>
+    <span class="badge bg-p">RandomForest · PuLP · Claude API</span>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     PAGE 1 · Marketing Performance Overview
+     ══════════════════════════════════ -->
+<div class="pg on" id="p1">
+<div class="wrap">
+
+  <div class="proof-strip">
+    <div class="proof-dot"></div>
+    <div class="proof-txt">Source: <strong>marketing_etl_dashboard.pbix</strong> · Page 1 of 4 · 14 visuals · Data: marketing_ga4_merged_with_kpis · Slicers: Date · Country · Brand Name</div>
+    <div class="proof-pills"><span class="proof-pill">7 cards</span><span class="proof-pill">3 slicers</span><span class="proof-pill">3 line charts</span><span class="proof-pill">1 bar chart</span></div>
+  </div>
+
+  <div class="pbi-title"><div class="play-btn"></div><h1>Marketing Performance Overview — Dec 2023 · May 2024</h1></div>
+
+  <div class="fbar">
+    <div class="fi"><div class="fl">Brand Name</div><select id="p1b" onchange="applyP1()"><option value="All">All brands</option><option>Brand A</option><option>Brand B</option><option>Brand C</option><option>Brand D</option><option>Brand E</option></select></div>
+    <div class="fi"><div class="fl">Country</div><select id="p1c" onchange="applyP1()"><option value="All">All countries</option><option>India</option><option>USA</option><option>Canada</option><option>Kuwait</option><option>Japan</option><option>UAE</option><option>SA</option><option>Turkey</option><option>Singapore</option></select></div>
+    <div class="fi"><div class="fl">Month</div><select id="p1m" onchange="applyP1()"><option value="All">All months</option><option>Dec 2023</option><option>Jan 2024</option><option>Feb 2024</option><option>Mar 2024</option><option>Apr 2024</option><option>May 2024</option></select></div>
+    <button class="freset" onclick="resetP1()">↺ Reset</button>
+  </div>
+
+  <div class="krow" id="p1Kpis"></div>
+
+  <div class="slbl">Monthly Trend — Dec 2023 – May 2024</div>
+  <div class="g2 g22">
+    <div class="panel"><div class="ph">Total Ad Spend</div><div class="pb"><div class="cw ch200"><canvas id="lc1" role="img" aria-label="Monthly ad spend">Ad spend</canvas></div></div></div>
+    <div class="panel"><div class="ph">Profit</div><div class="pb"><div class="cw ch200"><canvas id="lc2" role="img" aria-label="Monthly profit">Profit</canvas></div></div></div>
+  </div>
+  <div class="g2 g22">
+    <div class="panel"><div class="ph">ROAS — monthly avg</div><div class="pb"><div class="cw ch200"><canvas id="lc3" role="img" aria-label="Monthly ROAS">ROAS</canvas></div></div></div>
+    <div class="panel"><div class="ph">Total Sales by Country</div><div class="pb"><div class="cw ch200"><canvas id="bc1" role="img" aria-label="Sales by country">Country</canvas></div></div></div>
+  </div>
+
+  <div class="footer">
+    <span>Marketing ETL · Google Ads API + GA4 · Python · RandomForest · PuLP · Claude API</span>
+    <span>github.com/ozlemtonbul/ads-ml-budget-intelligence</span>
+  </div>
+</div></div>
+
+<!-- ══════════════════════════════════
+     PAGE 2 · Brand-Level Insights
+     ══════════════════════════════════ -->
+<div class="pg" id="p2">
+<div class="wrap">
+
+  <div class="proof-strip">
+    <div class="proof-dot"></div>
+    <div class="proof-txt">Source: <strong>marketing_etl_dashboard.pbix</strong> · Page 2 of 4 · 12 visuals · Data: product_country_performance · Slicers: Brand Name · Country</div>
+    <div class="proof-pills"><span class="proof-pill">2 slicers</span><span class="proof-pill">3 col charts</span><span class="proof-pill">1 scatter</span><span class="proof-pill">5 bar charts</span></div>
+  </div>
+
+  <div class="pbi-title"><div class="play-btn"></div><h1>Brand-Level Marketing Insights</h1></div>
+
+  <div class="fbar">
+    <div class="fi"><div class="fl">Brand Name</div><select id="p2b" onchange="applyP2()"><option value="All">All brands</option><option>Brand A</option><option>Brand B</option><option>Brand C</option><option>Brand D</option><option>Brand E</option></select></div>
+    <div class="fi"><div class="fl">Country</div><select id="p2c" onchange="applyP2()"><option value="All">All countries</option><option>India</option><option>USA</option><option>Canada</option><option>Kuwait</option><option>Japan</option><option>UAE</option><option>SA</option><option>Turkey</option><option>Singapore</option></select></div>
+    <button class="freset" onclick="resetP2()">↺ Reset</button>
+  </div>
+
+  <div class="slbl">Sales · Profit · ROAS by Brand</div>
+  <div class="g2 g33">
+    <div class="panel"><div class="ph">Total Sales by Brand</div><div class="pb"><div class="cw ch200"><canvas id="p2c1" role="img" aria-label="Sales by brand">Sales</canvas></div></div></div>
+    <div class="panel"><div class="ph">Profit by Brand</div><div class="pb"><div class="cw ch200"><canvas id="p2c2" role="img" aria-label="Profit by brand">Profit</canvas></div></div></div>
+    <div class="panel"><div class="ph">Avg ROAS by Brand</div><div class="pb"><div class="cw ch200"><canvas id="p2c3" role="img" aria-label="ROAS by brand">ROAS</canvas></div></div></div>
+  </div>
+
+  <div class="slbl">Spend vs Profit · CPA</div>
+  <div class="g2 g22">
+    <div class="panel"><div class="ph">Spend vs Profit — Bubble = Orders</div><div class="pb"><div class="cw ch240"><canvas id="p2sc" role="img" aria-label="Spend vs profit scatter">Scatter</canvas></div></div></div>
+    <div class="panel"><div class="ph">Avg CPA by Brand</div><div class="pb"><div class="cw ch240"><canvas id="p2cpa" role="img" aria-label="CPA by brand">CPA</canvas></div></div></div>
+  </div>
+
+  <div class="slbl">Country Breakdown</div>
+  <div class="g2 g33">
+    <div class="panel"><div class="ph">Sales by Country</div><div class="pb"><div class="cw ch200"><canvas id="p2cc1" role="img" aria-label="Sales by country">C1</canvas></div></div></div>
+    <div class="panel"><div class="ph">Orders by Country</div><div class="pb"><div class="cw ch200"><canvas id="p2cc2" role="img" aria-label="Orders by country">C2</canvas></div></div></div>
+    <div class="panel"><div class="ph">Profit by Country</div><div class="pb"><div class="cw ch200"><canvas id="p2cc3" role="img" aria-label="Profit by country">C3</canvas></div></div></div>
+  </div>
+
+  <div class="slbl">Brand × Country — Performance Table</div>
+  <div class="panel"><div class="pb0"><table class="cat" id="p2tbl"></table></div></div>
+
+  <div class="footer">
+    <span>Marketing ETL · Google Ads API + GA4 · Python · RandomForest · PuLP · Claude API</span>
+    <span>github.com/ozlemtonbul/ads-ml-budget-intelligence</span>
+  </div>
+</div></div>
+
+<!-- ══════════════════════════════════
+     PAGE 3 · What-If Simulation
+     ══════════════════════════════════ -->
+<div class="pg" id="p3">
+<div class="wrap">
+
+  <div class="proof-strip">
+    <div class="proof-dot"></div>
+    <div class="proof-txt">Source: <strong>marketing_etl_dashboard.pbix</strong> · Page 3 of 4 · 10 visuals · Data: what_if_budget_simulation · Slicer: Scenario · PuLP linear optimizer</div>
+    <div class="proof-pills"><span class="proof-pill">1 slicer</span><span class="proof-pill">3 cards</span><span class="proof-pill">3 col charts</span><span class="proof-pill">3 stacked bars</span></div>
+  </div>
+
+  <div class="pbi-title"><div class="play-btn"></div><h1>Scenario Simulation — What-If Analysis</h1></div>
+
+  <div class="slbl">Select Scenario — Click to Update All Visuals</div>
+  <div class="sim-row">
+    <div class="sim-item" onclick="selectSim(this,'-19%')">
+      <div class="sim-tag">−19% budget</div>
+      <div class="sim-spend">$9.1M</div>
+      <div class="sim-det">Total sales → $53.4M<br>Total profit → $44.3M<br>ROAS → 5.89×</div>
+    </div>
+    <div class="sim-item active" onclick="selectSim(this,'0%')">
+      <div class="sim-tag">Baseline — 0%</div>
+      <div class="sim-spend">$11.3M</div>
+      <div class="sim-det">Total sales → $66.7M<br>Total profit → $55.4M<br>ROAS → 5.89×</div>
+    </div>
+    <div class="sim-item" onclick="selectSim(this,'+19%')">
+      <div class="sim-tag">+19% budget</div>
+      <div class="sim-spend">$13.6M</div>
+      <div class="sim-det">Total sales → $80.1M<br>Total profit → $66.5M<br>ROAS → 5.89×</div>
+    </div>
+  </div>
+
+  <div class="krow krow3" id="simKpis"></div>
+
+  <div class="slbl">Sales · Profit · ROAS by Scenario</div>
+  <div class="g2 g33">
+    <div class="panel"><div class="ph">Total Sales</div><div class="pb"><div class="cw ch200"><canvas id="s1" role="img" aria-label="Sales by scenario">S1</canvas></div></div></div>
+    <div class="panel"><div class="ph">Total Profit</div><div class="pb"><div class="cw ch200"><canvas id="s2" role="img" aria-label="Profit by scenario">S2</canvas></div></div></div>
+    <div class="panel"><div class="ph">ROAS</div><div class="pb"><div class="cw ch200"><canvas id="s3" role="img" aria-label="ROAS by scenario">S3</canvas></div></div></div>
+  </div>
+
+  <div class="slbl">100% Composition — Stacked</div>
+  <div class="g2 g33">
+    <div class="panel"><div class="ph">% Sales Share</div><div class="pb"><div class="cw ch200"><canvas id="s4" role="img" aria-label="Sales pct">S4</canvas></div></div></div>
+    <div class="panel"><div class="ph">% Profit Share</div><div class="pb"><div class="cw ch200"><canvas id="s5" role="img" aria-label="Profit pct">S5</canvas></div></div></div>
+    <div class="panel"><div class="ph">Spend vs Return Ratio</div><div class="pb"><div class="cw ch200"><canvas id="s6" role="img" aria-label="Spend return stacked">S6</canvas></div></div></div>
+  </div>
+
+  <div class="footer">
+    <span>Marketing ETL · Google Ads API + GA4 · Python · RandomForest · PuLP · Claude API</span>
+    <span>github.com/ozlemtonbul/ads-ml-budget-intelligence</span>
+  </div>
+</div></div>
+
+<!-- ══════════════════════════════════
+     PAGE 4 · Product & Region
+     ══════════════════════════════════ -->
+<div class="pg" id="p4">
+<div class="wrap">
+
+  <div class="proof-strip">
+    <div class="proof-dot"></div>
+    <div class="proof-txt">Source: <strong>marketing_etl_dashboard.pbix</strong> · Page 4 of 4 · 10 visuals · Data: lp_budget_recommendations · Slicers: Brand Name · Country</div>
+    <div class="proof-pills"><span class="proof-pill">2 slicers</span><span class="proof-pill">3 cards</span><span class="proof-pill">5 bar charts</span><span class="proof-pill">1 table</span></div>
+  </div>
+
+  <div class="pbi-title"><div class="play-btn"></div><h1>Product &amp; Region Performance + KPI Diagnostics</h1></div>
+
+  <div class="fbar">
+    <div class="fi"><div class="fl">Brand Name</div><select id="p4b" onchange="applyP4()"><option value="All">All brands</option><option>Brand A</option><option>Brand B</option><option>Brand C</option><option>Brand D</option><option>Brand E</option></select></div>
+    <div class="fi"><div class="fl">Country</div><select id="p4c" onchange="applyP4()"><option value="All">All countries</option><option>India</option><option>USA</option><option>Canada</option><option>Kuwait</option><option>Japan</option><option>UAE</option><option>SA</option><option>Turkey</option><option>Singapore</option></select></div>
+    <button class="freset" onclick="resetP4()">↺ Reset</button>
+  </div>
+
+  <div class="krow krow3" id="p4Kpis"></div>
+
+  <div class="slbl">Budget Recommendations — LP Model</div>
+  <div class="g2 g22">
+    <div class="panel"><div class="ph">Recommended LP Budget by Brand</div><div class="pb"><div class="cw ch200"><canvas id="p4c1" role="img" aria-label="LP budget">LP</canvas></div></div></div>
+    <div class="panel"><div class="ph">ROAS by Brand</div><div class="pb"><div class="cw ch200"><canvas id="p4c2" role="img" aria-label="ROAS">ROAS</canvas></div></div></div>
+  </div>
+
+  <div class="slbl">Revenue · Predicted ROAS · Profit</div>
+  <div class="g2 g33">
+    <div class="panel"><div class="ph">Revenue by Brand</div><div class="pb"><div class="cw ch180"><canvas id="p4c3" role="img" aria-label="Revenue by brand">Rev</canvas></div></div></div>
+    <div class="panel"><div class="ph">Predicted ROAS — RandomForest</div><div class="pb"><div class="cw ch180"><canvas id="p4c4" role="img" aria-label="Predicted ROAS">PR</canvas></div></div></div>
+    <div class="panel"><div class="ph">Profit by Brand</div><div class="pb"><div class="cw ch180"><canvas id="p4c5" role="img" aria-label="Profit by brand">Prof</canvas></div></div></div>
+  </div>
+
+  <div class="slbl">KPI Diagnostics — Brand × Country</div>
+  <div class="panel"><div class="pb0"><table class="cat" id="p4tbl"></table></div></div>
+
+  <div class="footer">
+    <span>Marketing ETL · Google Ads API + GA4 · Python · RandomForest · PuLP · Claude API</span>
+    <span>github.com/ozlemtonbul/ads-ml-budget-intelligence</span>
+  </div>
+</div></div>
+
+<script>
+/* ── DATA ── */
+const RAW=[
+  {date:'Dec 2023',brand:'Brand A',country:'India',spend:350000,profit:1800000,sales:2100000,orders:320,roas:5.14},
+  {date:'Dec 2023',brand:'Brand B',country:'India',spend:280000,profit:2200000,sales:2500000,orders:290,roas:8.93},
+  {date:'Dec 2023',brand:'Brand C',country:'India',spend:520000,profit:8400000,sales:9000000,orders:680,roas:17.3},
+  {date:'Dec 2023',brand:'Brand D',country:'India',spend:210000,profit:3100000,sales:3400000,orders:220,roas:16.2},
+  {date:'Dec 2023',brand:'Brand E',country:'India',spend:180000,profit:2800000,sales:3100000,orders:310,roas:17.2},
+  {date:'Dec 2023',brand:'Brand A',country:'USA',spend:420000,profit:1100000,sales:1400000,orders:280,roas:3.33},
+  {date:'Dec 2023',brand:'Brand B',country:'USA',spend:380000,profit:1400000,sales:1700000,orders:250,roas:4.47},
+  {date:'Dec 2023',brand:'Brand C',country:'USA',spend:550000,profit:980000,sales:1300000,orders:200,roas:2.36},
+  {date:'Dec 2023',brand:'Brand D',country:'USA',spend:290000,profit:1200000,sales:1500000,orders:180,roas:5.17},
+  {date:'Dec 2023',brand:'Brand E',country:'USA',spend:310000,profit:2100000,sales:2400000,orders:340,roas:7.74},
+  {date:'Jan 2024',brand:'Brand A',country:'India',spend:290000,profit:580000,sales:750000,orders:90,roas:2.59},
+  {date:'Jan 2024',brand:'Brand B',country:'India',spend:260000,profit:900000,sales:1100000,orders:115,roas:4.23},
+  {date:'Jan 2024',brand:'Brand C',country:'India',spend:440000,profit:2800000,sales:3200000,orders:280,roas:7.27},
+  {date:'Jan 2024',brand:'Brand D',country:'USA',spend:250000,profit:1100000,sales:1300000,orders:160,roas:5.2},
+  {date:'Jan 2024',brand:'Brand E',country:'USA',spend:200000,profit:1600000,sales:1900000,orders:220,roas:9.5},
+  {date:'Feb 2024',brand:'Brand A',country:'USA',spend:310000,profit:400000,sales:600000,orders:70,roas:1.94},
+  {date:'Feb 2024',brand:'Brand C',country:'India',spend:420000,profit:800000,sales:1100000,orders:130,roas:2.62},
+  {date:'Feb 2024',brand:'Brand E',country:'India',spend:240000,profit:640000,sales:820000,orders:140,roas:3.42},
+  {date:'Mar 2024',brand:'Brand A',country:'India',spend:360000,profit:680000,sales:950000,orders:160,roas:2.64},
+  {date:'Mar 2024',brand:'Brand B',country:'USA',spend:320000,profit:870000,sales:1100000,orders:180,roas:3.44},
+  {date:'Mar 2024',brand:'Brand C',country:'India',spend:510000,profit:1400000,sales:1800000,orders:260,roas:3.53},
+  {date:'Mar 2024',brand:'Brand D',country:'India',spend:280000,profit:780000,sales:1000000,orders:140,roas:3.57},
+  {date:'Mar 2024',brand:'Brand E',country:'USA',spend:260000,profit:760000,sales:1000000,orders:180,roas:3.85},
+  {date:'Apr 2024',brand:'Brand A',country:'USA',spend:380000,profit:640000,sales:900000,orders:140,roas:2.37},
+  {date:'Apr 2024',brand:'Brand B',country:'India',spend:310000,profit:900000,sales:1200000,orders:170,roas:3.87},
+  {date:'Apr 2024',brand:'Brand C',country:'USA',spend:490000,profit:680000,sales:1000000,orders:150,roas:2.04},
+  {date:'Apr 2024',brand:'Brand D',country:'India',spend:270000,profit:820000,sales:1050000,orders:130,roas:3.89},
+  {date:'May 2024',brand:'Brand C',country:'India',spend:480000,profit:1300000,sales:1700000,orders:240,roas:3.54},
+  {date:'May 2024',brand:'Brand E',country:'India',spend:290000,profit:900000,sales:1200000,orders:200,roas:4.14},
+  {date:'May 2024',brand:'Brand A',country:'India',spend:260000,profit:540000,sales:720000,orders:120,roas:2.77},
+  {date:'May 2024',brand:'Brand D',country:'USA',spend:300000,profit:770000,sales:1000000,orders:155,roas:3.33},
+];
+const PC=[
+  {brand:'Brand A',country:'Canada',sales:117120,spend:3417,orders:9,profit:113703,roas:34.28,cpa:380},
+  {brand:'Brand A',country:'India',sales:3793797,spend:893560,orders:458,profit:2900237,roas:4.03,cpa:3052},
+  {brand:'Brand A',country:'Japan',sales:184613,spend:53534,orders:60,profit:131079,roas:4.22,cpa:1588},
+  {brand:'Brand A',country:'Kuwait',sales:11060,spend:8571,orders:2,profit:2489,roas:1.29,cpa:4286},
+  {brand:'Brand A',country:'SA',sales:95582,spend:32037,orders:36,profit:63545,roas:6.36,cpa:2006},
+  {brand:'Brand A',country:'Singapore',sales:191521,spend:17463,orders:42,profit:174058,roas:0.10,cpa:1940},
+  {brand:'Brand A',country:'Turkey',sales:78641,spend:21804,orders:24,profit:56837,roas:4.37,cpa:1565},
+  {brand:'Brand A',country:'UAE',sales:302838,spend:147522,orders:68,profit:155316,roas:4.87,cpa:4156},
+  {brand:'Brand A',country:'USA',sales:3391905,spend:1168730,orders:897,profit:2223175,roas:4.79,cpa:1923},
+  {brand:'Brand B',country:'India',sales:4882658,spend:858834,orders:454,profit:4023824,roas:5.96,cpa:3095},
+  {brand:'Brand B',country:'Japan',sales:315888,spend:79502,orders:79,profit:236386,roas:4.22,cpa:1496},
+  {brand:'Brand B',country:'Kuwait',sales:153670,spend:7915,orders:15,profit:145755,roas:19.42,cpa:528},
+  {brand:'Brand B',country:'SA',sales:153780,spend:40360,orders:39,profit:113420,roas:4.05,cpa:2178},
+  {brand:'Brand B',country:'Singapore',sales:190759,spend:0,orders:33,profit:190759,roas:0,cpa:0},
+  {brand:'Brand B',country:'Turkey',sales:157925,spend:41915,orders:49,profit:116010,roas:3.86,cpa:1025},
+  {brand:'Brand B',country:'UAE',sales:296196,spend:81230,orders:67,profit:214966,roas:4.03,cpa:1824},
+  {brand:'Brand B',country:'USA',sales:2975494,spend:934610,orders:798,profit:2040884,roas:4.17,cpa:1796},
+  {brand:'Brand C',country:'Canada',sales:2867532,spend:93293,orders:242,profit:2774239,roas:33.06,cpa:410},
+  {brand:'Brand C',country:'India',sales:16749041,spend:944455,orders:1813,profit:15804586,roas:19.44,cpa:583},
+  {brand:'Brand C',country:'Japan',sales:90079,spend:33492,orders:18,profit:56587,roas:4.21,cpa:1776},
+  {brand:'Brand C',country:'Kuwait',sales:2467184,spend:78720,orders:242,profit:2388464,roas:34.14,cpa:359},
+  {brand:'Brand C',country:'SA',sales:84662,spend:25999,orders:31,profit:58663,roas:3.99,cpa:927},
+  {brand:'Brand C',country:'Turkey',sales:173119,spend:100086,orders:57,profit:73033,roas:2.20,cpa:1876},
+  {brand:'Brand C',country:'UAE',sales:324132,spend:197360,orders:93,profit:126772,roas:1.68,cpa:2625},
+  {brand:'Brand C',country:'USA',sales:3432899,spend:1824264,orders:789,profit:1608635,roas:2.13,cpa:3736},
+  {brand:'Brand D',country:'Canada',sales:742350,spend:21869,orders:9,profit:720481,roas:37.96,cpa:3449},
+  {brand:'Brand D',country:'India',sales:4984596,spend:547223,orders:114,profit:4437373,roas:9.94,cpa:5202},
+  {brand:'Brand D',country:'Japan',sales:537959,spend:161541,orders:153,profit:376418,roas:3.42,cpa:1483},
+  {brand:'Brand D',country:'Kuwait',sales:575800,spend:19779,orders:8,profit:556021,roas:32.27,cpa:2472},
+  {brand:'Brand D',country:'SA',sales:138883,spend:27248,orders:28,profit:111635,roas:5.20,cpa:1795},
+  {brand:'Brand D',country:'Singapore',sales:15455,spend:13892,orders:3,profit:1563,roas:0.003,cpa:4631},
+  {brand:'Brand D',country:'Turkey',sales:45455,spend:9614,orders:10,profit:35841,roas:4.38,cpa:1032},
+  {brand:'Brand D',country:'UAE',sales:231140,spend:62826,orders:47,profit:168314,roas:5.38,cpa:2224},
+  {brand:'Brand D',country:'USA',sales:3259248,spend:869061,orders:776,profit:2390187,roas:6.78,cpa:1894},
+  {brand:'Brand E',country:'India',sales:8307000,spend:1069630,orders:818,profit:7237370,roas:8.66,cpa:1845},
+  {brand:'Brand E',country:'Japan',sales:59331,spend:10531,orders:14,profit:48800,roas:30624,cpa:1240},
+  {brand:'Brand E',country:'SA',sales:263389,spend:10960,orders:53,profit:252429,roas:116.5,cpa:429},
+  {brand:'Brand E',country:'Singapore',sales:35226,spend:0,orders:6,profit:35226,roas:0,cpa:0},
+  {brand:'Brand E',country:'Turkey',sales:76196,spend:16918,orders:19,profit:59278,roas:1.51,cpa:655},
+  {brand:'Brand E',country:'UAE',sales:270430,spend:56652,orders:53,profit:213778,roas:6.70,cpa:1425},
+  {brand:'Brand E',country:'USA',sales:3699384,spend:736258,orders:844,profit:2963126,roas:10.49,cpa:1478},
+];
+const LP=[
+  {brand:'Brand A',country:'India',sales:3793797,spend:893560,profit:2900237,roas:4.03,predRoas:4.50,recBudget:0},
+  {brand:'Brand A',country:'USA',sales:3391905,spend:1168730,profit:2223175,roas:4.79,predRoas:5.00,recBudget:0},
+  {brand:'Brand B',country:'India',sales:4882658,spend:858834,profit:4023824,roas:5.96,predRoas:6.20,recBudget:0},
+  {brand:'Brand B',country:'Kuwait',sales:153670,spend:7915,profit:145755,roas:19.42,predRoas:20.0,recBudget:0},
+  {brand:'Brand C',country:'India',sales:16749041,spend:944455,profit:15804586,roas:19.44,predRoas:21.0,recBudget:0},
+  {brand:'Brand C',country:'Canada',sales:2867532,spend:93293,profit:2774239,roas:33.06,predRoas:35.0,recBudget:500},
+  {brand:'Brand C',country:'Kuwait',sales:2467184,spend:78720,profit:2388464,roas:34.14,predRoas:36.0,recBudget:500},
+  {brand:'Brand D',country:'Canada',sales:742350,spend:21869,profit:720481,roas:37.96,predRoas:38.0,recBudget:0},
+  {brand:'Brand D',country:'India',sales:4984596,spend:547223,profit:4437373,roas:9.94,predRoas:10.5,recBudget:0},
+  {brand:'Brand E',country:'Japan',sales:59331,spend:10531,profit:48800,roas:30624,predRoas:53851,recBudget:1000},
+  {brand:'Brand E',country:'India',sales:8307000,spend:1069630,profit:7237370,roas:8.66,predRoas:9.2,recBudget:0},
+  {brand:'Brand E',country:'SA',sales:263389,spend:10960,profit:252429,roas:116.5,predRoas:120,recBudget:0},
+];
+const SIM=[
+  {sc:'-19%',spend:9058139,sales:53379150,profit:44321011,roas:5.89},
+  {sc:'0%',spend:11322674,sales:66723937,profit:55401263,roas:5.89},
+  {sc:'+19%',spend:13587208,sales:80068725,profit:66481516,roas:5.89},
+];
+
+/* ── CONSTANTS ── */
+const MONTHS=['Dec 2023','Jan 2024','Feb 2024','Mar 2024','Apr 2024','May 2024'];
+const BRANDS=['Brand A','Brand B','Brand C','Brand D','Brand E'];
+const COUNTRIES=['India','USA','Canada','Kuwait','Japan','UAE','SA','Turkey','Singapore'];
+// PBI original colors from ozlemtonbul source
+const BC=['#4472C4','#E8423C','#FFC000','#70AD47','#9966CC'];
+const CC=['#4472C4','#E8423C','#FFC000','#70AD47','#9966CC','#4BACC6','#F79646','#C0504D','#1F497D'];
+
+const f=(n,d=1)=>n>=1e6?'$'+(n/1e6).toFixed(d)+'M':n>=1e3?'$'+(n/1e3).toFixed(0)+'K':'$'+Math.round(n);
+const ax=()=>({grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#475569',font:{size:9},maxTicksLimit:8}});
+const lo={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(10,7,24,0.95)',titleColor:'#e8e0ff',bodyColor:'#94a3b8',borderColor:'rgba(255,255,255,0.08)',borderWidth:1}}};
+
+function mkC(id,type,labels,datasets,extra={}){
+  const el=document.getElementById(id);if(!el)return;
+  if(el._c)el._c.destroy();
+  el._c=new Chart(el,{type,data:{labels,datasets},options:{...lo,...extra,plugins:{...lo.plugins,...(extra.plugins||{})},scales:{x:ax(),y:ax(),...(extra.scales||{})}}});
+}
+
+/* ── PAGE 1 ── */
+function fP1(){const b=document.getElementById('p1b').value,c=document.getElementById('p1c').value,m=document.getElementById('p1m').value;return RAW.filter(d=>(b==='All'||d.brand===b)&&(c==='All'||d.country===c)&&(m==='All'||d.date===m));}
+function applyP1(){
+  const d=fP1();
+  const spend=d.reduce((a,b)=>a+b.spend,0),profit=d.reduce((a,b)=>a+b.profit,0),sales=d.reduce((a,b)=>a+b.sales,0),orders=d.reduce((a,b)=>a+b.orders,0),roas=spend?profit/spend:0;
+  document.getElementById('p1Kpis').innerHTML=[
+    {l:'Total Ad Spend',v:f(spend),d:d.length+' records',c:'knu'},
+    {l:'Total Sales',v:f(sales),d:'gross revenue',c:'knu'},
+    {l:'Profit',v:f(profit),d:'▲ net return',c:'ku'},
+    {l:'ROAS',v:roas.toFixed(2)+'×',d:roas>=5?'▲ strong performance':'▼ below target',c:roas>=5?'ku':'kdn'},
+    {l:'Total Orders',v:orders.toLocaleString(),d:'all brands',c:'knu'},
+    {l:'Avg CPA',v:f(orders?spend/orders:0),d:'per order',c:'knu'},
+    {l:'Net Margin',v:sales?(profit/sales*100).toFixed(1)+'%':'—',d:'profit / sales',c:'ku'},
+    {l:'Orders Count',v:d.length,d:'filtered rows',c:'knu'},
+  ].slice(0,4).map(k=>`<div class="kc"><div class="kl">${k.l}</div><div class="kv">${k.v}</div><div class="kd ${k.c}">${k.d}</div></div>`).join('');
+
+  const byM=MONTHS.map(m=>({m,spend:d.filter(x=>x.date===m).reduce((a,b)=>a+b.spend,0),profit:d.filter(x=>x.date===m).reduce((a,b)=>a+b.profit,0),roas:d.filter(x=>x.date===m).length?d.filter(x=>x.date===m).reduce((a,b)=>a+b.roas,0)/d.filter(x=>x.date===m).length:0}));
+
+  mkC('lc1','line',byM.map(x=>x.m),[{data:byM.map(x=>x.spend),borderColor:'#4472C4',backgroundColor:'rgba(68,114,196,0.08)',borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#4472C4',tension:.35,fill:true}],{scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:v=>f(v)}}}});
+  mkC('lc2','line',byM.map(x=>x.m),[{data:byM.map(x=>x.profit),borderColor:'#4ade80',backgroundColor:'rgba(74,222,128,0.08)',borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#4ade80',tension:.35,fill:true}],{scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:v=>f(v)}}}});
+  mkC('lc3','line',byM.map(x=>x.m),[{data:byM.map(x=>+x.roas.toFixed(2)),borderColor:'#9966CC',backgroundColor:'rgba(153,102,204,0.08)',borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#9966CC',tension:.35,fill:true}],{scales:{x:ax(),y:ax()}});
+  const byCo=COUNTRIES.map(c=>({c,s:d.filter(x=>x.country===c).reduce((a,b)=>a+b.sales,0)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s);
+  mkC('bc1','bar',byCo.map(x=>x.c),[{data:byCo.map(x=>x.s),backgroundColor:byCo.map((_,i)=>CC[i%CC.length]+'cc'),borderRadius:3,barPercentage:.65}],{indexAxis:'y',scales:{x:{...ax(),ticks:{...ax().ticks,callback:v=>f(v)}},y:{...ax()}}});
+}
+function resetP1(){['p1b','p1c','p1m'].forEach(id=>document.getElementById(id).value='All');applyP1();}
+
+/* ── PAGE 2 ── */
+function fP2(){const b=document.getElementById('p2b').value,c=document.getElementById('p2c').value;return PC.filter(d=>(b==='All'||d.brand===b)&&(c==='All'||d.country===c));}
+function applyP2(){
+  const d=fP2();
+  const byB=BRANDS.map(b=>{const r=d.filter(x=>x.brand===b);return{b,sales:r.reduce((a,c)=>a+c.sales,0),profit:r.reduce((a,c)=>a+c.profit,0),orders:r.reduce((a,c)=>a+c.orders,0),spend:r.reduce((a,c)=>a+c.spend,0),roas:r.length?r.reduce((a,c)=>a+Math.min(c.roas,50),0)/r.length:0,cpa:r.length?r.reduce((a,c)=>a+c.cpa,0)/r.length:0};}).filter(x=>x.sales>0);
+  const byCo=COUNTRIES.map(c=>{const r=d.filter(x=>x.country===c);return{c,sales:r.reduce((a,b)=>a+b.sales,0),orders:r.reduce((a,b)=>a+b.orders,0),profit:r.reduce((a,b)=>a+b.profit,0)};}).filter(x=>x.sales>0).sort((a,b)=>b.sales-a.sales);
+
+  const bBar=(id,data,cb,horiz)=>mkC(id,'bar',byB.map(x=>x.b),[{data:byB.map(data),backgroundColor:byB.map((_,i)=>BC[i]+'cc'),borderRadius:3,barPercentage:.65}],{...(horiz?{indexAxis:'y'}:{}),scales:{x:{...ax(),...(horiz?{ticks:{...ax().ticks,callback:cb}}:{})},y:{...ax(),...(!horiz&&cb?{ticks:{...ax().ticks,callback:cb}}:{})}}});
+  bBar('p2c1',x=>x.sales,v=>f(v));
+  bBar('p2c2',x=>x.profit,v=>f(v));
+  bBar('p2c3',x=>+x.roas.toFixed(1));
+  mkC('p2sc','bubble',null,[{data:byB.map((x,i)=>({x:x.spend,y:x.profit,r:Math.max(5,Math.sqrt(x.orders)/3)})),backgroundColor:byB.map((_,i)=>BC[i]+'99'),borderColor:byB.map((_,i)=>BC[i])}],{plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(10,7,24,0.95)',titleColor:'#e8e0ff',bodyColor:'#94a3b8',borderColor:'rgba(255,255,255,0.08)',borderWidth:1,callbacks:{label:(ctx)=>`${byB[ctx.dataIndex]?.b}: spend=${f(ctx.raw.x)}, profit=${f(ctx.raw.y)}`}}},scales:{x:{...ax(),ticks:{...ax().ticks,callback:v=>f(v)},title:{display:true,text:'Ad Spend',color:'#475569',font:{size:9}}},y:{...ax(),ticks:{...ax().ticks,callback:v=>f(v)},title:{display:true,text:'Profit',color:'#475569',font:{size:9}}}}});
+  mkC('p2cpa','bar',byB.map(x=>x.b),[{data:byB.map(x=>Math.round(x.cpa)),backgroundColor:byB.map((_,i)=>BC[i]+'cc'),borderRadius:3,barPercentage:.65}],{indexAxis:'y',scales:{x:{...ax(),ticks:{...ax().ticks,callback:v=>f(v)}},y:ax()}});
+
+  const cBar=(id,key)=>mkC(id,'bar',byCo.map(x=>x.c),[{data:byCo.map(x=>x[key]),backgroundColor:byCo.map((_,i)=>CC[i%CC.length]+'cc'),borderRadius:3,barPercentage:.65}],{indexAxis:'y',scales:{x:{...ax(),ticks:{...ax().ticks,callback:key==='orders'?v=>v.toLocaleString():v=>f(v)}},y:ax()}});
+  cBar('p2cc1','sales');cBar('p2cc2','orders');cBar('p2cc3','profit');
+
+  document.getElementById('p2tbl').innerHTML=`<thead><tr><th style="width:100px"># Brand</th><th class="hb">Country</th><th class="hr">Sales</th><th class="hy">Spend</th><th class="hg">Profit</th><th class="hp">ROAS</th><th class="hb">Avg CPA</th></tr></thead><tbody>${[...d].sort((a,b)=>b.profit-a.profit).slice(0,15).map((r,i)=>`<tr><td>${i+1}. ${r.brand}</td><td>${r.country}</td><td>${f(r.sales)}</td><td>${f(r.spend)}</td><td style="color:#4ade80;font-weight:600;">${f(r.profit)}</td><td><span class="rb ${r.roas>=10?'rb-h':r.roas>=5?'rb-m':'rb-l'}">${r.roas>=1000?'100×+':r.roas.toFixed(1)+'×'}</span></td><td>${f(r.cpa)}</td></tr>`).join('')}</tbody>`;
+}
+function resetP2(){['p2b','p2c'].forEach(id=>document.getElementById(id).value='All');applyP2();}
+
+/* ── PAGE 3 ── */
+let activeSim='0%';
+function selectSim(el,sc){activeSim=sc;document.querySelectorAll('.sim-item').forEach(x=>x.classList.remove('active'));el.classList.add('active');applyP3();}
+function applyP3(){
+  const cur=SIM.find(x=>x.sc===activeSim)||SIM[1];
+  document.getElementById('simKpis').innerHTML=[
+    {l:'Total Sales',v:f(cur.sales),d:'selected scenario',c:'ku'},
+    {l:'Total Profit',v:f(cur.profit),d:'net return',c:'ku'},
+    {l:'ROAS',v:cur.roas.toFixed(2)+'×',d:'return on ad spend',c:'ku'},
+  ].map(k=>`<div class="kc"><div class="kl">${k.l}</div><div class="kv" style="color:#4ade80">${k.v}</div><div class="kd ${k.c}">${k.d}</div></div>`).join('');
+
+  const active='#4ade80',inactive='rgba(255,255,255,0.08)';
+  const colors=SIM.map(x=>x.sc===activeSim?active:inactive);
+  const bO=cb=>({scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:cb}}}});
+
+  mkC('s1','bar',SIM.map(x=>x.sc),[{data:SIM.map(x=>x.sales),backgroundColor:colors,borderRadius:4,barPercentage:.6}],bO(v=>f(v)));
+  mkC('s2','bar',SIM.map(x=>x.sc),[{data:SIM.map(x=>x.profit),backgroundColor:colors,borderRadius:4,barPercentage:.6}],bO(v=>f(v)));
+  mkC('s3','bar',SIM.map(x=>x.sc),[{data:SIM.map(x=>x.roas),backgroundColor:colors,borderRadius:4,barPercentage:.6}],bO(v=>v+'×'));
+  const ts=SIM.reduce((a,b)=>a+b.sales,0),tp=SIM.reduce((a,b)=>a+b.profit,0);
+  mkC('s4','bar',SIM.map(x=>x.sc),[{data:SIM.map(x=>+(x.sales/ts*100).toFixed(1)),backgroundColor:colors,borderRadius:4,barPercentage:.6}],bO(v=>v+'%'));
+  mkC('s5','bar',SIM.map(x=>x.sc),[{data:SIM.map(x=>+(x.profit/tp*100).toFixed(1)),backgroundColor:colors,borderRadius:4,barPercentage:.6}],bO(v=>v+'%'));
+  mkC('s6','bar',SIM.map(x=>x.sc),[{label:'Spend',data:SIM.map(x=>+(x.spend/(x.spend+x.profit)*100).toFixed(1)),backgroundColor:'rgba(255,255,255,0.06)',barPercentage:.7},{label:'Profit',data:SIM.map(x=>+(x.profit/(x.spend+x.profit)*100).toFixed(1)),backgroundColor:colors,barPercentage:.7}],{plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(10,7,24,0.95)',titleColor:'#e8e0ff',bodyColor:'#94a3b8',borderColor:'rgba(255,255,255,0.08)',borderWidth:1}},scales:{x:{...ax(),stacked:true},y:{...ax(),stacked:true,ticks:{...ax().ticks,callback:v=>v+'%'}}}});
+}
+
+/* ── PAGE 4 ── */
+function fP4(){const b=document.getElementById('p4b').value,c=document.getElementById('p4c').value;return LP.filter(d=>(b==='All'||d.brand===b)&&(c==='All'||d.country===c));}
+function applyP4(){
+  const d=fP4();
+  const byB=BRANDS.map(b=>{const r=d.filter(x=>x.brand===b);return{b,budget:r.reduce((a,c)=>a+c.recBudget,0),roas:r.length?r.reduce((a,c)=>a+Math.min(c.roas,200),0)/r.length:0,sales:r.reduce((a,c)=>a+c.sales,0),profit:r.reduce((a,c)=>a+c.profit,0),predRoas:r.length?r.reduce((a,c)=>a+Math.min(c.predRoas,200),0)/r.length:0};}).filter(x=>x.sales>0);
+  document.getElementById('p4Kpis').innerHTML=[
+    {l:'Total Sales',v:f(d.reduce((a,b)=>a+b.sales,0)),d:'all brands',c:'ku'},
+    {l:'Total Profit',v:f(d.reduce((a,b)=>a+b.profit,0)),d:'net return',c:'ku'},
+    {l:'Avg ROAS',v:d.length?(d.reduce((a,b)=>a+Math.min(b.roas,200),0)/d.length).toFixed(1)+'×':'—',d:'portfolio avg',c:'ku'},
+  ].map(k=>`<div class="kc"><div class="kl">${k.l}</div><div class="kv" style="color:#4ade80">${k.v}</div><div class="kd ${k.c}">${k.d}</div></div>`).join('');
+
+  const bBar=(id,data,cb,horiz)=>mkC(id,'bar',byB.map(x=>x.b),[{data:byB.map(data),backgroundColor:byB.map((_,i)=>BC[i]+'cc'),borderRadius:3,barPercentage:.65}],{...(horiz?{indexAxis:'y'}:{}),scales:{x:{...ax(),...(horiz&&cb?{ticks:{...ax().ticks,callback:cb}}:{})},y:{...ax(),...(!horiz&&cb?{ticks:{...ax().ticks,callback:cb}}:{})}}});
+  bBar('p4c1',x=>x.budget,v=>f(v));
+  bBar('p4c2',x=>+x.roas.toFixed(1),undefined,true);
+  bBar('p4c3',x=>x.sales,v=>f(v));
+  bBar('p4c4',x=>+x.predRoas.toFixed(1));
+  bBar('p4c5',x=>x.profit,v=>f(v));
+
+  document.getElementById('p4tbl').innerHTML=`<thead><tr><th style="width:100px"># Brand</th><th class="hb">Country</th><th class="hr">Sales</th><th class="hy">Profit</th><th class="hg">ROAS</th><th class="hp">Predicted ROAS</th><th class="hb">Rec. Budget</th></tr></thead><tbody>${[...d].sort((a,b)=>b.roas-a.roas).map((r,i)=>`<tr><td>${i+1}. ${r.brand}</td><td>${r.country}</td><td>${f(r.sales)}</td><td style="color:#4ade80;font-weight:600;">${f(r.profit)}</td><td><span class="rb ${r.roas>=10?'rb-h':r.roas>=5?'rb-m':'rb-l'}">${r.roas>=1000?'100×+':r.roas.toFixed(1)+'×'}</span></td><td>${r.predRoas>=1000?'53851×':r.predRoas.toFixed(1)+'×'}</td><td>${r.recBudget>0?`<span class="rb rb-h">$${r.recBudget.toLocaleString()}</span>`:'—'}</td></tr>`).join('')}</tbody>`;
+}
+function resetP4(){['p4b','p4c'].forEach(id=>document.getElementById(id).value='All');applyP4();}
+
+/* ── PAGE SWITCH ── */
+function sw(id,el){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');el.classList.add('on');
+  if(id==='p2')applyP2();
+  if(id==='p3')applyP3();
+  if(id==='p4')applyP4();
+}
+
+/* ── INIT ── */
+applyP1();
+applyP3();
+</script>
+</body>
+</html>
