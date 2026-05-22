@@ -1047,7 +1047,7 @@
       </div>
     </section>
 
-      <section id="speaking" class="reveal">
+    <section id="speaking" class="reveal">
   <div class="container">
     <div class="section-header">
       <h2>Speaking & Seminars</h2>
@@ -1062,12 +1062,12 @@
 
         <div class="glass-card" style="padding:0; overflow:hidden;">
           <div class="speaking-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px;">
-            <div style="height:200px; overflow:hidden; border-radius:8px;">
+            <div class="speaking-img" style="overflow:hidden; border-radius:8px;">
               <img src="Özlem Tonbul  Business Time Speaker — AI-Driven Decision Systems & Data Analytics  (2).jpeg"
                    loading="lazy" alt="Business Time"
                    style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block; border-radius:8px;">
             </div>
-            <div style="height:200px; overflow:hidden; border-radius:8px;">
+            <div class="speaking-img" style="overflow:hidden; border-radius:8px;">
               <img src="Özlem Tonbul  Business Time Speaker — AI-Driven Decision Systems & Data Analytics  (3).jpeg"
                    loading="lazy" alt="Business Time"
                    style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block; border-radius:8px;">
@@ -1097,13 +1097,13 @@
 
         <div class="glass-card" style="padding:0; overflow:hidden;">
           <div class="speaking-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px;">
-            <div style="height:200px; overflow:hidden; border-radius:8px;">
+            <div class="speaking-img" style="overflow:hidden; border-radius:8px;">
               <img src="Özlem Tonbul — AI-Driven E-commerce Decision Systems Seminarr (2).png"
                    alt="E-Commerce Seminar"
                    loading="lazy"
                    style="width:100%; height:100%; object-fit:cover; object-position:center center; display:block; border-radius:8px;">
             </div>
-            <div style="height:200px; overflow:hidden; border-radius:8px;">
+            <div class="speaking-img" style="overflow:hidden; border-radius:8px;">
               <img src="Özlem Tonbul — AI-Driven E-commerce Decision Systems Seminarr.jpeg"
                    alt="E-Commerce Growth with Data Poster"
                    loading="lazy"
@@ -1146,6 +1146,7 @@
     </div>
 
     <div class="recognition-grid">
+
       <!-- CARD 1: DATA SCIENCE USA -->
       <div class="glass-card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
         <div style="overflow:hidden; background:#060f24; display:flex; align-items:center; justify-content:center; min-height:300px;">
@@ -1183,23 +1184,31 @@
              class="btn btn-outline" style="padding:8px 16px; font-size:0.8rem; width:100%; justify-content:center;">📸 View Instagram Post →</a>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
 <style>
+  /* Desktop - fixed height for speaking images */
+  .speaking-img {
+    height: 260px;
+  }
+
+  /* Recognition grid */
   .recognition-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
 
+  /* Mobile */
   @media (max-width: 600px) {
     .speaking-grid {
       grid-template-columns: 1fr !important;
     }
-    .speaking-grid > div {
-      height: 240px !important;
+    .speaking-img {
+      height: 220px !important;
     }
     .recognition-grid {
       grid-template-columns: 1fr !important;
