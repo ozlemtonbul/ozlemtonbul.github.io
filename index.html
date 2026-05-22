@@ -1061,7 +1061,7 @@
         <p style="font-size:0.78rem; color:#0ea5e9; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; border-left:3px solid #0ea5e9; padding-left:12px;">📺 TV Appearance · Business Time</p>
 
         <div class="glass-card" style="padding:0; overflow:hidden;">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px;">
+          <div class="speaking-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px;">
             <div style="height:200px; overflow:hidden; border-radius:8px;">
               <img src="Özlem Tonbul  Business Time Speaker — AI-Driven Decision Systems & Data Analytics  (2).jpeg"
                    loading="lazy" alt="Business Time"
@@ -1077,14 +1077,12 @@
           <div style="padding:16px 20px 20px;">
             <h3 style="font-size:1rem; margin-bottom:8px;">AI-Driven Decision Systems & Data Analytics</h3>
             <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:16px; line-height:1.6;">Speaker on AI-powered e-commerce decision systems and operational intelligence at Business Time TV.</p>
-
             <div style="margin:0 0 14px 0;">
               <iframe width="100%" style="aspect-ratio:16/9; border-radius:8px; border:none; display:block;"
                 src="https://www.youtube.com/embed/hrrpKJO50Cw"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen loading="lazy"></iframe>
             </div>
-
             <div style="display:flex; justify-content:center;">
               <a href="https://youtu.be/hrrpKJO50Cw" target="_blank" rel="noopener"
                  class="btn btn-outline" style="padding:8px 16px; font-size:0.82rem;">▶ Watch on YouTube →</a>
@@ -1098,7 +1096,7 @@
         <p style="font-size:0.78rem; color:#0ea5e9; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; border-left:3px solid #0ea5e9; padding-left:12px;">🎤 Online Seminar · May 10, 2026</p>
 
         <div class="glass-card" style="padding:0; overflow:hidden;">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px;">
+          <div class="speaking-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px;">
             <div style="height:200px; overflow:hidden; border-radius:8px;">
               <img src="Özlem Tonbul — AI-Driven E-commerce Decision Systems Seminarr (2).png"
                    alt="E-Commerce Seminar"
@@ -1118,14 +1116,12 @@
             <p style="font-size:0.82rem; color:#94a3b8; margin-bottom:3px;"><strong style="color:#f8fafc;">Topics:</strong> SEO · Ads · Operations · AI · Decision Systems</p>
             <p style="font-size:0.82rem; color:#94a3b8; margin-bottom:3px;"><strong style="color:#f8fafc;">Date:</strong> May 10, 2026 · 14:00 TR / 12:00 UK</p>
             <p style="font-size:0.82rem; color:#94a3b8; margin-bottom:16px;"><strong style="color:#f8fafc;">Platform:</strong> Online · Google Meet</p>
-
             <div style="margin:0 0 14px 0;">
               <iframe width="100%" style="aspect-ratio:16/9; border-radius:8px; border:none; display:block;"
                 src="https://www.youtube.com/embed/PXh8CECpIQw"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen loading="lazy"></iframe>
             </div>
-
             <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
               <a href="https://www.instagram.com/reel/DXuWeG0CPQK/?igsh=bnRqcHo4YWp1NGRk"
                  target="_blank" rel="noopener"
@@ -1192,17 +1188,6 @@
 </section>
 
 <style>
-  /* Speaking - mobilde tek kolon */
-  @media (max-width: 600px) {
-    #speaking .glass-card [style*="grid-template-columns:1fr 1fr"] {
-      grid-template-columns: 1fr !important;
-    }
-    #speaking .glass-card [style*="height:200px"] {
-      height: 220px !important;
-    }
-  }
-
-  /* Recognition grid */
   .recognition-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1210,8 +1195,14 @@
   }
 
   @media (max-width: 600px) {
+    .speaking-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .speaking-grid > div {
+      height: 240px !important;
+    }
     .recognition-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr !important;
     }
   }
 </style>
