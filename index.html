@@ -1297,36 +1297,49 @@ Reference Letter →
         </div>
       </div>
 
+      <!-- CARD 3: TURKS IN BRITAIN -->
+      <div class="glass-card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;">
+        <div style="overflow:hidden; background:#060f24; display:flex; align-items:center; justify-content:center; min-height:300px;">
+          <img src="ozlem-tonbul-turks-in-britain.jpeg"
+               alt="Turks in Britain — Business Time Media Feature"
+               loading="lazy"
+               style="width:100%; height:auto; display:block; border-radius:0;">
+        </div>
+        <div style="padding:16px 20px; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <p style="font-size:0.75rem; color:#0ea5e9; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">🇬🇧 London, United Kingdom</p>
+            <p style="font-size:0.84rem; color:#94a3b8; margin-bottom:14px; line-height:1.6;">Featured by Turks in Britain for AI-powered systems, global projects, and the Business Time media appearance.</p>
+          </div>
+          <a href="https://www.instagram.com/p/DZILOVIthos/?igsh=MTR0c2c2Z3J6Mm53bQ=="
+             target="_blank" rel="noopener"
+             class="btn btn-outline" style="padding:8px 16px; font-size:0.8rem; width:100%; justify-content:center;">📸 View Instagram Post →</a>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <style>
-  /* Desktop - fixed height for speaking images */
-  .speaking-img {
-    height: 260px;
-  }
-
-  /* Recognition grid */
   .recognition-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
 
-  /* Mobile */
+  @media (max-width: 900px) {
+    .recognition-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 600px) {
-    .speaking-grid {
-      grid-template-columns: 1fr !important;
-    }
-    .speaking-img {
-      height: 220px !important;
-    }
     .recognition-grid {
       grid-template-columns: 1fr !important;
     }
   }
 </style>
+      
 
 <!-- Book / Publication -->
 <section id="book" class="reveal">
