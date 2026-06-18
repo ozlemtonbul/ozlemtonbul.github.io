@@ -20,10 +20,10 @@
    Red:         #f87171
    
    PBI CHANNEL COLORS (exact originals):
-   Channel A:         #5aaa5a
-   Channel B: #e89428
-   Channel C:    #c49ac8
-   Channel D:         #9898c0
+   WEB:         #5aaa5a
+   Hepsiburada: #e89428
+   Trendyol:    #c49ac8
+   LCW:         #9898c0
    
    PBI CATEGORY COL COLORS:
    Blue:   #4472C4  Red: #E8423C  Yellow: #FFC000  Green: #70AD47  Purple: #9966CC
@@ -124,10 +124,13 @@ html,body{
   padding:9px 14px;background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.08);text-align:center;width:55px;
 }
-.cht th.web  {background:#5aaa5a;color:#fff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
-.cht th.hep  {background:#e89428;color:#fff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
-.cht th.trnd {background:#c49ac8;color:#fff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
-.cht th.lcw  {background:#9898c0;color:#fff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
+.cht th.web,
+.cht th.hep,
+.cht th.trnd,
+.cht th.lcw{
+  background:rgba(255,255,255,0.08);
+  color:#e8e0ff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,0.08);
+}
 .cht th.tot  {background:rgba(255,255,255,.08);color:#e8e0ff;font-size:12px;font-weight:700;padding:9px 14px;text-align:center;border:1px solid rgba(255,255,255,.08);}
 .cht td{padding:9px 14px;border:1px solid rgba(255,255,255,.06);text-align:center;color:#cbd5e1;background:rgba(255,255,255,.03);}
 .cht .dr td{background:rgba(255,255,255,.06);font-weight:700;font-size:12px;border-top:none;}
@@ -336,7 +339,7 @@ html,body{
             <div class="chd" style="color:#6dd86d;">▲ +62%</div>
           </div>
           <div class="chc" style="background:rgba(232,148,40,.07);border-color:rgba(232,148,40,.2);">
-            <div class="chn" style="color:#f0b060;">HEPSIBURADA</div>
+            <div class="chn" style="color:#f0b060;">CHANNEL B</div>
             <div class="chr" style="color:#f0b060;">₺34.3M</div>
             <div class="cho">42,054 orders</div>
             <div class="chd" style="color:#f0b060;">▲ +202%</div>
@@ -390,7 +393,7 @@ html,body{
 
   <div class="g2 g64">
     <div class="panel">
-      <div class="ph">Monthly Channel A Performance — Jan to May 2026</div>
+      <div class="ph">Monthly WEB Performance — Jan to May 2026</div>
       <div class="pb0">
         <table class="yt">
           <thead><tr><th>Month</th><th>Sessions</th><th>Conv. Rate</th><th>Orders</th><th>Revenue</th></tr></thead>
@@ -474,7 +477,7 @@ new Chart('c2_ord',{type:'line',data:{labels:M,datasets:[{data:ORD,borderColor:'
 new Chart('c2_rev',{type:'line',data:{labels:M,datasets:[{data:REV,borderColor:'#f87171',backgroundColor:'rgba(248,113,113,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#f87171',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:v=>'₺'+(v/1e6).toFixed(1)+'M'}}}}});
 new Chart('c2_ses',{type:'line',data:{labels:M,datasets:[{data:SES,borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#38bdf8',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:{...ax(),ticks:{...ax().ticks,callback:v=>(v/1000).toFixed(0)+'K'}}}}});
 new Chart('c2_roa',{type:'line',data:{labels:M,datasets:[{data:ROA,borderColor:'#c084fc',backgroundColor:'rgba(192,132,252,0.08)',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#c084fc',tension:.35,fill:true}]},options:{...lo,scales:{x:ax(),y:ax()}}});
-new Chart('c2_pie',{type:'doughnut',data:{labels:['Channel A','Channel B','Channel C','Channel D'],datasets:[{data:[72738843,34329368,23302921,4359676],backgroundColor:['#5aaa5a','#e89428','#c49ac8','#9898c0'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{color:'rgba(232,224,255,0.5)',font:{size:10},boxWidth:10,padding:8}}}}});
+new Chart('c2_pie',{type:'doughnut',data:{labels:['Channel A','Channel B','Channel C','Channel D'],datasets:[{data:[72738843,34329368,23302921,4359676],backgroundColor:['rgba(139,92,246,0.35)','rgba(139,92,246,0.45)','rgba(139,92,246,0.55)','rgba(139,92,246,0.65)'],borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{color:'rgba(232,224,255,0.5)',font:{size:10},boxWidth:10,padding:8}}}}});
 
 // Page 3 charts
 new Chart('c3_rev',{type:'bar',data:{labels:['Jan 26','Feb 26','Mar 26','Apr 26','May 26*'],datasets:[{data:[5421054,4459422,10162423,8743543,1991600],backgroundColor:['rgba(139,92,246,0.6)','rgba(139,92,246,0.6)','rgba(139,92,246,0.95)','rgba(139,92,246,0.8)','rgba(139,92,246,0.35)'],borderRadius:5}]},options:{...lo,scales:{x:{grid:{display:false},ticks:{color:'#475569',font:{size:10}}},y:{...ax(),ticks:{...ax().ticks,callback:v=>'₺'+(v/1e6).toFixed(1)+'M'}}}}});
