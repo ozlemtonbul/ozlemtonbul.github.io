@@ -141,11 +141,15 @@ html,body{
 .cat{width:100%;border-collapse:collapse;font-size:12px;}
 .cat thead th{padding:8px 11px;font-size:10px;font-weight:700;text-align:center;letter-spacing:.3px;border-bottom:1px solid rgba(255,255,255,.08);}
 .cat thead th:first-child{text-align:left;background:rgba(255,255,255,.06);color:#94a3b8;}
-.cat thead th.hb{background:#4472C4;color:#fff;}
-.cat thead th.hr{background:#E8423C;color:#fff;}
-.cat thead th.hy{background:#FFC000;color:#111;}
-.cat thead th.hg{background:#70AD47;color:#fff;}
-.cat thead th.hp{background:#9966CC;color:#fff;}
+.cat thead th.hb,
+.cat thead th.hr,
+.cat thead th.hy,
+.cat thead th.hg,
+.cat thead th.hp{
+  background:rgba(255,255,255,0.08);
+  color:#e8e0ff;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
 .cat tbody td{padding:7px 11px;border-bottom:1px solid rgba(255,255,255,.04);text-align:center;color:#cbd5e1;}
 .cat tbody td:first-child{text-align:left;font-weight:500;color:#e8e0ff;}
 .cat tbody tr:last-child td{border-bottom:none;}
