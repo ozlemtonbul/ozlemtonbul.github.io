@@ -698,6 +698,36 @@
           padding: 140px 0 60px;
         }
       }
+    
+      /* AI proof metrics: compact, responsive, no page-width expansion */
+      .ai-proof-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .ai-proof-item {
+        min-width: 0;
+        padding: 8px 4px;
+      }
+
+      @media (max-width: 767px) {
+        .ai-proof-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 16px;
+        }
+      }
+
+      /* Dashboard and live-agent actions are intentionally separate */
+      .dashboard-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
     </style>
   </head>
   <body>
@@ -879,52 +909,28 @@
         </div>
 
         <div class="glass-card" style="margin-bottom: 32px;">
-          <div style="
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 24px;
-            text-align: center;
-          ">
-            <div>
+          <div class="ai-proof-grid">
+            <div class="ai-proof-item">
               <div class="stat-value">2</div>
               <div class="stat-title">AI Intelligence Agents</div>
             </div>
-
-            <div>
+            <div class="ai-proof-item">
               <div class="stat-value">206</div>
               <div class="stat-title">Ads Agent Tests Passed</div>
             </div>
-
-            <div>
+            <div class="ai-proof-item">
               <div class="stat-value">122</div>
               <div class="stat-title">SEO Agent Tests Passed</div>
             </div>
-
-            <div>
+            <div class="ai-proof-item">
               <div class="stat-value">3+ Years</div>
               <div class="stat-title">Live Google Ads Data</div>
             </div>
-
-            <div>
+            <div class="ai-proof-item">
               <div class="stat-value">21M+</div>
               <div class="stat-title">Ads Impressions Analysed</div>
             </div>
-
-            <div>
-              <div class="stat-value">12.9M+</div>
-              <div class="stat-title">GSC Impressions Analysed</div>
-            </div>
-          </div>
-        </div>
-            <div>
-              <div class="stat-value">3+ Years</div>
-              <div class="stat-title">Live Google Ads Data</div>
-            </div>
-            <div>
-              <div class="stat-value">21M+</div>
-              <div class="stat-title">Ads Impressions Analysed</div>
-            </div>
-            <div>
+            <div class="ai-proof-item">
               <div class="stat-value">12.9M+</div>
               <div class="stat-title">GSC Impressions Analysed</div>
             </div>
@@ -1182,26 +1188,50 @@ Reference Letter →
           <div class="glass-card dashboard-item" style="overflow: hidden;">
             <div class="dashboard-visual" style="aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
               <iframe src="dashboards/ads_dashboard.html" scrolling="no"></iframe>
-              <a href="dashboards/ads_dashboard.html" target="_blank" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(59, 130, 246, 0.2); opacity: 0; transition: 0.3s; display: flex; align-items: center; justify-content: center; text-decoration: none;" class="hover-overlay">
-                <span style="color: white; font-weight: 600; background: var(--accent-primary); padding: 8px 16px; border-radius: 4px;">Launch Full Dashboard</span>
-              </a>
             </div>
             <h3>Ads Budget Intelligence AI Agent</h3>
             <p>ML forecasting, budget scenario simulation, explainable recommendations and LLM-powered advertising decision intelligence.</p>
-            <a href="https://ads-ai-ml-llm-intelligence.streamlit.app/AI_Insights" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="margin-top: 16px;">Launch Live AI Agent →</a>
+
+            <div class="dashboard-actions">
+              <a href="dashboards/ads_dashboard.html"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="btn btn-outline btn-sm">
+                Open Dashboard →
+              </a>
+
+              <a href="https://ads-ai-ml-llm-intelligence.streamlit.app/AI_Insights"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="btn btn-primary btn-sm">
+                Open Live AI Agent →
+              </a>
+            </div>
           </div>
 
           <!-- Dashboard 2: SEO -->
           <div class="glass-card dashboard-item" style="overflow: hidden;">
             <div class="dashboard-visual" style="aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
               <iframe src="dashboards/seo_dashboard.html" scrolling="no"></iframe>
-              <a href="dashboards/seo_dashboard.html" target="_blank" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(59, 130, 246, 0.2); opacity: 0; transition: 0.3s; display: flex; align-items: center; justify-content: center; text-decoration: none;" class="hover-overlay">
-                <span style="color: white; font-weight: 600; background: var(--accent-primary); padding: 8px 16px; border-radius: 4px;">Launch Full Dashboard</span>
-              </a>
             </div>
             <h3>SEO Organic Growth Intelligence AI Agent</h3>
             <p>Search performance intelligence, forecasting, opportunity detection and LLM-powered SEO recommendations.</p>
-            <a href="https://seo-geo-ml-llm-intelligence.streamlit.app/ana-panel?lang=tr" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="margin-top: 16px;">Launch Live AI Agent →</a>
+
+            <div class="dashboard-actions">
+              <a href="dashboards/seo_dashboard.html"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="btn btn-outline btn-sm">
+                Open Dashboard →
+              </a>
+
+              <a href="https://seo-geo-ml-llm-intelligence.streamlit.app/ana-panel?lang=tr"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="btn btn-primary btn-sm">
+                Open Live AI Agent →
+              </a>
+            </div>
           </div>
 
           <!-- Dashboard 3: Marketing -->
