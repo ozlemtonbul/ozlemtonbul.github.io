@@ -1206,6 +1206,84 @@
       }
     </style>
 
+  
+    <style id="mobile-dashboard-visual-fix">
+      /* Keep the dashboard card preview area visible on mobile.
+         Only the heavyweight HTML dashboard iframe is disabled. */
+      @media (max-width: 767px) {
+        #portfolio .dashboard-visual {
+          display: flex !important;
+          width: 100% !important;
+          aspect-ratio: 16 / 9 !important;
+          min-height: 0 !important;
+          position: relative !important;
+          overflow: hidden !important;
+          background: #05080f !important;
+        }
+
+        #portfolio .dashboard-visual .lazy-dashboard-frame {
+          display: none !important;
+        }
+
+        #portfolio .dashboard-static-preview {
+          display: block !important;
+          position: absolute !important;
+          inset: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+          object-position: center !important;
+          z-index: 2 !important;
+          border-radius: 0 !important;
+        }
+      }
+
+      /* Lightweight YouTube preview: image visible, iframe still click-to-load. */
+      .lite-video {
+        position: relative;
+        isolation: isolate;
+      }
+
+      .lite-video-thumb {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100% !important;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 0;
+        z-index: 0;
+      }
+
+      .lite-video::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.38);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .lite-video-btn {
+        position: relative;
+        z-index: 2;
+      }
+
+      .lite-video iframe {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+      }
+    </style>
+
+  
+    <style id="video-cover-final-fix">
+      .lite-video-thumb {
+        object-fit: cover !important;
+        object-position: center center !important;
+      }
+    </style>
+
   </head>
 
   <body>
@@ -2033,7 +2111,7 @@
             >
               <iframe class="lazy-dashboard-frame" data-src="dashboards/marketing_dashboard.html" title="Marketing Decision Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
 
-              <img
+              <img class="dashboard-static-preview"
                 src="dashboards/marketing_dashboard.png" width="1920" height="1080"
                 style="
                   position: absolute;
@@ -2219,6 +2297,7 @@
 
                 <div style="margin: 0 0 14px 0;">
                   <div class="lite-video" data-youtube-id="hrrpKJO50Cw" data-title="Business Time TV — AI-Driven Decision Systems & Data Analytics">
+                    <img class="lite-video-thumb" src="Özlem Tonbul  Business Time Speaker — AI-Driven Decision Systems & Data Analytics  (2).jpeg" alt="Business Time TV video preview" loading="lazy" decoding="async" width="480" height="360" />
                     <button type="button" class="lite-video-btn" aria-label="Play Business Time TV — AI-Driven Decision Systems & Data Analytics">
                       <span class="lite-video-play">▶</span>
                       <span>Play video</span>
@@ -2321,6 +2400,7 @@
 
                 <div style="margin: 0 0 14px 0;">
                   <div class="lite-video" data-youtube-id="PXh8CECpIQw" data-title="E-Commerce Growth with Data Seminar">
+                    <img class="lite-video-thumb" src="Özlem Tonbul — AI-Driven E-commerce Decision Systems Seminarr.jpeg" alt="E-Commerce Growth with Data seminar video preview" loading="lazy" decoding="async" width="480" height="360" />
                     <button type="button" class="lite-video-btn" aria-label="Play E-Commerce Growth with Data Seminar">
                       <span class="lite-video-play">▶</span>
                       <span>Play video</span>
