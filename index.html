@@ -1,9 +1,7 @@
 <!doctype html>
-<!-- Performance note:
-     Static asset caching is a SERVER setting, not an HTML setting.
-     Configure long cache lifetimes for .css/.js/.png/.jpg/.jpeg/.webp/.svg/.woff2 on hosting/CDN. -->
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,7 +27,7 @@
       content="AI Agents, Machine Learning, Multi-LLM, grounded RAG, SHAP explainability, human-in-the-loop governance and BI-ready Decision Intelligence systems."
     />
 
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=RDxVPHo5YOoB6cDyWuzosIiNYzJWi9_Bpc8ALtn0LCRheJEMc9IJKY0YXjonNcTgucN4PaUK3GJzGK8JeeNFmzt1lpV5zS-456F_G7sHGaPDpnrznIOeRMQD59Rk9T2Lb-IAH0HtdjHjkrMfEpEt9Bh9oUCfXDV3zNtmVP6DeCjBxzPD8wr-26MtjRGIjUeyPfF5TKvEvfn_0FbElfZ4fFT_me46LM8qpIkoU_83uXGr2pPhvDu9eFHLSUpCF87DPw6xYar6uzW2XLh59PVC6wxSXal6baBjay2I--O8RGblkpFZMK3_KsgvNTP7KwjfB-L2MuLYTjkf-um8B_Pis6X2jtNSe4liF86YbiA_Dg4" charset="UTF-8"></script><script type="application/ld+json">
+    <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
@@ -108,7 +106,7 @@
         --accent-glow: rgba(59, 130, 246, 0.5);
 
         --text-main: #f8fafc;
-        --text-muted: #b4c0d2;
+        --text-muted: #b8c4d6;
 
         --border-color: rgba(255, 255, 255, 0.08);
         --border-highlight: rgba(59, 130, 246, 0.3);
@@ -903,43 +901,99 @@
       }
     </style>
   
-    <!-- Mobile + performance fixes -->
-    <style id="mobile-performance-fixes">
-      /* Let the browser skip layout/paint work for far below-the-fold content. */
+    <style id="ultra-fast-homepage">
+      :root { color-scheme: dark; }
+
+      .skip-link {
+        position: fixed;
+        top: 8px;
+        left: 8px;
+        z-index: 99999;
+        transform: translateY(-150%);
+        background: #fff;
+        color: #020617;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-weight: 700;
+      }
+      .skip-link:focus { transform: translateY(0); }
+
+      /* No JS reveal animation: content is immediately paintable. */
+      .reveal,
+      .reveal.active {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+
+      /* Static previews only on homepage — no dashboard iframe cost. */
+      .dashboard-home-preview {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        border-radius: 0 !important;
+      }
+
+      .dashboard-visual {
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+      }
+
+      .dashboard-visual iframe {
+        display: none !important;
+      }
+
+      .video-cover-link {
+        position: relative;
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: #05080f;
+      }
+
+      .video-cover-link img {
+        width: 100%;
+        height: 100% !important;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 0;
+      }
+
+      .video-cover-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(2, 6, 23, .42);
+        color: #fff;
+        font-weight: 700;
+        font-size: .95rem;
+      }
+
       @supports (content-visibility: auto) {
         section:not(.hero),
         footer {
           content-visibility: auto;
-          contain-intrinsic-size: 800px;
+          contain-intrinsic-size: 900px;
         }
       }
 
-      /* Cheap placeholder while desktop dashboard previews are not yet loaded. */
-      .dashboard-visual::before {
-        content: "Dashboard preview";
-        position: absolute;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-        letter-spacing: 0.02em;
-        background:
-          radial-gradient(circle at 30% 20%, rgba(59,130,246,.12), transparent 40%),
-          #080d18;
-      }
-
-      .dashboard-visual iframe {
-        position: relative;
-        z-index: 1;
-      }
-
-      /* Mobile: do not render or load the heavyweight 1920x1080 dashboard previews.
-         The card title + direct dashboard/AI Agent buttons remain available. */
       @media (max-width: 767px) {
+        html, body {
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
         body::before,
         body::after {
-          display: none;
+          display: none !important;
         }
 
         nav,
@@ -949,27 +1003,40 @@
         }
 
         nav {
-          background: rgba(6, 9, 19, 0.97);
+          background: rgba(6, 9, 19, .98) !important;
         }
 
         section {
-          padding: 56px 0;
+          padding: 52px 0;
+        }
+
+        .container {
+          padding-left: 16px;
+          padding-right: 16px;
         }
 
         .hero {
-          padding: 112px 0 48px;
+          min-height: auto !important;
+          padding: 112px 0 48px !important;
         }
 
         .hero h1 {
-          font-size: clamp(2.25rem, 11vw, 3rem);
+          font-size: clamp(2.2rem, 10vw, 3rem) !important;
           line-height: 1.08;
-          letter-spacing: -1px;
         }
 
         .hero p {
           font-size: 1rem;
           line-height: 1.65;
           margin-bottom: 28px;
+        }
+
+        .hero-ctas {
+          gap: 10px;
+        }
+
+        .hero-ctas .btn {
+          width: 100%;
         }
 
         .section-header {
@@ -981,346 +1048,54 @@
           line-height: 1.2;
         }
 
-        .section-header p {
-          font-size: 1rem;
+        .glass-card,
+        .case-study-card,
+        .dashboard-item {
+          padding: 18px !important;
+          min-width: 0;
         }
 
-        .glass-card {
-          padding: 20px;
+        .dashboard-gallery,
+        .recognition-grid,
+        .cert-grid {
+          grid-template-columns: 1fr !important;
         }
 
-        /* This is the main mobile visual fix for AI Agent/Dashboard cards. */
-        #portfolio .dashboard-visual {
-          display: none !important;
-        }
-
-        /* Speaking/media image pairs were forced to two columns inline.
-           Stack them on narrow screens instead of squeezing/cropping them. */
         .speaking-grid {
           grid-template-columns: 1fr !important;
         }
 
         .speaking-img img {
           height: auto !important;
-          max-height: none !important;
+        }
+
+        .dashboard-actions {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .dashboard-actions .btn {
+          width: 100%;
         }
 
         .ai-proof-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
           gap: 12px;
         }
 
-        .stat-title {
-          font-size: 0.72rem;
-          line-height: 1.35;
-        }
-
-        .skill-badge {
-          padding: 8px 12px;
-          font-size: 0.86rem;
-        }
-
-        /* Hover transforms can trigger extra paints on touch devices. */
         .glass-card:hover,
         .btn:hover,
         .cert-card:hover,
-        .footer-grid .contact-card:hover {
+        .contact-card:hover {
           transform: none !important;
         }
       }
 
-      @media (max-width: 420px) {
-        .container {
-          padding-left: 14px;
-          padding-right: 14px;
-        }
-
-        .hero-ctas {
-          gap: 10px;
-        }
-
-        .hero-ctas .btn {
-          width: 100%;
-        }
-
-        .ai-proof-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-
       @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-        *,
-        *::before,
-        *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-        }
-      }
-    </style>
-
-  
-    <style id="psi-v2-fixes">
-      .lite-video {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        border-radius: 8px;
-        overflow: hidden;
-        display: grid;
-        place-items: center;
-        background:
-          radial-gradient(circle at 50% 35%, rgba(59,130,246,.16), transparent 40%),
-          #05080f;
-        border: 1px solid var(--border-color);
-      }
-
-      .lite-video-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        min-height: 48px;
-        padding: 11px 18px;
-        border-radius: 8px;
-        border: 1px solid rgba(255,255,255,.18);
-        background: rgba(15,23,42,.92);
-        color: #fff;
-        font: inherit;
-        font-weight: 600;
-        cursor: pointer;
-      }
-
-      .lite-video-btn:focus-visible,
-      .btn:focus-visible,
-      .menu-toggle:focus-visible,
-      a:focus-visible {
-        outline: 3px solid #7dd3fc;
-        outline-offset: 3px;
-      }
-
-      .lite-video-play {
-        font-size: 1.15rem;
-      }
-
-      .lite-video iframe {
-        width: 100%;
-        height: 100%;
-        border: 0;
-        display: block;
-      }
-
-      @media (max-width: 767px) {
-        .lite-video {
-          min-height: 180px;
-        }
-      }
-    </style>
-
-  
-    <style id="final-v3-performance-accessibility">
-      :root {
-        color-scheme: dark;
-      }
-
-      .skip-link {
-        position: fixed;
-        top: 8px;
-        left: 8px;
-        z-index: 99999;
-        transform: translateY(-150%);
-        background: #ffffff;
-        color: #020617;
-        padding: 10px 14px;
-        border-radius: 8px;
-        font-weight: 700;
-      }
-
-      .skip-link:focus {
-        transform: translateY(0);
-      }
-
-      /* Avoid unnecessary paint work on images. */
-      img {
-        height: auto;
-      }
-
-      /* Keep card content readable on very narrow phones. */
-      .glass-card,
-      .project-card,
-      .dashboard-item,
-      .cert-card {
-        min-width: 0;
-      }
-
-      .glass-card p,
-      .glass-card h3,
-      .glass-card a,
-      .project-meta,
-      .tag {
-        overflow-wrap: anywhere;
-      }
-
-      @media (max-width: 767px) {
-        /* Small phones should never horizontally overflow. */
-        html,
-        body {
-          width: 100%;
-          max-width: 100%;
-          overflow-x: hidden;
-        }
-
-        .hero-badge {
-          max-width: 100%;
-          line-height: 1.45;
-        }
-
-        .case-study-card {
-          padding: 20px !important;
-        }
-
-        /* Safer grid behavior for inline grids that were authored desktop-first. */
-        [style*="grid-template-columns: repeat(3, 1fr)"],
-        [style*="grid-template-columns: 1fr 1fr"] {
-          grid-template-columns: 1fr !important;
-        }
-
-        /* Keep the AI proof block compact; it is designed for two columns. */
-        .ai-proof-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        }
-
-        .contact-grid-mobile {
-          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        }
-      }
-
-      @media (max-width: 390px) {
-        .contact-grid-mobile {
-          grid-template-columns: 1fr !important;
-        }
-
-        .hero h1 {
-          font-size: 2.15rem;
-        }
-      }
-    </style>
-
-  
-    <style id="mobile-dashboard-visual-fix">
-      /* Keep the dashboard card preview area visible on mobile.
-         Only the heavyweight HTML dashboard iframe is disabled. */
-      @media (max-width: 767px) {
-        #portfolio .dashboard-visual {
-          display: flex !important;
-          width: 100% !important;
-          aspect-ratio: 16 / 9 !important;
-          min-height: 0 !important;
-          position: relative !important;
-          overflow: hidden !important;
-          background: #05080f !important;
-        }
-
-        #portfolio .dashboard-visual .lazy-dashboard-frame {
-          display: none !important;
-        }
-
-        #portfolio .dashboard-static-preview {
-          display: block !important;
-          position: absolute !important;
-          inset: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          object-fit: cover !important;
-          object-position: center !important;
-          z-index: 2 !important;
-          border-radius: 0 !important;
-        }
-      }
-
-      /* Lightweight YouTube preview: image visible, iframe still click-to-load. */
-      .lite-video {
-        position: relative;
-        isolation: isolate;
-      }
-
-      .lite-video-thumb {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100% !important;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 0;
-        z-index: 0;
-      }
-
-      .lite-video::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(2, 6, 23, 0.38);
-        z-index: 1;
-        pointer-events: none;
-      }
-
-      .lite-video-btn {
-        position: relative;
-        z-index: 2;
-      }
-
-      .lite-video iframe {
-        position: absolute;
-        inset: 0;
-        z-index: 3;
-      }
-    </style>
-
-  
-    <style id="video-cover-final-fix">
-      .lite-video-thumb {
-        object-fit: cover !important;
-        object-position: center center !important;
-      }
-    </style>
-
-  
-    <style id="ads-seo-mobile-preview-fix">
-      .dashboard-mobile-preview {
-        display: none;
-      }
-
-      @media (max-width: 767px) {
-        #portfolio .dashboard-visual {
-          display: flex !important;
-          width: 100% !important;
-          aspect-ratio: 16 / 9 !important;
-          position: relative !important;
-          overflow: hidden !important;
-          background: #05080f !important;
-        }
-
-        #portfolio .dashboard-visual .lazy-dashboard-frame {
-          display: none !important;
-        }
-
-        #portfolio .dashboard-mobile-preview,
-        #portfolio .dashboard-static-preview {
-          display: block !important;
-          position: absolute !important;
-          inset: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          object-fit: cover !important;
-          object-position: center !important;
-          z-index: 3 !important;
-          border-radius: 0 !important;
-        }
-
-        /* Don't show the generic placeholder above a real preview image. */
-        #portfolio .dashboard-visual:has(.dashboard-mobile-preview)::before,
-        #portfolio .dashboard-visual:has(.dashboard-static-preview)::before {
-          display: none !important;
+        html { scroll-behavior: auto; }
+        *, *::before, *::after {
+          animation: none !important;
+          transition: none !important;
         }
       }
     </style>
@@ -2066,16 +1841,7 @@
                 overflow: hidden;
               "
             >
-              <iframe class="lazy-dashboard-frame" data-src="dashboards/ads_dashboard.html" title="Ads Budget Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
-              <img
-                class="dashboard-mobile-preview"
-                src="ads_dashboard_mobile_preview.webp"
-                alt="Ads Budget Intelligence AI Agent dashboard preview"
-                width="720"
-                height="401"
-                loading="lazy"
-                decoding="async"
-              />
+              <img class="dashboard-home-preview" src="ads_dashboard_mobile_preview.webp" alt="Ads Budget Intelligence AI Agent dashboard preview" width="720" height="401" loading="lazy" decoding="async" />
             </div>
 
             <h3>Ads Budget Intelligence AI Agent</h3>
@@ -2117,16 +1883,7 @@
                 overflow: hidden;
               "
             >
-              <iframe class="lazy-dashboard-frame" data-src="dashboards/seo_dashboard.html" title="SEO & GEO Decision Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
-              <img
-                class="dashboard-mobile-preview"
-                src="seo_dashboard_mobile_preview.webp"
-                alt="SEO & GEO Decision Intelligence AI Agent dashboard preview"
-                width="720"
-                height="401"
-                loading="lazy"
-                decoding="async"
-              />
+              <img class="dashboard-home-preview" src="seo_dashboard_mobile_preview.webp" alt="SEO & GEO Decision Intelligence AI Agent dashboard preview" width="720" height="401" loading="lazy" decoding="async" />
             </div>
 
             <h3>SEO & GEO Decision Intelligence AI Agent</h3>
@@ -2168,10 +1925,9 @@
                 overflow: hidden;
               "
             >
-              <iframe class="lazy-dashboard-frame" data-src="dashboards/marketing_dashboard.html" title="Marketing Decision Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
 
-              <img class="dashboard-static-preview"
-                src="dashboards/marketing_dashboard.png" width="1920" height="1080"
+              <img class="dashboard-home-preview"
+                src="dashboards/marketing_dashboard.png" loading="lazy" decoding="async"
                 style="
                   position: absolute;
                   top: 0;
@@ -2181,7 +1937,7 @@
                   object-fit: cover;
                 "
                 alt="Marketing Dashboard"
-              / decoding="async" loading="lazy" fetchpriority="low">
+              />
 
               <a
                 href="dashboards/marketing_dashboard.html"
@@ -2317,7 +2073,7 @@
                       display: block;
                       border-radius: 8px;
                     "
-                  / decoding="async" fetchpriority="low">
+                  / decoding="async">
                 </div>
 
                 <div class="speaking-img" style="overflow: hidden; border-radius: 8px;">
@@ -2333,7 +2089,7 @@
                       display: block;
                       border-radius: 8px;
                     "
-                  / decoding="async" fetchpriority="low">
+                  / decoding="async">
                 </div>
               </div>
 
@@ -2355,13 +2111,19 @@
                 </p>
 
                 <div style="margin: 0 0 14px 0;">
-                  <div class="lite-video" data-youtube-id="hrrpKJO50Cw" data-title="Business Time TV — AI-Driven Decision Systems & Data Analytics">
-                    <img class="lite-video-thumb" src="Özlem Tonbul  Business Time Speaker — AI-Driven Decision Systems & Data Analytics  (2).jpeg" alt="Business Time TV video preview" loading="lazy" decoding="async" width="480" height="360" />
-                    <button type="button" class="lite-video-btn" aria-label="Play Business Time TV — AI-Driven Decision Systems & Data Analytics">
-                      <span class="lite-video-play">▶</span>
-                      <span>Play video</span>
-                    </button>
-                  </div>
+                  <a class="video-cover-link"
+                     href="https://youtu.be/hrrpKJO50Cw"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     aria-label="Watch Business Time TV — AI-Driven Decision Systems & Data Analytics on YouTube">
+                    <img
+                      src="Özlem Tonbul  Business Time Speaker — AI-Driven Decision Systems & Data Analytics  (2).jpeg"
+                      alt="Business Time TV — AI-Driven Decision Systems & Data Analytics"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="video-cover-overlay">▶ Watch video</span>
+                  </a>
                 </div>
 
                 <div style="display: flex; justify-content: center;">
@@ -2417,7 +2179,7 @@
                       display: block;
                       border-radius: 8px;
                     "
-                  / decoding="async" fetchpriority="low">
+                  / decoding="async">
                 </div>
 
                 <div class="speaking-img" style="overflow: hidden; border-radius: 8px;">
@@ -2433,7 +2195,7 @@
                       display: block;
                       border-radius: 8px;
                     "
-                  / decoding="async" fetchpriority="low">
+                  / decoding="async">
                 </div>
               </div>
 
@@ -2458,13 +2220,19 @@
                 </p>
 
                 <div style="margin: 0 0 14px 0;">
-                  <div class="lite-video" data-youtube-id="PXh8CECpIQw" data-title="E-Commerce Growth with Data Seminar">
-                    <img class="lite-video-thumb" src="Özlem Tonbul — AI-Driven E-commerce Decision Systems Seminarr.jpeg" alt="E-Commerce Growth with Data seminar video preview" loading="lazy" decoding="async" width="480" height="360" />
-                    <button type="button" class="lite-video-btn" aria-label="Play E-Commerce Growth with Data Seminar">
-                      <span class="lite-video-play">▶</span>
-                      <span>Play video</span>
-                    </button>
-                  </div>
+                  <a class="video-cover-link"
+                     href="https://youtu.be/PXh8CECpIQw"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     aria-label="Watch E-Commerce Growth with Data Seminar on YouTube">
+                    <img
+                      src="Özlem Tonbul — AI-Driven E-commerce Decision Systems Seminarr.jpeg"
+                      alt="E-Commerce Growth with Data Seminar"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="video-cover-overlay">▶ Watch video</span>
+                  </a>
                 </div>
 
                 <div
@@ -2537,7 +2305,7 @@
                   display: block;
                   border-radius: 0;
                 "
-              / decoding="async" fetchpriority="low">
+              / decoding="async">
             </div>
 
             <div
@@ -2620,7 +2388,7 @@
                   display: block;
                   border-radius: 0;
                 "
-              / decoding="async" fetchpriority="low">
+              / decoding="async">
             </div>
 
             <div
@@ -2704,7 +2472,7 @@
                   display: block;
                   border-radius: 0;
                 "
-              / decoding="async" fetchpriority="low">
+              / decoding="async">
             </div>
 
             <div
@@ -2922,7 +2690,7 @@
                   0 20px 60px rgba(0,0,0,0.5),
                   0 0 30px rgba(59,130,246,0.15);
               "
-            / decoding="async" loading="lazy" fetchpriority="low">
+            / loading="lazy" decoding="async">
           </div>
 
           <div style="flex: 1; min-width: 260px;">
@@ -3097,7 +2865,7 @@
                 width: 100%;
                 object-fit: cover;
               "
-            / decoding="async" fetchpriority="low">
+            / decoding="async">
 
             <img
               src="Özlem Tonbul Data Driven (4).jpeg"
@@ -3109,7 +2877,7 @@
                 width: 100%;
                 object-fit: cover;
               "
-            / decoding="async" fetchpriority="low">
+            / decoding="async">
 
             <img
               src="Özlem Tonbul Data Driven (3).jpeg"
@@ -3121,7 +2889,7 @@
                 width: 100%;
                 object-fit: cover;
               "
-            / decoding="async" fetchpriority="low">
+            / decoding="async">
           </div>
         </div>
       </div>
@@ -3579,15 +3347,15 @@
       </div>
     </footer>
 
-    <!-- Lightweight interaction scripts -->
+    <!-- Lightweight interactions -->
     <script>
       const mobileBtn = document.getElementById("mobile-menu-btn");
       const navLinks = document.getElementById("nav-links");
 
       if (mobileBtn && navLinks) {
         mobileBtn.addEventListener("click", () => {
-          const isOpen = navLinks.classList.toggle("show");
-          mobileBtn.setAttribute("aria-expanded", String(isOpen));
+          const open = navLinks.classList.toggle("show");
+          mobileBtn.setAttribute("aria-expanded", String(open));
         });
 
         navLinks.querySelectorAll("a").forEach((link) => {
@@ -3598,120 +3366,29 @@
         });
       }
 
-      // Reveal sections without running layout measurements on every scroll event.
-      const revealItems = document.querySelectorAll(".reveal");
-      if ("IntersectionObserver" in window) {
-        const revealObserver = new IntersectionObserver(
-          (entries, observer) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("active");
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { rootMargin: "0px 0px -80px 0px", threshold: 0.01 }
-        );
-
-        revealItems.forEach((item) => revealObserver.observe(item));
-      } else {
-        revealItems.forEach((item) => item.classList.add("active"));
-      }
-
-      // Heavy dashboard documents are never loaded on mobile.
-      // On desktop they load only shortly before the user reaches the portfolio section.
-      const dashboardFrames = document.querySelectorAll(".lazy-dashboard-frame");
-      const desktopQuery = window.matchMedia("(min-width: 768px)");
-
-      function loadDashboardFrame(frame) {
-        if (!frame.src && frame.dataset.src) {
-          frame.src = frame.dataset.src;
-        }
-      }
-
-      if (desktopQuery.matches) {
-        if ("IntersectionObserver" in window) {
-          const dashboardObserver = new IntersectionObserver(
-            (entries, observer) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  loadDashboardFrame(entry.target);
-                  observer.unobserve(entry.target);
-                }
-              });
-            },
-            { rootMargin: "500px 0px", threshold: 0.01 }
-          );
-
-          dashboardFrames.forEach((frame) => dashboardObserver.observe(frame));
-        } else {
-          dashboardFrames.forEach(loadDashboardFrame);
-        }
-      }
-
-      // YouTube is loaded only after an explicit user click.
-      document.querySelectorAll(".lite-video").forEach((container) => {
-        const button = container.querySelector(".lite-video-btn");
-        if (!button) return;
-
-        button.addEventListener("click", () => {
-          const id = container.dataset.youtubeId;
-          const title = container.dataset.title || "YouTube video";
-          const iframe = document.createElement("iframe");
-
-          iframe.src =
-            "https://www.youtube-nocookie.com/embed/" +
-            encodeURIComponent(id) +
-            "?autoplay=1&rel=0";
-
-          iframe.title = title;
-          iframe.loading = "lazy";
-          iframe.allow =
-            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-          iframe.allowFullscreen = true;
-
-          container.replaceChildren(iframe);
-        }, { once: true });
-      });
-
-    
-      // ------------------------------------------------------
-      // Analytics: delayed until after initial rendering.
-      // This keeps Google Analytics out of the critical path.
-      // ------------------------------------------------------
-      function loadGoogleAnalytics() {
+      // Analytics deliberately stays out of the initial render path.
+      function loadAnalytics() {
         if (window.__gaLoaded) return;
         window.__gaLoaded = true;
 
         window.dataLayer = window.dataLayer || [];
-        window.gtag = function () {
-          window.dataLayer.push(arguments);
-        };
-
+        window.gtag = function () { window.dataLayer.push(arguments); };
         window.gtag("js", new Date());
-        window.gtag("config", "G-H0KMPDJ6CE", {
-          send_page_view: true
-        });
+        window.gtag("config", "G-H0KMPDJ6CE");
 
-        const gaScript = document.createElement("script");
-        gaScript.async = true;
-        gaScript.src =
-          "https://www.googletagmanager.com/gtag/js?id=G-H0KMPDJ6CE";
-        document.head.appendChild(gaScript);
+        const s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=G-H0KMPDJ6CE";
+        document.head.appendChild(s);
       }
 
-      window.addEventListener(
-        "load",
-        () => {
-          if ("requestIdleCallback" in window) {
-            requestIdleCallback(loadGoogleAnalytics, { timeout: 4000 });
-          } else {
-            setTimeout(loadGoogleAnalytics, 2500);
-          }
-        },
-        { once: true }
-      );
+      ["pointerdown", "keydown", "touchstart"].forEach((eventName) => {
+        window.addEventListener(eventName, loadAnalytics, { once: true, passive: true });
+      });
 
+      window.addEventListener("load", () => {
+        setTimeout(loadAnalytics, 10000);
+      }, { once: true });
     </script>
   </body>
 </html>
