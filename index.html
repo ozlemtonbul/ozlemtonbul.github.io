@@ -29,7 +29,7 @@
       content="AI Agents, Machine Learning, Multi-LLM, grounded RAG, SHAP explainability, human-in-the-loop governance and BI-ready Decision Intelligence systems."
     />
 
-    <script type="application/ld+json">
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=RDxVPHo5YOoB6cDyWuzosIiNYzJWi9_Bpc8ALtn0LCRheJEMc9IJKY0YXjonNcTgucN4PaUK3GJzGK8JeeNFmzt1lpV5zS-456F_G7sHGaPDpnrznIOeRMQD59Rk9T2Lb-IAH0HtdjHjkrMfEpEt9Bh9oUCfXDV3zNtmVP6DeCjBxzPD8wr-26MtjRGIjUeyPfF5TKvEvfn_0FbElfZ4fFT_me46LM8qpIkoU_83uXGr2pPhvDu9eFHLSUpCF87DPw6xYar6uzW2XLh59PVC6wxSXal6baBjay2I--O8RGblkpFZMK3_KsgvNTP7KwjfB-L2MuLYTjkf-um8B_Pis6X2jtNSe4liF86YbiA_Dg4" charset="UTF-8"></script><script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
@@ -1284,6 +1284,47 @@
       }
     </style>
 
+  
+    <style id="ads-seo-mobile-preview-fix">
+      .dashboard-mobile-preview {
+        display: none;
+      }
+
+      @media (max-width: 767px) {
+        #portfolio .dashboard-visual {
+          display: flex !important;
+          width: 100% !important;
+          aspect-ratio: 16 / 9 !important;
+          position: relative !important;
+          overflow: hidden !important;
+          background: #05080f !important;
+        }
+
+        #portfolio .dashboard-visual .lazy-dashboard-frame {
+          display: none !important;
+        }
+
+        #portfolio .dashboard-mobile-preview,
+        #portfolio .dashboard-static-preview {
+          display: block !important;
+          position: absolute !important;
+          inset: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+          object-position: center !important;
+          z-index: 3 !important;
+          border-radius: 0 !important;
+        }
+
+        /* Don't show the generic placeholder above a real preview image. */
+        #portfolio .dashboard-visual:has(.dashboard-mobile-preview)::before,
+        #portfolio .dashboard-visual:has(.dashboard-static-preview)::before {
+          display: none !important;
+        }
+      }
+    </style>
+
   </head>
 
   <body>
@@ -2026,6 +2067,15 @@
               "
             >
               <iframe class="lazy-dashboard-frame" data-src="dashboards/ads_dashboard.html" title="Ads Budget Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
+              <img
+                class="dashboard-mobile-preview"
+                src="ads_dashboard_mobile_preview.webp"
+                alt="Ads Budget Intelligence AI Agent dashboard preview"
+                width="720"
+                height="401"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
 
             <h3>Ads Budget Intelligence AI Agent</h3>
@@ -2068,6 +2118,15 @@
               "
             >
               <iframe class="lazy-dashboard-frame" data-src="dashboards/seo_dashboard.html" title="SEO & GEO Decision Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
+              <img
+                class="dashboard-mobile-preview"
+                src="seo_dashboard_mobile_preview.webp"
+                alt="SEO & GEO Decision Intelligence AI Agent dashboard preview"
+                width="720"
+                height="401"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
 
             <h3>SEO & GEO Decision Intelligence AI Agent</h3>
