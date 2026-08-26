@@ -1,22 +1,15 @@
 
+
 <!doctype html>
+<!-- Performance note:
+     Static asset caching is a SERVER setting, not an HTML setting.
+     Configure long cache lifetimes for .css/.js/.png/.jpg/.jpeg/.webp/.svg/.woff2 on hosting/CDN. -->
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=K5Z0xDtTItz2Z2SrXmkB_s0NLpVkx6VWnCr2C73WKYgR_ZPC1EUPUw6JhAce-HPpyXL5CiOsU-IXcSTzFxp7DkZLwuPDjFtk4OaGxx6Y8dc0n7BNzczO8FVQfc6zQS-1Ltn8OomQlVBorzWMF5mVCznQjmebIPWDkh3Y-tcwKxlSYkEOpNoetxGRbS1jlXd-6EqhOEYQ0cKeN1o2MQ3IE2lrVJ4SIn0mcalHlR8ms0BXu-b9O8mZOlAWV1PvYSXOgJaj0HbBD9qTh-Qu1Clxq_JZg-u8q2OT2YQngnvmT-qNnqGuWMChJ0EEBNjQzCEe9uQlvBmosbbY33ndKU6Pyw" charset="UTF-8"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-H0KMPDJ6CE"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      gtag("js", new Date());
-      gtag("config", "G-H0KMPDJ6CE");
-    </script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#060913" />
 
     <title>Özlem Tonbul | AI & Data Intelligence, AI Agents & Decision Intelligence</title>
 
@@ -104,12 +97,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Modern Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
 
     <style>
       :root {
@@ -118,12 +105,12 @@
         --bg-card-hover: rgba(24, 32, 56, 0.8);
 
         --accent-primary: #3b82f6;
-        --accent-secondary: #0ea5e9;
+        --accent-secondary: #38bdf8;
         --accent-purple: #8b5cf6;
         --accent-glow: rgba(59, 130, 246, 0.5);
 
         --text-main: #f8fafc;
-        --text-muted: #94a3b8;
+        --text-muted: #b4c0d2;
 
         --border-color: rgba(255, 255, 255, 0.08);
         --border-highlight: rgba(59, 130, 246, 0.3);
@@ -147,7 +134,7 @@
       }
 
       body {
-        font-family: "Inter", sans-serif;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
         background-color: var(--bg-dark);
         color: var(--text-main);
         line-height: 1.6;
@@ -917,14 +904,319 @@
         color: #facc15;
       }
     </style>
+  
+    <!-- Mobile + performance fixes -->
+    <style id="mobile-performance-fixes">
+      /* Let the browser skip layout/paint work for far below-the-fold content. */
+      @supports (content-visibility: auto) {
+        section:not(.hero),
+        footer {
+          content-visibility: auto;
+          contain-intrinsic-size: 800px;
+        }
+      }
+
+      /* Cheap placeholder while desktop dashboard previews are not yet loaded. */
+      .dashboard-visual::before {
+        content: "Dashboard preview";
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        letter-spacing: 0.02em;
+        background:
+          radial-gradient(circle at 30% 20%, rgba(59,130,246,.12), transparent 40%),
+          #080d18;
+      }
+
+      .dashboard-visual iframe {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Mobile: do not render or load the heavyweight 1920x1080 dashboard previews.
+         The card title + direct dashboard/AI Agent buttons remain available. */
+      @media (max-width: 767px) {
+        body::before,
+        body::after {
+          display: none;
+        }
+
+        nav,
+        .glass-card {
+          -webkit-backdrop-filter: none !important;
+          backdrop-filter: none !important;
+        }
+
+        nav {
+          background: rgba(6, 9, 19, 0.97);
+        }
+
+        section {
+          padding: 56px 0;
+        }
+
+        .hero {
+          padding: 112px 0 48px;
+        }
+
+        .hero h1 {
+          font-size: clamp(2.25rem, 11vw, 3rem);
+          line-height: 1.08;
+          letter-spacing: -1px;
+        }
+
+        .hero p {
+          font-size: 1rem;
+          line-height: 1.65;
+          margin-bottom: 28px;
+        }
+
+        .section-header {
+          margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+          font-size: 1.75rem;
+          line-height: 1.2;
+        }
+
+        .section-header p {
+          font-size: 1rem;
+        }
+
+        .glass-card {
+          padding: 20px;
+        }
+
+        /* This is the main mobile visual fix for AI Agent/Dashboard cards. */
+        #portfolio .dashboard-visual {
+          display: none !important;
+        }
+
+        /* Speaking/media image pairs were forced to two columns inline.
+           Stack them on narrow screens instead of squeezing/cropping them. */
+        .speaking-grid {
+          grid-template-columns: 1fr !important;
+        }
+
+        .speaking-img img {
+          height: auto !important;
+          max-height: none !important;
+        }
+
+        .ai-proof-grid {
+          gap: 12px;
+        }
+
+        .stat-title {
+          font-size: 0.72rem;
+          line-height: 1.35;
+        }
+
+        .skill-badge {
+          padding: 8px 12px;
+          font-size: 0.86rem;
+        }
+
+        /* Hover transforms can trigger extra paints on touch devices. */
+        .glass-card:hover,
+        .btn:hover,
+        .cert-card:hover,
+        .footer-grid .contact-card:hover {
+          transform: none !important;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .container {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+
+        .hero-ctas {
+          gap: 10px;
+        }
+
+        .hero-ctas .btn {
+          width: 100%;
+        }
+
+        .ai-proof-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+
+  
+    <style id="psi-v2-fixes">
+      .lite-video {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 8px;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 50% 35%, rgba(59,130,246,.16), transparent 40%),
+          #05080f;
+        border: 1px solid var(--border-color);
+      }
+
+      .lite-video-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 48px;
+        padding: 11px 18px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,.18);
+        background: rgba(15,23,42,.92);
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .lite-video-btn:focus-visible,
+      .btn:focus-visible,
+      .menu-toggle:focus-visible,
+      a:focus-visible {
+        outline: 3px solid #7dd3fc;
+        outline-offset: 3px;
+      }
+
+      .lite-video-play {
+        font-size: 1.15rem;
+      }
+
+      .lite-video iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+
+      @media (max-width: 767px) {
+        .lite-video {
+          min-height: 180px;
+        }
+      }
+    </style>
+
+  
+    <style id="final-v3-performance-accessibility">
+      :root {
+        color-scheme: dark;
+      }
+
+      .skip-link {
+        position: fixed;
+        top: 8px;
+        left: 8px;
+        z-index: 99999;
+        transform: translateY(-150%);
+        background: #ffffff;
+        color: #020617;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-weight: 700;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      /* Avoid unnecessary paint work on images. */
+      img {
+        height: auto;
+      }
+
+      /* Keep card content readable on very narrow phones. */
+      .glass-card,
+      .project-card,
+      .dashboard-item,
+      .cert-card {
+        min-width: 0;
+      }
+
+      .glass-card p,
+      .glass-card h3,
+      .glass-card a,
+      .project-meta,
+      .tag {
+        overflow-wrap: anywhere;
+      }
+
+      @media (max-width: 767px) {
+        /* Small phones should never horizontally overflow. */
+        html,
+        body {
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
+        .hero-badge {
+          max-width: 100%;
+          line-height: 1.45;
+        }
+
+        .case-study-card {
+          padding: 20px !important;
+        }
+
+        /* Safer grid behavior for inline grids that were authored desktop-first. */
+        [style*="grid-template-columns: repeat(3, 1fr)"],
+        [style*="grid-template-columns: 1fr 1fr"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        /* Keep the AI proof block compact; it is designed for two columns. */
+        .ai-proof-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+
+        .contact-grid-mobile {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+      }
+
+      @media (max-width: 390px) {
+        .contact-grid-mobile {
+          grid-template-columns: 1fr !important;
+        }
+
+        .hero h1 {
+          font-size: 2.15rem;
+        }
+      }
+    </style>
+
   </head>
 
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <!-- Navigation -->
-    <nav>
+    <nav aria-label="Primary navigation">
       <div class="container nav-inner">
         <a href="#" class="logo">Ozlem Tonbul</a>
-        <button class="menu-toggle" id="mobile-menu-btn">☰</button>
+        <button class="menu-toggle" id="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">☰</button>
 
         <div class="nav-links" id="nav-links">
           <a href="#about">About</a>
@@ -936,6 +1228,8 @@
         </div>
       </div>
     </nav>
+
+    <main id="main-content" tabindex="-1">
 
     <!-- Hero Section -->
     <section class="hero" id="home">
@@ -1655,7 +1949,7 @@
                 overflow: hidden;
               "
             >
-              <iframe src="dashboards/ads_dashboard.html" scrolling="no"></iframe>
+              <iframe class="lazy-dashboard-frame" data-src="dashboards/ads_dashboard.html" title="Ads Budget Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
             </div>
 
             <h3>Ads Budget Intelligence AI Agent</h3>
@@ -1697,7 +1991,7 @@
                 overflow: hidden;
               "
             >
-              <iframe src="dashboards/seo_dashboard.html" scrolling="no"></iframe>
+              <iframe class="lazy-dashboard-frame" data-src="dashboards/seo_dashboard.html" title="SEO & GEO Decision Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
             </div>
 
             <h3>SEO & GEO Decision Intelligence AI Agent</h3>
@@ -1739,10 +2033,10 @@
                 overflow: hidden;
               "
             >
-              <iframe src="dashboards/marketing_dashboard.html" scrolling="no"></iframe>
+              <iframe class="lazy-dashboard-frame" data-src="dashboards/marketing_dashboard.html" title="Marketing Decision Intelligence dashboard" loading="lazy" scrolling="no"></iframe>
 
               <img
-                src="dashboards/marketing_dashboard.png"
+                src="dashboards/marketing_dashboard.png" width="1920" height="1080"
                 style="
                   position: absolute;
                   top: 0;
@@ -1752,7 +2046,7 @@
                   object-fit: cover;
                 "
                 alt="Marketing Dashboard"
-              />
+              / decoding="async" loading="lazy" fetchpriority="low">
 
               <a
                 href="dashboards/marketing_dashboard.html"
@@ -1853,12 +2147,12 @@
             <p
               style="
                 font-size: 0.78rem;
-                color: #0ea5e9;
+                color: #38bdf8;
                 font-weight: 600;
                 text-transform: uppercase;
                 letter-spacing: 1px;
                 margin-bottom: 16px;
-                border-left: 3px solid #0ea5e9;
+                border-left: 3px solid #38bdf8;
                 padding-left: 12px;
               "
             >
@@ -1888,7 +2182,7 @@
                       display: block;
                       border-radius: 8px;
                     "
-                  />
+                  / decoding="async" fetchpriority="low">
                 </div>
 
                 <div class="speaking-img" style="overflow: hidden; border-radius: 8px;">
@@ -1904,7 +2198,7 @@
                       display: block;
                       border-radius: 8px;
                     "
-                  />
+                  / decoding="async" fetchpriority="low">
                 </div>
               </div>
 
@@ -1916,7 +2210,7 @@
                 <p
                   style="
                     font-size: 0.85rem;
-                    color: #94a3b8;
+                    color: #b8c4d6;
                     margin-bottom: 16px;
                     line-height: 1.6;
                   "
@@ -1926,19 +2220,12 @@
                 </p>
 
                 <div style="margin: 0 0 14px 0;">
-                  <iframe
-                    width="100%"
-                    style="
-                      aspect-ratio: 16/9;
-                      border-radius: 8px;
-                      border: none;
-                      display: block;
-                    "
-                    src="https://www.youtube.com/embed/hrrpKJO50Cw"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    loading="lazy"
-                  ></iframe>
+                  <div class="lite-video" data-youtube-id="hrrpKJO50Cw" data-title="Business Time TV — AI-Driven Decision Systems & Data Analytics">
+                    <button type="button" class="lite-video-btn" aria-label="Play Business Time TV — AI-Driven Decision Systems & Data Analytics">
+                      <span class="lite-video-play">▶</span>
+                      <span>Play video</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div style="display: flex; justify-content: center;">
@@ -1959,12 +2246,12 @@
             <p
               style="
                 font-size: 0.78rem;
-                color: #0ea5e9;
+                color: #38bdf8;
                 font-weight: 600;
                 text-transform: uppercase;
                 letter-spacing: 1px;
                 margin-bottom: 16px;
-                border-left: 3px solid #0ea5e9;
+                border-left: 3px solid #38bdf8;
                 padding-left: 12px;
               "
             >
@@ -1994,7 +2281,7 @@
                       display: block;
                       border-radius: 8px;
                     "
-                  />
+                  / decoding="async" fetchpriority="low">
                 </div>
 
                 <div class="speaking-img" style="overflow: hidden; border-radius: 8px;">
@@ -2010,7 +2297,7 @@
                       display: block;
                       border-radius: 8px;
                     "
-                  />
+                  / decoding="async" fetchpriority="low">
                 </div>
               </div>
 
@@ -2019,35 +2306,28 @@
                   E-Commerce Growth with Data
                 </h3>
 
-                <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 3px;">
+                <p style="font-size: 0.82rem; color: #b8c4d6; margin-bottom: 3px;">
                   <strong style="color: #f8fafc;">Topics:</strong>
                   SEO · Ads · Operations · AI · Decision Systems
                 </p>
 
-                <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 3px;">
+                <p style="font-size: 0.82rem; color: #b8c4d6; margin-bottom: 3px;">
                   <strong style="color: #f8fafc;">Date:</strong>
                   May 10, 2026 · 14:00 TR / 12:00 UK
                 </p>
 
-                <p style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 16px;">
+                <p style="font-size: 0.82rem; color: #b8c4d6; margin-bottom: 16px;">
                   <strong style="color: #f8fafc;">Platform:</strong>
                   Online · Google Meet
                 </p>
 
                 <div style="margin: 0 0 14px 0;">
-                  <iframe
-                    width="100%"
-                    style="
-                      aspect-ratio: 16/9;
-                      border-radius: 8px;
-                      border: none;
-                      display: block;
-                    "
-                    src="https://www.youtube.com/embed/PXh8CECpIQw"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                    loading="lazy"
-                  ></iframe>
+                  <div class="lite-video" data-youtube-id="PXh8CECpIQw" data-title="E-Commerce Growth with Data Seminar">
+                    <button type="button" class="lite-video-btn" aria-label="Play E-Commerce Growth with Data Seminar">
+                      <span class="lite-video-play">▶</span>
+                      <span>Play video</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div
@@ -2120,7 +2400,7 @@
                   display: block;
                   border-radius: 0;
                 "
-              />
+              / decoding="async" fetchpriority="low">
             </div>
 
             <div
@@ -2136,7 +2416,7 @@
                 <p
                   style="
                     font-size: 0.75rem;
-                    color: #0ea5e9;
+                    color: #38bdf8;
                     font-weight: 600;
                     text-transform: uppercase;
                     letter-spacing: 1px;
@@ -2149,7 +2429,7 @@
                 <p
                   style="
                     font-size: 0.84rem;
-                    color: #94a3b8;
+                    color: #b8c4d6;
                     margin-bottom: 14px;
                     line-height: 1.6;
                   "
@@ -2203,7 +2483,7 @@
                   display: block;
                   border-radius: 0;
                 "
-              />
+              / decoding="async" fetchpriority="low">
             </div>
 
             <div
@@ -2219,7 +2499,7 @@
                 <p
                   style="
                     font-size: 0.75rem;
-                    color: #0ea5e9;
+                    color: #38bdf8;
                     font-weight: 600;
                     text-transform: uppercase;
                     letter-spacing: 1px;
@@ -2232,7 +2512,7 @@
                 <p
                   style="
                     font-size: 0.84rem;
-                    color: #94a3b8;
+                    color: #b8c4d6;
                     margin-bottom: 14px;
                     line-height: 1.6;
                   "
@@ -2287,7 +2567,7 @@
                   display: block;
                   border-radius: 0;
                 "
-              />
+              / decoding="async" fetchpriority="low">
             </div>
 
             <div
@@ -2303,7 +2583,7 @@
                 <p
                   style="
                     font-size: 0.75rem;
-                    color: #0ea5e9;
+                    color: #38bdf8;
                     font-weight: 600;
                     text-transform: uppercase;
                     letter-spacing: 1px;
@@ -2316,7 +2596,7 @@
                 <p
                   style="
                     font-size: 0.84rem;
-                    color: #94a3b8;
+                    color: #b8c4d6;
                     margin-bottom: 14px;
                     line-height: 1.6;
                   "
@@ -2388,7 +2668,7 @@
               <div
                 style="
                   font-size: 0.78rem;
-                  color: #94a3b8;
+                  color: #b8c4d6;
                   letter-spacing: 1.2px;
                   text-transform: uppercase;
                   margin-bottom: 10px;
@@ -2412,7 +2692,7 @@
               <div
                 style="
                   font-size: 0.88rem;
-                  color: #94a3b8;
+                  color: #b8c4d6;
                   line-height: 1.65;
                 "
               >
@@ -2434,7 +2714,7 @@
                 <p
                   style="
                     font-size: 0.75rem;
-                    color: #0ea5e9;
+                    color: #38bdf8;
                     font-weight: 600;
                     text-transform: uppercase;
                     letter-spacing: 1px;
@@ -2447,7 +2727,7 @@
                 <p
                   style="
                     font-size: 0.84rem;
-                    color: #94a3b8;
+                    color: #b8c4d6;
                     margin-bottom: 14px;
                     line-height: 1.6;
                   "
@@ -2505,7 +2785,7 @@
                   0 20px 60px rgba(0,0,0,0.5),
                   0 0 30px rgba(59,130,246,0.15);
               "
-            />
+            / decoding="async" loading="lazy" fetchpriority="low">
           </div>
 
           <div style="flex: 1; min-width: 260px;">
@@ -2680,7 +2960,7 @@
                 width: 100%;
                 object-fit: cover;
               "
-            />
+            / decoding="async" fetchpriority="low">
 
             <img
               src="Özlem Tonbul Data Driven (4).jpeg"
@@ -2692,7 +2972,7 @@
                 width: 100%;
                 object-fit: cover;
               "
-            />
+            / decoding="async" fetchpriority="low">
 
             <img
               src="Özlem Tonbul Data Driven (3).jpeg"
@@ -2704,7 +2984,7 @@
                 width: 100%;
                 object-fit: cover;
               "
-            />
+            / decoding="async" fetchpriority="low">
           </div>
         </div>
       </div>
@@ -2967,6 +3247,9 @@
     </section>
 
     <!-- Contact & Footer -->
+    
+    </main>
+
     <footer id="contact" class="reveal">
       <div class="container">
         <div class="section-header" style="text-align: center; margin-bottom: 48px;">
@@ -3159,37 +3442,139 @@
       </div>
     </footer>
 
-    <!-- Simple interaction scripts -->
+    <!-- Lightweight interaction scripts -->
     <script>
       const mobileBtn = document.getElementById("mobile-menu-btn");
       const navLinks = document.getElementById("nav-links");
 
-      mobileBtn.addEventListener("click", () => {
-        navLinks.classList.toggle("show");
-      });
-
-      navLinks.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-          navLinks.classList.remove("show");
+      if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener("click", () => {
+          const isOpen = navLinks.classList.toggle("show");
+          mobileBtn.setAttribute("aria-expanded", String(isOpen));
         });
-      });
 
-      function reveal() {
-        var reveals = document.querySelectorAll(".reveal");
+        navLinks.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            navLinks.classList.remove("show");
+            mobileBtn.setAttribute("aria-expanded", "false");
+          });
+        });
+      }
 
-        for (var i = 0; i < reveals.length; i++) {
-          var windowHeight = window.innerHeight;
-          var elementTop = reveals[i].getBoundingClientRect().top;
-          var elementVisible = 100;
+      // Reveal sections without running layout measurements on every scroll event.
+      const revealItems = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver(
+          (entries, observer) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -80px 0px", threshold: 0.01 }
+        );
 
-          if (elementTop < windowHeight - elementVisible) {
-            reveals[i].classList.add("active");
-          }
+        revealItems.forEach((item) => revealObserver.observe(item));
+      } else {
+        revealItems.forEach((item) => item.classList.add("active"));
+      }
+
+      // Heavy dashboard documents are never loaded on mobile.
+      // On desktop they load only shortly before the user reaches the portfolio section.
+      const dashboardFrames = document.querySelectorAll(".lazy-dashboard-frame");
+      const desktopQuery = window.matchMedia("(min-width: 768px)");
+
+      function loadDashboardFrame(frame) {
+        if (!frame.src && frame.dataset.src) {
+          frame.src = frame.dataset.src;
         }
       }
 
-      window.addEventListener("scroll", reveal);
-      reveal();
+      if (desktopQuery.matches) {
+        if ("IntersectionObserver" in window) {
+          const dashboardObserver = new IntersectionObserver(
+            (entries, observer) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  loadDashboardFrame(entry.target);
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { rootMargin: "500px 0px", threshold: 0.01 }
+          );
+
+          dashboardFrames.forEach((frame) => dashboardObserver.observe(frame));
+        } else {
+          dashboardFrames.forEach(loadDashboardFrame);
+        }
+      }
+
+      // YouTube is loaded only after an explicit user click.
+      document.querySelectorAll(".lite-video").forEach((container) => {
+        const button = container.querySelector(".lite-video-btn");
+        if (!button) return;
+
+        button.addEventListener("click", () => {
+          const id = container.dataset.youtubeId;
+          const title = container.dataset.title || "YouTube video";
+          const iframe = document.createElement("iframe");
+
+          iframe.src =
+            "https://www.youtube-nocookie.com/embed/" +
+            encodeURIComponent(id) +
+            "?autoplay=1&rel=0";
+
+          iframe.title = title;
+          iframe.loading = "lazy";
+          iframe.allow =
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          iframe.allowFullscreen = true;
+
+          container.replaceChildren(iframe);
+        }, { once: true });
+      });
+
+    
+      // ------------------------------------------------------
+      // Analytics: delayed until after initial rendering.
+      // This keeps Google Analytics out of the critical path.
+      // ------------------------------------------------------
+      function loadGoogleAnalytics() {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+
+        window.gtag("js", new Date());
+        window.gtag("config", "G-H0KMPDJ6CE", {
+          send_page_view: true
+        });
+
+        const gaScript = document.createElement("script");
+        gaScript.async = true;
+        gaScript.src =
+          "https://www.googletagmanager.com/gtag/js?id=G-H0KMPDJ6CE";
+        document.head.appendChild(gaScript);
+      }
+
+      window.addEventListener(
+        "load",
+        () => {
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(loadGoogleAnalytics, { timeout: 4000 });
+          } else {
+            setTimeout(loadGoogleAnalytics, 2500);
+          }
+        },
+        { once: true }
+      );
+
     </script>
   </body>
 </html>
