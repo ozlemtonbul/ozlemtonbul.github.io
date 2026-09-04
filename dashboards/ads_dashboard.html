@@ -1,248 +1,302 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="theme-color" content="#07101f"/>
-<title>Ads Budget Intelligence · Özlem Tonbul</title>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ads ML Budget Intelligence · Özlem Tonbul</title>
 <style>
 :root{
-  --bg:#07101f;--panel:#101c32;--line:#263b5a;--text:#f2f6fb;--muted:#9fb1c7;
-  --cyan:#24d8c5;--blue:#54a7ff;--violet:#9b72ff;--green:#65e3a5;--yellow:#f7c95c;--red:#ff7f8a;
-  --shadow:0 14px 38px rgba(0,0,0,.28)
+  --bg:#07111f;--panel:#0c1828;--panel2:#111f33;--line:#23364e;
+  --text:#f3f7fb;--muted:#9caec1;--cyan:#27d7c4;--blue:#4ea1ff;
+  --yellow:#f7c956;--green:#63df9f;--red:#ff7f89;--violet:#9c75ff;
 }
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:linear-gradient(135deg,#07101f,#111831 52%,#2a1647);color:var(--text);font:14px/1.5 Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
-a{text-decoration:none;color:inherit}.shell{max-width:1440px;margin:auto;padding:16px}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:rgba(8,16,31,.88);box-shadow:var(--shadow);position:sticky;top:8px;z-index:20;backdrop-filter:blur(10px)}
-.brand{font-weight:800;font-size:1.05rem}.brand span{color:var(--cyan)}.actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{padding:9px 13px;border:1px solid var(--line);border-radius:9px;background:#0d1b30;color:#c9d7e6;font-weight:700}.btn.primary{border-color:rgba(36,216,197,.65);background:rgba(36,216,197,.13);color:#8df5e8}
-.tabs{display:flex;gap:8px;overflow:auto;margin:16px 0;padding:6px;border:1px solid var(--line);border-radius:14px;background:#081426}
-.tab{white-space:nowrap;border:0;background:transparent;color:var(--muted);padding:10px 14px;border-radius:9px;font-weight:800;cursor:pointer}.tab.active{background:linear-gradient(90deg,rgba(36,216,197,.20),rgba(155,114,255,.18));color:#fff;box-shadow:inset 0 0 0 1px rgba(36,216,197,.36)}
-.page{display:none}.page.active{display:block}.head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:8px 0 14px}
-.eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--cyan);font-weight:800}h1{margin:2px 0;font-size:2rem}h2{margin:0;font-size:1.25rem}h3{margin:0 0 8px;font-size:1rem}.sub{color:var(--muted)}
-.grid{display:grid;gap:12px}.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:linear-gradient(145deg,rgba(16,28,50,.95),rgba(12,23,42,.95));border:1px solid var(--line);border-radius:14px;padding:15px;box-shadow:var(--shadow);min-width:0}
-.kpi .label{color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.08em}.kpi .value{font-size:1.7rem;font-weight:900;margin:5px 0 2px}.delta{font-size:.82rem;color:var(--green);font-weight:800}.warn{color:var(--yellow)}.bad{color:var(--red)}.good{color:var(--green)}
-.two{grid-template-columns:1.2fr .8fr}.half{grid-template-columns:1fr 1fr}.chart{height:310px;position:relative}.chart.small{height:260px}.chart svg{width:100%;height:100%;overflow:visible}
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 0;color:var(--muted);font-size:.8rem}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
-.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:11px}table{border-collapse:collapse;width:100%;min-width:700px;background:#0b1729}
-th,td{padding:10px 11px;border-bottom:1px solid #1e304a;text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}
-th{background:#10213a;color:#c4d4e4;text-transform:uppercase;letter-spacing:.04em;font-size:.73rem}tr:last-child td{border-bottom:0}
-.note{margin-top:10px;padding:11px 13px;border-left:3px solid var(--yellow);border-radius:8px;background:#111d2c;color:#bdcada}
-.footer{margin-top:16px;padding:12px 4px;color:#8398ae;font-size:.78rem;text-align:center}.power-title{display:flex;align-items:center;gap:9px}.power-title:before{content:"";width:4px;height:28px;background:var(--cyan);border-radius:4px}
-.badge-row{display:flex;gap:7px;flex-wrap:wrap}.badge{font-size:.74rem;border:1px solid var(--line);padding:5px 8px;border-radius:999px;color:#bed0e2;background:#0b192c}
-@media(max-width:1050px){.kpis{grid-template-columns:repeat(2,1fr)}.two,.half{grid-template-columns:1fr}}@media(max-width:650px){.shell{padding:10px}.kpis{grid-template-columns:1fr 1fr}h1{font-size:1.5rem}.chart{height:270px}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:linear-gradient(135deg,#050b15 0%,#111831 56%,#24153e 100%);
+  color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;font-size:14px;
+}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1420px;margin:auto;padding:18px}
+.header{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:15px 18px;background:rgba(7,17,31,.94);border:1px solid var(--line);
+  border-radius:14px;position:sticky;top:8px;z-index:20;
+}
+.brand{display:flex;gap:9px;align-items:center;font-weight:800}
+.brand .pipe{color:var(--cyan);font-size:1.2rem}
+.badges,.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge,.btn{
+  border:1px solid var(--line);background:#0a1727;color:#c5d4e3;
+  padding:7px 10px;border-radius:8px;font-size:.8rem;
+}
+.btn{font-weight:700;cursor:pointer}
+.btn.ai{border-color:rgba(39,215,196,.55);background:rgba(39,215,196,.12);color:#8cf4e7}
+.tabs{
+  display:flex;gap:7px;padding:7px;margin:14px 0;border:1px solid var(--line);
+  border-radius:12px;background:#081426;overflow:auto;
+}
+.tab{
+  border:0;background:transparent;color:var(--muted);padding:10px 14px;
+  border-radius:8px;font-weight:800;white-space:nowrap;cursor:pointer;
+}
+.tab.active{background:#152943;color:#fff;box-shadow:inset 0 0 0 1px rgba(78,161,255,.28)}
+.page{display:none}.page.active{display:block}
+.section-title{display:flex;align-items:center;gap:8px;margin:13px 0 15px}
+.section-title .pipe{color:var(--cyan);font-size:1.35rem}
+h1{font-size:1.85rem;margin:0}h2{font-size:1.15rem;margin:0 0 10px}
+.sub{color:var(--muted);margin-top:4px}
+.grid{display:grid;gap:12px}.kpis{grid-template-columns:repeat(5,minmax(0,1fr))}
+.card{
+  background:linear-gradient(145deg,rgba(13,26,44,.98),rgba(9,20,35,.98));
+  border:1px solid var(--line);border-radius:12px;padding:15px;min-width:0;
+}
+.kpi .label{text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-size:.72rem}
+.kpi .value{font-size:1.65rem;font-weight:900;margin:6px 0 3px}
+.delta{color:var(--green);font-weight:800;font-size:.82rem}
+.red{color:var(--red)}.yellow{color:var(--yellow)}.green{color:var(--green)}
+.two{grid-template-columns:1.3fr .7fr}.half{grid-template-columns:1fr 1fr}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:9px}
+table{border-collapse:collapse;width:100%;min-width:690px;background:#091626}
+th,td{padding:10px 11px;border-bottom:1px solid #1d3047;text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{background:#10223a;color:#c7d6e5;font-size:.73rem;text-transform:uppercase;letter-spacing:.04em}
+tr:last-child td{border-bottom:0}
+.chart{height:300px;width:100%;position:relative}.chart.small{height:245px}
+.chart svg{width:100%;height:100%}
+.legend{display:flex;gap:13px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;margin-top:6px}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+.note{margin-top:10px;color:#b7c5d4;background:#101c2b;border-left:3px solid var(--yellow);padding:11px 13px;border-radius:7px}
+.footer{margin:16px 0 4px;text-align:center;color:#8297ac;font-size:.78rem}
+@media(max-width:1050px){.kpis{grid-template-columns:repeat(3,1fr)}.two,.half{grid-template-columns:1fr}}
+@media(max-width:650px){.wrap{padding:10px}.kpis{grid-template-columns:1fr 1fr}.header{position:static}h1{font-size:1.45rem}.chart{height:250px}}
 </style>
 </head>
 <body>
-<div class="shell">
-  <div class="topbar">
-    <div class="brand"><span>Ads</span> Budget Intelligence · Özlem Tonbul</div>
-    <div class="actions">
-      <a class="btn" href="seo_dashboard.html">SEO Dashboard →</a>
-      <a class="btn primary" href="https://ads-ai-ml-llm-intelligence.streamlit.app/ana-panel?lang=tr" target="_blank" rel="noopener">🤖 Live AI Agent →</a>
-      <a class="btn" href="https://github.com/ozlemtonbul/ads-ml-llm-budget-intelligence-ai-agent" target="_blank" rel="noopener">GitHub</a>
+<div class="wrap">
+
+<div class="header">
+  <div class="brand"><span>Ads</span><span class="pipe">|</span><span>ML Budget Intelligence</span></div>
+  <div class="badges">
+    <span class="badge">Google Ads API + GA4</span>
+    <span class="badge">XGBoost · LightGBM · Random Forest · Champion Routing · SHAP · RAG · Multi-LLM</span>
+  </div>
+  <div class="actions">
+    <a class="btn" href="seo_dashboard.html">SEO Dashboard →</a>
+    <a class="btn ai" target="_blank" rel="noopener" href="https://ads-ai-ml-llm-intelligence.streamlit.app/ana-panel?lang=tr">🤖 Live AI Agent →</a>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="y2324">2023–2026 Overview</button>
+  <button class="tab" data-tab="y2425">Ads — 2024/2025</button>
+  <button class="tab" data-tab="y26">Ads — 2026 YTD</button>
+</div>
+
+<section class="page active" id="y2324">
+  <div class="section-title"><span class="pipe">|</span><h1>Ads Performance — 2023 · 2024 · 2025 · 2026 YTD</h1></div>
+  <div class="grid kpis" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:12px">
+    <div class="card kpi"><div class="label">2023 Revenue</div><div class="value">₺44.91M</div><div class="sub">ROAS 16.51x</div></div>
+    <div class="card kpi"><div class="label">2024 Revenue</div><div class="value">₺72.74M</div><div class="delta">▲ +62% vs 2023</div></div>
+    <div class="card kpi"><div class="label">2025 Revenue</div><div class="value">₺94.58M</div><div class="delta">▲ +30% vs 2024</div></div>
+    <div class="card kpi"><div class="label">2026 YTD Revenue</div><div class="value">₺30.78M</div><div class="delta">Jan–May verified scope</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h2>2023–2026 Executive Ads Comparison</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Period</th><th>Revenue</th><th>Ad Spend</th><th>ROAS</th><th>Orders</th><th>Avg. Basket</th><th>Scope</th></tr></thead>
+        <tbody>
+          <tr><td>2023</td><td>₺44.91M</td><td>₺2.72M</td><td>16.51x</td><td>62,643</td><td>₺717</td><td>Full year</td></tr>
+          <tr><td>2024</td><td>₺72.74M</td><td>₺4.48M</td><td>16.23x</td><td>52,796</td><td>₺1,378</td><td>Full year</td></tr>
+          <tr><td>2025</td><td class="green">₺94.58M</td><td>₺6.48M</td><td>14.61x</td><td>50,201</td><td class="green">₺1,884</td><td>Full year</td></tr>
+          <tr><td>2026 YTD</td><td>₺30.78M</td><td>—</td><td class="green">14.39x</td><td>16,062</td><td class="green">₺1,916</td><td>Jan–May verified</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">2026 is YTD, not a full-year figure. It is shown on the same overview for continuity but should not be compared as a completed annual period.</div>
+  </div>
+
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th></th><th>Channel A</th><th>Channel B</th><th>Channel C</th><th>Channel D</th><th>Total</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="3"><b>Revenue</b></td><td>2024</td><td>₺72,738,843</td><td>₺34,329,368</td><td>₺23,302,921</td><td>₺4,359,676</td><td>₺134,730,808</td></tr>
+          <tr><td>2023</td><td>₺44,905,202</td><td>₺11,364,338</td><td>₺3,824,205</td><td>₺0</td><td>₺60,093,745</td></tr>
+          <tr><td>Δ</td><td class="green">+62%</td><td class="green">+202%</td><td class="green">+509%</td><td>—</td><td class="green">+124%</td></tr>
+          <tr><td rowspan="3"><b>Orders</b></td><td>2024</td><td>52,796</td><td>42,054</td><td>22,745</td><td>4,108</td><td>121,703</td></tr>
+          <tr><td>2023</td><td>62,643</td><td>20,573</td><td>6,034</td><td>0</td><td>89,250</td></tr>
+          <tr><td>Δ</td><td class="red">−16%</td><td class="green">+104%</td><td class="green">+277%</td><td>—</td><td class="green">+36%</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" data-tab="a2324">Ads — 2023 / 2024</button>
-    <button class="tab" data-tab="a2425">Ads — 2024 / 2025</button>
-    <button class="tab" data-tab="a2026">Ads — 2026 YTD</button>
+  <div class="grid half" style="margin-top:12px">
+    <div class="card">
+      <h2>Monthly Trend — Annual Metrics View</h2><div id="adsTrend2324" class="chart"></div>
+      <div class="legend"><span><b style="background:#27d7c4"></b>Revenue ₺M</span><span><b style="background:#4ea1ff"></b>Spend ₺M</span><span><b style="background:#f7c956"></b>Orders K (scaled)</span></div>
+    </div>
+    <div class="card">
+      <h2>Top Revenue by Gender</h2>
+      <div class="table-wrap">
+        <table><thead><tr><th>#</th><th>Gender</th><th>Product Detail Views</th><th>Add to Cart</th><th>Units Sold</th><th>Revenue</th><th>Rev %</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Boys</td><td>4,492,378</td><td>295,023</td><td>38,753</td><td>₺36,534,604</td><td>48.93%</td></tr>
+          <tr><td>2</td><td>Girls</td><td>4,368,470</td><td>295,464</td><td>39,331</td><td>₺35,146,881</td><td>47.07%</td></tr>
+        </tbody></table>
+      </div>
+    </div>
   </div>
 
-  <section class="page active" id="a2324">
-    <div class="head">
-      <div><div class="eyebrow">Historical Power BI View</div><h1 class="power-title">Yearly Metrics — 2023 vs 2024</h1></div>
-      <div class="badge-row"><span class="badge">Google Ads API + GA4</span><span class="badge">Python</span><span class="badge">Decision Intelligence</span></div>
+  <div class="grid half" style="margin-top:12px">
+    <div class="card"><h2>Top Revenue by Product Group</h2>
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>Group</th><th>Product Detail Views</th><th>Add to Cart</th><th>Units Sold</th><th>Revenue</th><th>Rev %</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Preschool</td><td>2,737,262</td><td>220,216</td><td>28,810</td><td>₺26,999,862</td><td>36.16%</td></tr>
+        <tr><td>2</td><td>Baby</td><td>2,782,057</td><td>185,081</td><td>25,232</td><td>₺21,415,902</td><td>28.68%</td></tr>
+        <tr><td>3</td><td>Kids</td><td>2,301,706</td><td>122,822</td><td>14,598</td><td>₺16,413,193</td><td>21.98%</td></tr>
+        <tr><td>4</td><td>First Steps</td><td>1,006,949</td><td>59,580</td><td>9,037</td><td>₺6,569,930</td><td>8.80%</td></tr>
+      </tbody></table></div>
     </div>
-
-    <div class="grid kpis">
-      <div class="card kpi"><div class="label">Revenue</div><div class="value">₺44.9M → ₺72.7M</div><div class="delta">▲ +62%</div></div>
-      <div class="card kpi"><div class="label">Ad Spend</div><div class="value">₺2.72M → ₺4.48M</div><div class="delta">▲ +65%</div></div>
-      <div class="card kpi"><div class="label">ROAS</div><div class="value">16.51 → 16.23</div><div class="delta warn">▼ −2%</div></div>
-      <div class="card kpi"><div class="label">Avg. Basket</div><div class="value">₺717 → ₺1,378</div><div class="delta">▲ +92%</div></div>
+    <div class="card"><h2>Top Revenue Categories</h2>
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>Category</th><th>Product Detail Views</th><th>Add to Cart</th><th>Units Sold</th><th>Revenue</th><th>Rev %</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Boots</td><td>2,258,497</td><td>140,113</td><td>18,596</td><td>₺22,053,487</td><td>29.53%</td></tr>
+        <tr><td>2</td><td>Sports Shoes</td><td>2,675,294</td><td>167,669</td><td>21,229</td><td>₺18,858,953</td><td>25.26%</td></tr>
+        <tr><td>3</td><td>Sneakers</td><td>1,231,468</td><td>85,079</td><td>9,574</td><td>₺9,601,505</td><td>12.86%</td></tr>
+        <tr><td>4</td><td>Sandals</td><td>1,009,147</td><td>69,649</td><td>9,888</td><td>₺6,686,029</td><td>8.95%</td></tr>
+        <tr><td>5</td><td>Casual Shoes</td><td>779,429</td><td>59,998</td><td>8,938</td><td>₺5,792,894</td><td>7.76%</td></tr>
+        <tr><td>6</td><td>Outdoor Boots</td><td>471,619</td><td>28,142</td><td>3,816</td><td>₺4,827,521</td><td>6.47%</td></tr>
+      </tbody></table></div>
     </div>
+  </div>
+</section>
 
-    <div class="grid two" style="margin-top:12px">
-      <div class="card">
-        <h2>Revenue / Spend / Orders — Annual Comparison</h2>
-        <div id="ads2324Chart" class="chart"></div>
-        <div class="legend"><span><i style="background:#24d8c5"></i>Revenue (₺M)</span><span><i style="background:#54a7ff"></i>Spend (₺M)</span><span><i style="background:#f7c95c"></i>Orders (K, scaled)</span></div>
-      </div>
-      <div class="card">
-        <h2>Yearly Metrics</h2>
-        <div class="tablewrap" style="margin-top:10px">
-          <table>
-            <thead><tr><th>Metric</th><th>2023</th><th>2024</th><th>Δ</th></tr></thead>
-            <tbody>
-              <tr><td>Revenue</td><td>₺44,905,202</td><td>₺72,738,843</td><td class="good">+62%</td></tr>
-              <tr><td>Ad Spend</td><td>₺2,719,838</td><td>₺4,480,450</td><td class="good">+65%</td></tr>
-              <tr><td>ROAS</td><td>16.51</td><td>16.23</td><td class="warn">−2%</td></tr>
-              <tr><td>Orders</td><td>62,643</td><td>52,796</td><td class="bad">−16%</td></tr>
-              <tr><td>Avg. Basket</td><td>₺717</td><td>₺1,378</td><td class="good">+92%</td></tr>
-              <tr><td>Sessions</td><td>4,181,362</td><td>3,259,421</td><td class="bad">−22%</td></tr>
-              <tr><td>Conversion Rate</td><td>1.50%</td><td>1.62%</td><td class="good">+8%</td></tr>
-              <tr><td>Cost / Session</td><td>₺0.65</td><td>₺1.37</td><td class="warn">+111%</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+<section class="page" id="y2425">
+  <div class="section-title"><span class="pipe">|</span><h1>Yearly Metrics — 2023 · 2024 · 2025</h1></div>
+  <div class="grid kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="card kpi"><div class="label">Total Revenue 2025</div><div class="value">₺94.6M</div><div class="delta">▲ +30% vs 2024</div></div>
+    <div class="card kpi"><div class="label">ROAS 2025</div><div class="value">14.61</div><div class="delta red">▼ −10% vs 2024</div></div>
+    <div class="card kpi"><div class="label">Avg. Basket Value</div><div class="value">₺1,884</div><div class="delta">▲ +37% vs 2024</div></div>
+    <div class="card kpi"><div class="label">Cost per Session</div><div class="value">₺2.01</div><div class="delta yellow">▲ +46% vs 2024</div></div>
+  </div>
 
-    <div class="grid half" style="margin-top:12px">
-      <div class="card">
-        <h2>Top Revenue by Product Group — 2024</h2>
-        <div id="adsGroupChart" class="chart small"></div>
-      </div>
-      <div class="card">
-        <h2>Top Revenue Categories — 2024</h2>
-        <div class="tablewrap" style="margin-top:10px">
-          <table>
-            <thead><tr><th>Category</th><th>Revenue</th><th>Rev %</th></tr></thead>
-            <tbody>
-              <tr><td>Boots</td><td>₺22.05M</td><td>29.53%</td></tr>
-              <tr><td>Sports Shoes</td><td>₺18.86M</td><td>25.26%</td></tr>
-              <tr><td>Sneakers</td><td>₺9.60M</td><td>12.86%</td></tr>
-              <tr><td>Sandals</td><td>₺6.69M</td><td>8.95%</td></tr>
-              <tr><td>Casual Shoes</td><td>₺5.79M</td><td>7.76%</td></tr>
-              <tr><td>Outdoor Boots</td><td>₺4.83M</td><td>6.47%</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
+  <div class="card" style="margin-top:12px">
+    <h2>3-Year Comparison — Revenue · ROAS · Orders · Basket · Sessions</h2>
+    <div class="table-wrap"><table><thead><tr><th>Metric</th><th>2023</th><th>Δ</th><th>2024</th><th>Δ</th><th>2025</th></tr></thead>
+    <tbody>
+      <tr><td>Revenue</td><td>₺44,905,202</td><td class="green">+62%</td><td>₺72,738,843</td><td class="green">+30%</td><td>₺94,576,200</td></tr>
+      <tr><td>Ad Spend</td><td>₺2,719,838</td><td class="green">+65%</td><td>₺4,480,450</td><td class="green">+45%</td><td>₺6,475,326</td></tr>
+      <tr><td>ROAS</td><td>16.51</td><td class="red">−2%</td><td>16.23</td><td class="red">−10%</td><td>14.61</td></tr>
+      <tr><td>Orders</td><td>62,643</td><td class="red">−16%</td><td>52,796</td><td class="red">−5%</td><td>50,201</td></tr>
+      <tr><td>Avg. Basket Value</td><td>₺717</td><td class="green">+92%</td><td>₺1,378</td><td class="green">+37%</td><td>₺1,884</td></tr>
+      <tr><td>Sessions</td><td>4,181,362</td><td class="red">−22%</td><td>3,259,421</td><td class="red">−1%</td><td>3,219,662</td></tr>
+      <tr><td>Conversion Rate</td><td>1.50%</td><td class="green">+8%</td><td>1.62%</td><td class="red">−4%</td><td>1.56%</td></tr>
+      <tr><td>Cost per Session</td><td>₺0.65</td><td class="yellow">+111%</td><td>₺1.37</td><td class="yellow">+46%</td><td>₺2.01</td></tr>
+    </tbody></table></div>
+    <div class="note">In 2025, despite slight decline in orders and sessions, a 37% increase in average basket value drove overall revenue growth of 30%.</div>
+  </div>
 
-  <section class="page" id="a2425">
-    <div class="head">
-      <div><div class="eyebrow">Ads · 3-Year Commercial View</div><h1 class="power-title">Yearly Metrics — 2023 · 2024 · 2025</h1></div>
-      <div class="sub">Original yearly comparison retained; current Agent architecture linked separately.</div>
-    </div>
+  <div class="grid half" style="margin-top:12px">
+    <div class="card"><h2>Monthly Revenue — Annual Comparison</h2><div id="rev3" class="chart"></div></div>
+    <div class="card"><h2>Monthly ROAS — Annual Comparison</h2><div id="roas3" class="chart"></div></div>
+  </div>
+</section>
 
-    <div class="grid kpis">
-      <div class="card kpi"><div class="label">Revenue 2025</div><div class="value">₺94.6M</div><div class="delta">▲ +30%</div></div>
-      <div class="card kpi"><div class="label">ROAS 2025</div><div class="value">14.61x</div><div class="delta warn">▼ −10%</div></div>
-      <div class="card kpi"><div class="label">Avg. Basket</div><div class="value">₺1,884</div><div class="delta">▲ +37%</div></div>
-      <div class="card kpi"><div class="label">Cost / Session</div><div class="value">₺2.01</div><div class="delta warn">▲ +46%</div></div>
-    </div>
+<section class="page" id="y26">
+  <div class="section-title"><span class="pipe">|</span><h1>2026 YTD — Jan to May 2026</h1></div>
+  <div class="grid kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="card kpi"><div class="label">Total Revenue YTD</div><div class="value">₺30.78M</div><div class="delta">▲ +21.5% YoY</div></div>
+    <div class="card kpi"><div class="label">ROAS 2026 YTD</div><div class="value">14.39</div><div class="delta">▲ +9.5% YoY</div></div>
+    <div class="card kpi"><div class="label">Avg. Basket Value</div><div class="value">₺1,916</div><div class="delta">▲ +11.3% YoY</div></div>
+    <div class="card kpi"><div class="label">Total Orders</div><div class="value">16,062</div><div class="delta">▲ +9.2% YoY</div></div>
+  </div>
 
-    <div class="grid half" style="margin-top:12px">
-      <div class="card"><h2>Revenue — 2023 / 2024 / 2025</h2><div id="adsRevenueChart" class="chart small"></div></div>
-      <div class="card"><h2>ROAS — 2023 / 2024 / 2025</h2><div id="adsRoasChart" class="chart small"></div></div>
-    </div>
+  <div class="card" style="margin-top:12px">
+    <h2>Monthly WEB Performance — Jan to May 2026</h2>
+    <div class="table-wrap"><table><thead><tr><th>Month</th><th>Sessions</th><th>Conv. Rate</th><th>Orders</th><th>Revenue</th></tr></thead>
+    <tbody>
+      <tr><td>January 2026</td><td>227,153</td><td>1.13%</td><td>2,559</td><td>₺5,421,054</td></tr>
+      <tr><td>February 2026</td><td>191,890</td><td>1.27%</td><td>2,446</td><td>₺4,459,422</td></tr>
+      <tr><td>March 2026</td><td>334,104</td><td>1.37%</td><td>4,593</td><td>₺10,162,423</td></tr>
+      <tr><td>April 2026</td><td>308,498</td><td>1.64%</td><td>5,063</td><td>₺8,743,543</td></tr>
+      <tr><td>May 2026 (partial)</td><td>72,289</td><td>1.94%</td><td>1,401</td><td>₺1,991,600</td></tr>
+      <tr><td><b>YTD Total</b></td><td><b>1,133,934</b></td><td><b>1.41%</b></td><td><b>16,062</b></td><td><b>₺30,778,042</b></td></tr>
+    </tbody></table></div>
+    <div class="note">March 2026 was the strongest month — ₺10.16M revenue, 4,593 orders. May remains a partial-month snapshot in the verified historical source.</div>
+  </div>
 
-    <div class="card" style="margin-top:12px">
-      <h2>3-Year Comparison — Revenue · ROAS · Orders · Basket · Sessions</h2>
-      <div class="tablewrap" style="margin-top:10px">
-        <table>
-          <thead><tr><th>Metric</th><th>2023</th><th>Δ</th><th>2024</th><th>Δ</th><th>2025</th></tr></thead>
-          <tbody>
-            <tr><td>Revenue</td><td>₺44,905,202</td><td class="good">+62%</td><td>₺72,738,843</td><td class="good">+30%</td><td>₺94,576,200</td></tr>
-            <tr><td>Ad Spend</td><td>₺2,719,838</td><td class="good">+65%</td><td>₺4,480,450</td><td class="good">+45%</td><td>₺6,475,326</td></tr>
-            <tr><td>ROAS</td><td>16.51</td><td class="warn">−2%</td><td>16.23</td><td class="warn">−10%</td><td>14.61</td></tr>
-            <tr><td>Orders</td><td>62,643</td><td class="bad">−16%</td><td>52,796</td><td class="bad">−5%</td><td>50,201</td></tr>
-            <tr><td>Avg. Basket</td><td>₺717</td><td class="good">+92%</td><td>₺1,378</td><td class="good">+37%</td><td>₺1,884</td></tr>
-            <tr><td>Sessions</td><td>4,181,362</td><td class="bad">−22%</td><td>3,259,421</td><td class="warn">−1%</td><td>3,219,662</td></tr>
-            <tr><td>Conversion Rate</td><td>1.50%</td><td class="good">+8%</td><td>1.62%</td><td class="warn">−4%</td><td>1.56%</td></tr>
-            <tr><td>Cost / Session</td><td>₺0.65</td><td class="warn">+111%</td><td>₺1.37</td><td class="warn">+46%</td><td>₺2.01</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="note">2025 revenue continued to scale strongly, while ROAS and traffic efficiency tightened. This is the business context behind forecasting, scenario simulation and budget-allocation intelligence in the Ads AI Agent.</div>
-    </div>
-  </section>
+  <div class="grid half" style="margin-top:12px">
+    <div class="card"><h2>Monthly Revenue — 2026</h2><div id="rev26" class="chart"></div></div>
+    <div class="card"><h2>Channel Mix — Jan–May 2026</h2><div id="chan26" class="chart"></div></div>
+  </div>
 
-  <section class="page" id="a2026">
-    <div class="head">
-      <div><div class="eyebrow">2026 · Verified Historical Snapshot</div><h1 class="power-title">2026 YTD — Jan to May</h1></div>
-      <a class="btn primary" href="https://ads-ai-ml-llm-intelligence.streamlit.app/ana-panel?lang=tr" target="_blank" rel="noopener">Open Live Ads AI Agent →</a>
-    </div>
+  <div class="card" style="margin-top:12px">
+    <h2>Channel Performance — Jan–May 2026</h2>
+    <div class="table-wrap"><table><thead><tr><th>Channel</th><th>Sessions</th><th>Orders</th><th>Revenue</th><th>CVR</th></tr></thead>
+    <tbody>
+      <tr><td>Direct</td><td>248,812</td><td>4,719</td><td>₺10,056,816</td><td>1.90%</td></tr>
+      <tr><td>Google CPC</td><td>218,712</td><td>3,734</td><td>₺8,165,795</td><td>1.71%</td></tr>
+      <tr><td>Organic</td><td>169,584</td><td>2,385</td><td>₺5,160,562</td><td>1.41%</td></tr>
+      <tr><td>Meta</td><td>451,096</td><td>2,249</td><td>₺4,876,826</td><td>0.50%</td></tr>
+      <tr><td>Yandex</td><td>8,295</td><td>80</td><td>₺176,952</td><td>0.96%</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
 
-    <div class="grid kpis">
-      <div class="card kpi"><div class="label">Total Revenue YTD</div><div class="value">₺30.78M</div><div class="delta">▲ +21.5% YoY</div></div>
-      <div class="card kpi"><div class="label">ROAS YTD</div><div class="value">14.39x</div><div class="delta">▲ +9.5% YoY</div></div>
-      <div class="card kpi"><div class="label">Avg. Basket</div><div class="value">₺1,916</div><div class="delta">▲ +11.3% YoY</div></div>
-      <div class="card kpi"><div class="label">Orders</div><div class="value">16,062</div><div class="delta">▲ +9.2% YoY</div></div>
-    </div>
-
-    <div class="grid half" style="margin-top:12px">
-      <div class="card">
-        <h2>Monthly Revenue — 2026</h2>
-        <div id="ads2026Revenue" class="chart"></div>
-      </div>
-      <div class="card">
-        <h2>Sessions & Orders — 2026</h2>
-        <div id="ads2026Activity" class="chart"></div>
-        <div class="legend"><span><i style="background:#54a7ff"></i>Sessions (scaled)</span><span><i style="background:#f7c95c"></i>Orders</span></div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:12px">
-      <h2>Monthly WEB Performance — Jan to May 2026</h2>
-      <div class="tablewrap" style="margin-top:10px">
-        <table>
-          <thead><tr><th>Month</th><th>Sessions</th><th>Conv. Rate</th><th>Orders</th><th>Revenue</th></tr></thead>
-          <tbody>
-            <tr><td>January</td><td>227,153</td><td>1.13%</td><td>2,559</td><td>₺5,421,054</td></tr>
-            <tr><td>February</td><td>191,890</td><td>1.27%</td><td>2,446</td><td>₺4,459,422</td></tr>
-            <tr><td>March</td><td>334,104</td><td>1.37%</td><td>4,593</td><td class="good">₺10,162,423</td></tr>
-            <tr><td>April</td><td>308,498</td><td>1.64%</td><td>5,063</td><td>₺8,743,543</td></tr>
-            <tr><td>May (partial)</td><td>72,289</td><td class="good">1.94%</td><td>1,401</td><td>₺1,991,600</td></tr>
-            <tr><td><b>YTD</b></td><td><b>1,133,934</b></td><td><b>1.41%</b></td><td><b>16,062</b></td><td><b>₺30,778,042</b></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="grid two" style="margin-top:12px">
-      <div class="card">
-        <h2>Channel Mix — Jan–May 2026</h2>
-        <div id="adsChannelChart" class="chart"></div>
-      </div>
-      <div class="card">
-        <h2>Channel Performance</h2>
-        <div class="tablewrap" style="margin-top:10px">
-          <table>
-            <thead><tr><th>Channel</th><th>Sessions</th><th>Orders</th><th>Revenue</th><th>CVR</th></tr></thead>
-            <tbody>
-              <tr><td>Direct</td><td>248,812</td><td>4,719</td><td>₺10.06M</td><td class="good">1.90%</td></tr>
-              <tr><td>Google CPC</td><td>218,712</td><td>3,734</td><td>₺8.17M</td><td>1.71%</td></tr>
-              <tr><td>Organic</td><td>169,584</td><td>2,385</td><td>₺5.16M</td><td>1.41%</td></tr>
-              <tr><td>Meta</td><td>451,096</td><td>2,249</td><td>₺4.88M</td><td class="warn">0.50%</td></tr>
-              <tr><td>Yandex</td><td>8,295</td><td>80</td><td>₺0.18M</td><td>0.96%</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="note">2026 Ads historical source is currently verified through Jan–May. The live AI Agent contains the current decision-intelligence architecture; this historical dashboard remains the portfolio evidence layer.</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="footer">Ads Budget Intelligence · Historical Power BI-style portfolio dashboard · Google Ads + GA4 + XGBoost + LightGBM + Random Forest + Champion Routing + Scenario Simulation + SHAP + Grounded RAG + Multi-LLM + Decision Memory</div>
+<div class="footer">Ads ML Budget Intelligence · Google Ads API + GA4 · Historical Portfolio Dashboard · <a target="_blank" rel="noopener" href="https://ads-ai-ml-llm-intelligence.streamlit.app/ana-panel?lang=tr">Live Ads Budget Intelligence AI Agent</a></div>
 </div>
 
 <script>
-const C={cyan:"#24d8c5",blue:"#54a7ff",violet:"#9b72ff",green:"#65e3a5",yellow:"#f7c95c",red:"#ff7f8a",grid:"#263b5a",text:"#9fb1c7"};
-document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));btn.classList.add("active");document.getElementById(btn.dataset.tab).classList.add("active")}));
-function svgEl(tag,a={}){const e=document.createElementNS("http://www.w3.org/2000/svg",tag);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));return e}
-function txt(svg,x,y,t,o={}){const e=svgEl("text",{x,y,fill:o.fill||C.text,"font-size":o.size||10,"text-anchor":o.anchor||"middle","font-weight":o.weight||500});e.textContent=t;svg.appendChild(e)}
-function axes(svg,w,h,p,max,ticks=4){for(let i=0;i<=ticks;i++){const y=p+(h-2*p)*(i/ticks);svg.appendChild(svgEl("line",{x1:p,x2:w-p,y1:y,y2:y,stroke:C.grid,"stroke-width":1,"stroke-dasharray":"3 5"}));txt(svg,p-8,y+4,(max*(1-i/ticks)).toFixed(max<30?1:0),{anchor:"end",size:9})}}
-function bar(id,labels,vals,color,fmt=v=>v.toLocaleString()){const box=document.getElementById(id);box.innerHTML="";const w=760,h=300,p=48,svg=svgEl("svg",{viewBox:`0 0 ${w} ${h}`});box.appendChild(svg);const max=Math.max(...vals)*1.15;axes(svg,w,h,p,max);const gw=(w-2*p)/labels.length,bw=Math.min(70,gw*.55);labels.forEach((l,i)=>{const bh=(h-2*p)*vals[i]/max,x=p+i*gw+gw/2-bw/2,y=h-p-bh;svg.appendChild(svgEl("rect",{x,y,width:bw,height:bh,rx:5,fill:color}));txt(svg,x+bw/2,y-7,fmt(vals[i]),{size:10,fill:"#eaf3fb",weight:700});txt(svg,x+bw/2,h-15,l,{size:10,weight:700})})}
-function grouped(id,labels,series){const box=document.getElementById(id);box.innerHTML="";const w=820,h=300,p=48,svg=svgEl("svg",{viewBox:`0 0 ${w} ${h}`});box.appendChild(svg);const max=Math.max(...series.flatMap(s=>s.data))*1.15;axes(svg,w,h,p,max);const gw=(w-2*p)/labels.length,bw=Math.min(50,gw*.70/series.length);labels.forEach((l,i)=>{txt(svg,p+gw*(i+.5),h-15,l,{size:10,weight:700});series.forEach((s,j)=>{const v=s.data[i],bh=(h-2*p)*v/max,x=p+i*gw+gw*.5-series.length*bw/2+j*bw,y=h-p-bh;svg.appendChild(svgEl("rect",{x,y,width:bw-4,height:bh,rx:4,fill:s.color}));})})}
-function line(id,labels,series){const box=document.getElementById(id);box.innerHTML="";const w=820,h=300,p=48,svg=svgEl("svg",{viewBox:`0 0 ${w} ${h}`});box.appendChild(svg);const max=Math.max(...series.flatMap(s=>s.data))*1.12;axes(svg,w,h,p,max);const x=i=>p+(w-2*p)*i/(labels.length-1||1),y=v=>h-p-(h-2*p)*v/max;labels.forEach((l,i)=>txt(svg,x(i),h-15,l,{size:10}));series.forEach(s=>{let d="";s.data.forEach((v,i)=>d+=(i?"L":"M")+x(i)+","+y(v)+" ");svg.appendChild(svgEl("path",{d,fill:"none",stroke:s.color,"stroke-width":3}));s.data.forEach((v,i)=>svg.appendChild(svgEl("circle",{cx:x(i),cy:y(v),r:4,fill:s.color,stroke:"#07101f","stroke-width":2})))})}
-grouped("ads2324Chart",["2023","2024"],[
-  {data:[44.905,72.739],color:C.cyan},{data:[2.720,4.480],color:C.blue},{data:[62.643/2,52.796/2],color:C.yellow}
+function S(tag,a={}){const e=document.createElementNS("http://www.w3.org/2000/svg",tag);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));return e}
+const COL={c:"#27d7c4",b:"#4ea1ff",y:"#f7c956",g:"#63df9f",r:"#ff7f89",v:"#9c75ff",grid:"#23364e",t:"#9caec1"};
+function T(svg,x,y,s,o={}){const e=S("text",{x,y,fill:o.fill||COL.t,"font-size":o.size||10,"text-anchor":o.anchor||"middle","font-weight":o.weight||500});e.textContent=s;svg.appendChild(e)}
+function grid(svg,w,h,p,max,ticks=4){
+  for(let i=0;i<=ticks;i++){
+    const y=p+(h-2*p)*i/ticks;
+    svg.appendChild(S("line",{x1:p,x2:w-p,y1:y,y2:y,stroke:COL.grid,"stroke-width":1,"stroke-dasharray":"3 5"}));
+    const n=max*(1-i/ticks);T(svg,p-7,y+4,n>=1000?Math.round(n/1000)+"K":(n<30?n.toFixed(1):Math.round(n)),{anchor:"end",size:9});
+  }
+}
+function bars(id,labels,series){
+  const box=document.getElementById(id);if(!box)return;box.innerHTML="";
+  const w=850,h=285,p=44,svg=S("svg",{viewBox:`0 0 ${w} ${h}`});box.appendChild(svg);
+  const max=Math.max(...series.flatMap(x=>x.data))*1.15;grid(svg,w,h,p,max);
+  const gw=(w-2*p)/labels.length,bw=Math.min(42,gw*.72/series.length);
+  labels.forEach((lab,i)=>{
+    T(svg,p+gw*(i+.5),h-12,lab,{size:10,weight:700});
+    series.forEach((s,j)=>{
+      const v=s.data[i],bh=(h-2*p)*v/max,x=p+i*gw+gw*.5-series.length*bw/2+j*bw,y=h-p-bh;
+      svg.appendChild(S("rect",{x,y,width:bw-4,height:bh,rx:4,fill:s.color,opacity:.95}));
+    });
+  });
+}
+function line(id,labels,series,maxOverride=null){
+  const box=document.getElementById(id);if(!box)return;box.innerHTML="";
+  const w=850,h=285,p=44,svg=S("svg",{viewBox:`0 0 ${w} ${h}`});box.appendChild(svg);
+  const max=maxOverride||Math.max(...series.flatMap(x=>x.data))*1.15;grid(svg,w,h,p,max);
+  const x=i=>p+(w-2*p)*(i/(labels.length-1||1)), y=v=>h-p-(h-2*p)*(v/max);
+  labels.forEach((lab,i)=>T(svg,x(i),h-12,lab,{size:9}));
+  series.forEach(s=>{
+    let d="";s.data.forEach((v,i)=>d+=(i?"L":"M")+x(i)+","+y(v)+" ");
+    svg.appendChild(S("path",{d,fill:"none",stroke:s.color,"stroke-width":3,"stroke-linecap":"round","stroke-linejoin":"round"}));
+    s.data.forEach((v,i)=>svg.appendChild(S("circle",{cx:x(i),cy:y(v),r:3.7,fill:s.color,stroke:"#07111f","stroke-width":2})));
+  });
+}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active");
+}));
+
+bars("adsTrend2324",["2023","2024"],[
+ {data:[44.905,72.739],color:COL.c},{data:[2.720,4.480],color:COL.b},{data:[31.32,26.40],color:COL.y}
 ]);
-bar("adsGroupChart",["Preschool","Baby","Kids","First Steps"],[26.999862,21.415902,16.413193,6.569930],C.violet,v=>"₺"+v.toFixed(1)+"M");
-bar("adsRevenueChart",["2023","2024","2025"],[44.905,72.739,94.576],C.cyan,v=>"₺"+v.toFixed(1)+"M");
-line("adsRoasChart",["2023","2024","2025"],[{data:[16.51,16.23,14.61],color:C.green}]);
-bar("ads2026Revenue",["Jan","Feb","Mar","Apr","May*"],[5.421,4.459,10.162,8.744,1.992],C.cyan,v=>"₺"+v.toFixed(1)+"M");
-line("ads2026Activity",["Jan","Feb","Mar","Apr","May*"],[
-  {data:[227153/50,191890/50,334104/50,308498/50,72289/50],color:C.blue},
-  {data:[2559,2446,4593,5063,1401],color:C.yellow}
-]);
-bar("adsChannelChart",["Direct","Google CPC","Organic","Meta","Yandex"],[10.057,8.166,5.161,4.877,.177],C.violet,v=>"₺"+v.toFixed(1)+"M");
+line("rev3",["2023","2024","2025"],[{data:[44.905,72.739,94.576],color:COL.c}],110);
+line("roas3",["2023","2024","2025"],[{data:[16.51,16.23,14.61],color:COL.g}],20);
+line("rev26",["Jan","Feb","Mar","Apr","May*"],[{data:[5.421,4.459,10.162,8.744,1.992],color:COL.c}],12);
+bars("chan26",["Direct","Google CPC","Organic","Meta","Yandex"],[{data:[10.057,8.166,5.161,4.877,.177],color:COL.v}]);
 </script>
-</body>
-</html>
+</body></html>
